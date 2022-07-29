@@ -1,0 +1,27 @@
+﻿using Gameplay.Conrollers;
+using Gameplay.ScriptableObjects;
+using Gameplay.UI;
+using Player;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+
+namespace Gameplay
+{
+    /// <summary>
+    /// Game model contains all important game classes and stores them for easy access from anywhere
+    /// </summary>
+    [System.Serializable]
+    public class GameModel
+    {
+        public PlayerInput input;
+        public Camera mainCamera;
+        
+        public HoverUI hoverUI;
+        
+        public SettingsController settings;
+
+        public LayerSettings layers;
+        public StringsDB strings;
+    }
+}
