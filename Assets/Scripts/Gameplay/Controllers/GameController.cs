@@ -21,6 +21,10 @@ namespace Gameplay.Conrollers
         {
             instance = this;
             Simulation.SetModel(model);
+            if (Application.isPlaying)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
 
 

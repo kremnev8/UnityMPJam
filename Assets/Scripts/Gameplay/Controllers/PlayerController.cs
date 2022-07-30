@@ -6,12 +6,24 @@ using Mirror;
 using UnityEngine.InputSystem;
 using Util;
 
-namespace NobleConnect.Examples.Mirror
+namespace Gameplay.Conrollers
 {
-    // A super simple example player. Use arrow keys to move
-    public class MirrorExamplePlayer : NetworkBehaviour
+
+    public enum PlayerRole : byte
+    {
+        PAST,
+        FUTURE
+    }
+    
+    public class PlayerController : NetworkBehaviour
     {
         private InputAction action;
+        
+        [SyncVar]
+        public string playerName;
+        
+        [SyncVar]
+        public PlayerRole role; 
         
         public void Start()
         {

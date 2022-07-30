@@ -189,6 +189,12 @@ namespace EpicTransport {
         protected void InitializeImplementation() {
             isConnecting = true;
 
+            if (apiKeys == null)
+            {
+                Debug.Log("Api keys is missing!");
+                apiKeys = Resources.Load<EosApiKey>("EosApiKey");
+            }
+            
             var initializeOptions = new InitializeOptions() {
                 ProductName = apiKeys.epicProductName,
                 ProductVersion = apiKeys.epicProductVersion
