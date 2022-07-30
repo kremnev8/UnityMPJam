@@ -1,6 +1,7 @@
 ﻿using System;
 using Gameplay;
 using Gameplay.Core;
+using Gameplay.World;
 using UnityEngine;
 using Mirror;
 using UnityEngine.InputSystem;
@@ -15,16 +16,27 @@ namespace Gameplay.Conrollers
         FUTURE
     }
     
-    public class PlayerController : NetworkBehaviour
+    public class PlayerController : NetworkBehaviour, IPlayerData
     {
         private InputAction action;
         
         [SyncVar]
-        public string playerName;
-        
+        private string playerName;
         [SyncVar]
-        public PlayerRole role; 
+        private PlayerRole m_role;
         
+        public string PlayerName
+        {
+            get => playerName;
+            set => playerName = value;
+        }
+
+        public PlayerRole role
+        {
+            get => m_role;
+            set => m_role = value;
+        }
+
         public void Start()
         {
             GameModel model = Simulation.GetModel<GameModel>();
@@ -41,5 +53,10 @@ namespace Gameplay.Conrollers
             transform.position += dir.ToVector3() * Time.deltaTime * 5;
         }
 
+        
+        public void StartMap()
+        {
+            
+        }
     }
 }

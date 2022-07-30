@@ -16,16 +16,13 @@ namespace Gameplay.UI.Lobby
 {
     public class LobbyUI : EOSLobby
     {
-        private string lobbyName = "My Lobby";
-        private bool showLobbyList = false;
-        private bool showPlayerList = false;
-
         private List<LobbyDetails> foundLobbies = new List<LobbyDetails>();
         private List<Attribute> lobbyData = new List<Attribute>();
 
         private List<LobbyItem> lobbyItems = new List<LobbyItem>();
 
         private GameNetworkManager networkManager;
+        private GameModel model;
 
         public GameObject buttons;
         public GameObject createLobbyUI;
@@ -44,7 +41,12 @@ namespace Gameplay.UI.Lobby
         public Button pastButton;
         public Button futureButton;
 
-        public RoleController roleController;
+        public TMP_Text pastText;
+        public TMP_Text futureText;
+
+        public TMP_InputField userNameInputField;
+
+        public Button startGameButton;
 
         public bool canCreateLobby = true;
         public bool needToRefresh = false;
@@ -55,9 +57,8 @@ namespace Gameplay.UI.Lobby
         {
             base.Start();
 
-            GameModel model = Simulation.GetModel<GameModel>();
+            model = Simulation.GetModel<GameModel>();
             networkManager = model.networkManager;
-            roleController = model.roleController;
         }
 
 
@@ -86,8 +87,6 @@ namespace Gameplay.UI.Lobby
         //when the lobby is successfully created, start the host
         private void OnCreateLobbySuccess(List<Attribute> attributes) {
             lobbyData = attributes;
-            showPlayerList = true;
-            showLobbyList = false;
 
             networkManager.StartHost();
             OpenWaitUI();
@@ -97,8 +96,6 @@ namespace Gameplay.UI.Lobby
         //when the user joined the lobby successfully, set network address and connect
         private void OnJoinLobbySuccess(List<Attribute> attributes) {
             lobbyData = attributes;
-            showPlayerList = true;
-            showLobbyList = false;
 
             networkManager.networkAddress = attributes.Find((x) => x.Data.Key == hostAddressKey).Data.Value.AsUtf8;
             networkManager.StartClient();
@@ -108,8 +105,6 @@ namespace Gameplay.UI.Lobby
         //callback for FindLobbiesSucceeded
         private void OnFindLobbiesSuccess(List<LobbyDetails> lobbiesFound) {
             foundLobbies = lobbiesFound;
-            showPlayerList = false;
-            showLobbyList = true;
             needToRefresh = true;
         }
 
@@ -134,7 +129,7 @@ namespace Gameplay.UI.Lobby
 
         public void OnCreateLobby()
         {
-            CreateLobby(2, LobbyPermissionLevel.Publicadvertised, false, new[] { new AttributeData { Key = AttributeKeys[0], Value = lobbyName }, });
+            CreateLobby(2, LobbyPermissionLevel.Publicadvertised, false, new[] { new AttributeData { Key = AttributeKeys[0], Value = lobbyNameField.text }, });
             canCreateLobby = false;
         }
 
@@ -184,18 +179,28 @@ namespace Gameplay.UI.Lobby
             {
                 PlayerController controller = NetworkClient.localPlayer.gameObject.GetComponent<PlayerController>();
                 pastButton.interactable = controller.role != PlayerRole.PAST;
+                pastText.text = controller.role == PlayerRole.PAST ? "Past" : "Switch to Past";
+                
                 futureButton.interactable = controller.role != PlayerRole.FUTURE;
+                futureText.text = controller.role == PlayerRole.FUTURE ? "Future" : "Switch to Future";
             }
         }
 
         public void SetPast()
         {
-            roleController.SetPlayerRole(PlayerRole.PAST);
+            if ( model.roleController != null)
+                model.roleController.SetPlayerRole(PlayerRole.PAST);
         }
 
         public void SetFuture()
         {
-            roleController.SetPlayerRole(PlayerRole.FUTURE);
+            if ( model.roleController != null)
+                model.roleController.SetPlayerRole(PlayerRole.FUTURE);
+        }
+
+        public string GetPlayerName()
+        {
+            return userNameInputField.text;
         }
         
         public void RefreshData()
@@ -203,10 +208,18 @@ namespace Gameplay.UI.Lobby
             if (timeSinceFind < 0.1f)
             {
                 FindLobbies();
-                timeSinceFind = 10;
+                timeSinceFind = 1;
             }
         }
 
+        public void StartGame()
+        {
+            if (networkManager != null)
+            {
+                networkManager.StartGame();
+            }
+        }
+        
         private void Update()
         {
             if (timeSinceFind > 0)
@@ -230,8 +243,13 @@ namespace Gameplay.UI.Lobby
 
                 needToRefresh = false;
             }
-            
-            waitText.SetActive(networkManager.numPlayers != 2);
+            UpdateWaitUI();
+
+            if (networkManager != null)
+            {
+                waitText.SetActive(networkManager.numPlayers != 2);
+                startGameButton.interactable = networkManager.canStartGame;
+            }
         }
     }
 }

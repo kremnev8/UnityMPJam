@@ -10,13 +10,18 @@ namespace Gameplay.Controllers
     {
         private GameModel model;
 
+        [SyncVar]
         public PlayerController pastPlayer;
+        
+        [SyncVar]
         public PlayerController futurePlayer;
 
         
         public void Start()
         {
             model = Simulation.GetModel<GameModel>();
+            model.roleController = this;
+            DontDestroyOnLoad(gameObject);
         }
 
         public PlayerRole GetNextRole()
@@ -70,19 +75,12 @@ namespace Gameplay.Controllers
         {
             CmdSetPlayerRole(role);
         }
-        
-        [ClientRpc]
-        public void RpcUpdateWaitUI()
-        {
-            model.lobbyUI.UpdateWaitUI();
-        }
 
         [Command(requiresAuthority = false)]
         public void CmdSetPlayerRole(PlayerRole role, NetworkConnectionToClient sender = null)
         {
             PlayerController clientController = sender.identity.GetComponent<PlayerController>();
             SetPlayerRole(clientController, role);
-            RpcUpdateWaitUI();
         }
         
     }
