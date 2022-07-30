@@ -19,7 +19,8 @@ namespace Gameplay
         public PlayerInput input;
         public Camera mainCamera;
         public GameNetworkManager networkManager;
-
+        public RoleController roleController;
+        
         public LobbyUI lobbyUI;
         
         public HoverUI hoverUI;

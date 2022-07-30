@@ -8,8 +8,14 @@ namespace Gameplay.Controllers
 {
     public class GameNetworkManager : NetworkManager
     {
-        public RoleController roleController;
+        private RoleController roleController;
 
+
+        public override void Start()
+        {
+            base.Start();
+            roleController = Simulation.GetModel<GameModel>().roleController;
+        }
 
         [Scene]
         public string lobbyScene;

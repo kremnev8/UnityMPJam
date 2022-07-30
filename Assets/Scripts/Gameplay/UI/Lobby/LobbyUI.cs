@@ -53,8 +53,11 @@ namespace Gameplay.UI.Lobby
 
         public override void Start()
         {
-            networkManager = Simulation.GetModel<GameModel>().networkManager;
             base.Start();
+
+            GameModel model = Simulation.GetModel<GameModel>();
+            networkManager = model.networkManager;
+            roleController = model.roleController;
         }
 
 
