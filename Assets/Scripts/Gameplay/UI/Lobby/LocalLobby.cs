@@ -2,6 +2,7 @@
 using Gameplay.Conrollers;
 using Gameplay.Controllers;
 using Gameplay.Core;
+using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -13,7 +14,8 @@ namespace Gameplay.UI.Lobby
         private GameNetworkManager networkManager;
         private GameModel model;
 
-        public Button startGameButton;
+        public Button pastButton;
+        public Button futureButton;
         
         public void Start()
         {
@@ -33,6 +35,16 @@ namespace Gameplay.UI.Lobby
                 model.roleController.SetPlayerRole(PlayerRole.FUTURE);
         }
         
+        public void UpdateWaitUI()
+        {
+            if (NetworkClient.localPlayer != null)
+            {
+                PlayerController controller = NetworkClient.localPlayer.gameObject.GetComponent<PlayerController>();
+                pastButton.interactable = controller.role != PlayerRole.PAST;
+                futureButton.interactable = controller.role != PlayerRole.FUTURE;
+            }
+        }
+        
         public void StartGame()
         {
             if (networkManager != null)
@@ -40,10 +52,26 @@ namespace Gameplay.UI.Lobby
                 networkManager.StartGame();
             }
         }
-        
+
+        public void Host()
+        {
+            networkManager.StartHost();
+        }
+
+        public void Connect()
+        {
+            networkManager.networkAddress = "localhost";
+            networkManager.StartClient();
+        }
+
         public string GetPlayerName()
         {
             return $"Player {Random.Range(0, 25565)}";
+        }
+
+        private void Update()
+        {
+            UpdateWaitUI();
         }
     }
 }
