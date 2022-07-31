@@ -1,28 +1,20 @@
 ﻿#if UNITY_EDITOR
 
+using System;
 using System.Collections.Generic;
+using Gameplay.ScriptableObjects;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace TileMaps
 {
-    public enum TileType
-    {
-        NONE,
-        WALL,
-        FLOOR
-    }
-    
     
     [CustomGridBrush(true, false, false, "TileSet Brush")]
     public class WorldBrush : GridBrush
     {
-        public TileBase floor;
-        public TileBase wall;
-        
-        public int currentTileSet;
-        
+        public TileSet tileSet;
+
         [SerializeField]
         [HideInInspector]
         private List<TileChangeData> TileChangeDataList;
@@ -40,25 +32,28 @@ namespace TileMaps
             if (cells.Length > 0)
             {
                 BrushCell cell = cells[0];
-                if (cell.tile == floor)
+                try
                 {
-                    CustomBoxFill(gridLayout, brushTarget, bounds, TileType.FLOOR);
+                    TileGroup group = tileSet.GetGroup(cell.tile);
+                    CustomBoxFill(gridLayout, brushTarget, bounds, group);
                 }
-                else if (cell.tile == wall)
+                catch (Exception e)
                 {
-                    CustomBoxFill(gridLayout, brushTarget, bounds, TileType.WALL);
+                    Console.WriteLine(e);
+                    throw;
                 }
+                
                 return;
             }
 
-            CustomBoxFill(gridLayout, brushTarget, bounds, TileType.NONE);
+            CustomBoxFill(gridLayout, brushTarget, bounds, null);
         }
 
         public override void Erase(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
         {
             Vector3Int min = position - pivot;
             BoundsInt bounds = new BoundsInt(min, size);
-            CustomBoxFill(gridLayout, brushTarget, bounds, TileType.NONE);
+            CustomBoxFill(gridLayout, brushTarget, bounds, null);
         }
 
         public override void BoxFill(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
@@ -68,7 +63,7 @@ namespace TileMaps
 
         public override void BoxErase(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
         {
-            CustomBoxFill(gridLayout, brushTarget, position, TileType.NONE);
+            CustomBoxFill(gridLayout, brushTarget, position, null);
         }
 
 
@@ -76,7 +71,7 @@ namespace TileMaps
         /// <param name="gridLayout">Grid to box fill data to.</param>
         /// <param name="brushTarget">Target of the box fill operation. By default the currently selected GameObject.</param>
         /// <param name="position">The bounds to box fill data into.</param>
-        public void CustomBoxFill(GridLayout gridLayout, GameObject brushTarget, BoundsInt position, TileType tileType)
+        public void CustomBoxFill(GridLayout gridLayout, GameObject brushTarget, BoundsInt position, TileGroup group)
         {
             if (brushTarget == null)
                 return;
@@ -96,19 +91,32 @@ namespace TileMaps
 
             foreach (Tilemap tilemap in maps)
             {
-                CustomTileSettings settings = tilemap.GetComponent<CustomTileSettings>();
+                TilemapId settings = tilemap.GetComponent<TilemapId>();
 
-                if (settings != null && currentTileSet < settings.tileSets.Length)
+                if (settings != null)
                 {
-                    TileSet tileSet = settings.tileSets[currentTileSet];
-                    TileBase tileBase = null;
-                    
-                    if (tileType != TileType.NONE)
+                    if (group != null)
                     {
-                        tileBase = tileType == TileType.FLOOR ? tileSet.floorTile : tileSet.wallTile;
-                    }
+                        bool any = false;
+                        foreach (TileMapping mapping in group.tileMappings)
+                        {
+                            if (mapping.targets.Contains(settings.type))
+                            {
+                                PaintTileMap(tilemap, mapping.tile, position);
+                                any = true;
+                                break;
+                            }
+                        }
 
-                    PaintTileMap(tilemap, tileBase, position);
+                        if (!any)
+                        {
+                            PaintTileMap(tilemap, null, position);
+                        }
+                    }
+                    else
+                    {
+                        PaintTileMap(tilemap, null, position);
+                    }
                 }
             }
         }

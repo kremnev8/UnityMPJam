@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a45de0ebce4cc2aabcf35c6fd28e2d, type: 3}
+  m_Name: Test Tile Set
+  m_EditorClassIdentifier: 
+  tilesetName: The Past
+  tileGroups:
+  - brushTile: {fileID: 11400000, guid: 867f1063e3260a142801192fe01560b1, type: 2}
+    tileMappings:
+    - tile: {fileID: 11400000, guid: e937935e5221afd4db2340758c619f98, type: 2}
+      targets: 14000000
+    - tile: {fileID: 11400000, guid: 10df29f51cf80384795d0140c8264a6c, type: 2}
+      targets: 15000000
+    - tile: {fileID: 11400000, guid: 3a699631c53abb54ea362760d14fdd6a, type: 2}
+      targets: 16000000
+  - brushTile: {fileID: 11400000, guid: 1924942f0c841494e9da8dbec95288d3, type: 2}
+    tileMappings:
+    - tile: {fileID: 11400000, guid: 095ae625934731042ba77265c3fec268, type: 2}
+      targets: 0a000000
+    - tile: {fileID: 11400000, guid: 35c7c5c9107f36742afd80f871b14c41, type: 2}
+      targets: 0b000000
+    - tile: {fileID: 11400000, guid: 90a8b5085c5a72c46a17adc0f714eff8, type: 2}
+      targets: 0c000000
