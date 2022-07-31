@@ -11,8 +11,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - World
+  - Player
   - 
   - 
   - 
@@ -44,11 +44,11 @@ TagManager:
   - name: Floor Overlay
     uniqueID: 1071876639
     locked: 0
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: Wall
     uniqueID: 3820660069
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0
   - name: Above Player Wall
     uniqueID: 3339886017
