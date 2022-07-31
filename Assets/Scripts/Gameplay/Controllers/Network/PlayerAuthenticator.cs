@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using Gameplay.Core;
 using Gameplay.UI.Lobby;
 using Mirror;
 using UnityEngine.Events;
@@ -11,6 +12,11 @@ namespace Gameplay.Controllers.Network
     public class PlayerAuthenticator : NetworkAuthenticator
     {
         private LobbyUI lobby;
+
+        private void Start()
+        {
+            lobby = Simulation.GetModel<GameModel>().lobbyUI;
+        }
 
         public event Action<NetworkConnectionToClient, string> OnAuthenticationResult;
 
@@ -47,14 +53,13 @@ namespace Gameplay.Controllers.Network
         {
             Debug.Log("Trying to Auth");
             string username = "";
+            
+            username = lobby.GetPlayerName();
             if (Application.isEditor)
             {
                 username = $"Player {Random.Range(0, 25565)}";
             }
-            else
-            {
-                username = lobby.GetPlayerName();
-            }
+
 
             AuthRequestMessage authRequestMessage = new AuthRequestMessage
             {

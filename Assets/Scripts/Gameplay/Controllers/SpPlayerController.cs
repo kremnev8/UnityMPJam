@@ -177,8 +177,6 @@ namespace Gameplay.Controllers
                     break;
             }
         }
-        
-        
 
         private Vector2 ToWorldPos(Vector2Int gridPos)
         {

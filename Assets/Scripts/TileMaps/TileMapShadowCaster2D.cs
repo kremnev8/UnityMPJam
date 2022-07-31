@@ -1,7 +1,10 @@
-﻿using EditorUtil;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using Util;
+
+#if UNITY_EDITOR
+using EditorUtil;
+using UnityEditor;
+#endif
 
 // Copyright 2021 Alejandro Villalba Avila
 //

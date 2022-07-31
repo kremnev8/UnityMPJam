@@ -141,7 +141,7 @@ namespace Gameplay.UI.Lobby
             if (timeSinceFind < 0.1f)
             {
                 FindLobbies();
-                timeSinceFind = 10;
+                timeSinceFind = 2;
             }
         }
 

@@ -21,15 +21,18 @@ namespace Gameplay.World
 
         public void SetState(bool state)
         {
-            this.state = state;
-            reachedEnd = false;
-            if (timeElapsed > moveTime)
+            if (this.state != state)
             {
-                timeElapsed = 0;
-            }
-            else
-            {
-                timeElapsed = moveTime - timeElapsed;
+                this.state = state;
+                reachedEnd = false;
+                if (timeElapsed > moveTime)
+                {
+                    timeElapsed = 0;
+                }
+                else
+                {
+                    timeElapsed = moveTime - timeElapsed;
+                }
             }
         }
 

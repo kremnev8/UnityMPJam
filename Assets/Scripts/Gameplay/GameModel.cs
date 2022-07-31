@@ -3,6 +3,7 @@ using Gameplay.Controllers;
 using Gameplay.ScriptableObjects;
 using Gameplay.UI;
 using Gameplay.UI.Lobby;
+using Mirror;
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,7 +21,7 @@ namespace Gameplay
         public Camera mainCamera;
         public GameNetworkManager networkManager;
         public RoleController roleController;
-        
+
         public LobbyUI lobbyUI;
         
         public HoverUI hoverUI;

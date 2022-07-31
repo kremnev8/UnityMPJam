@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Gameplay.World
 {
-    public class PressurePlate : VisualState
+    public class PressurePlate : Interactible
     {
         public List<Collider2D> inside = new List<Collider2D>();
         public float disableDelay;
-        
-        public override void SetState(bool newState)
+
+        [Server]
+        private void UpdateState(bool newState)
         {
             if (state != newState)
             {
@@ -20,34 +22,46 @@ namespace Gameplay.World
                 }
                 else
                 {
-                    base.SetState(newState);
+                    SetState(newState);
+                    RpcSetState(newState);
                 }
             }
         }
-
+        
+        [Server]
         private void DisableLater()
         {
-            base.SetState(false);
+            if (inside.Count == 0)
+            {
+                SetState(false);
+                RpcSetState(false);
+            }
         }
         
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (!inside.Contains(col))
+            if (isServer)
             {
-                inside.Add(col);
-            }
+                if (!inside.Contains(col))
+                {
+                    inside.Add(col);
+                }
 
-            SetState(inside.Count > 0);
+                UpdateState(inside.Count > 0);
+            }
         }
 
         private void OnTriggerExit2D(Collider2D col)
         {
-            if (inside.Contains(col))
+            if (isServer)
             {
-                inside.Remove(col);
+                if (inside.Contains(col))
+                {
+                    inside.Remove(col);
+                }
+
+                UpdateState(inside.Count > 0);
             }
-            
-            SetState(inside.Count > 0);
         }
     }
 }

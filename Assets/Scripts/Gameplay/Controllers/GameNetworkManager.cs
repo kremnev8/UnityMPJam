@@ -16,7 +16,7 @@ namespace Gameplay.Controllers
         public GameObject controllerPrefab;
         private GameModel model;
         
-        public List<IPlayerData> players = new List<IPlayerData>();
+        public List<PlayerController> players = new List<PlayerController>();
         private Dictionary<int, string> tmpUsernames = new Dictionary<int, string>();
         
         public bool canStartGame = false;
@@ -67,8 +67,9 @@ namespace Gameplay.Controllers
 
         private void OnClientSceneChanged(NetworkConnectionToClient conn, SceneChangeFinished msg)
         {
+            Debug.Log("Called OnClientSceneChanged");
             playersLoaded++;
-            if (playersLoaded >= players.Count)
+            if (playersLoaded >= 2)
             {
                 OnAllSceneChanged();
             }
@@ -76,7 +77,8 @@ namespace Gameplay.Controllers
         
         public void OnAllSceneChanged()
         {
-            foreach (IPlayerData player in players)
+            Debug.Log("Calling StartMap");
+            foreach (PlayerController player in players)
             {
                 player.StartMap();
             }
@@ -87,7 +89,7 @@ namespace Gameplay.Controllers
         public override void OnStartServer()
         {
             base.OnStartServer();
-            NetworkServer.RegisterHandler<SceneChangeFinished>(OnClientSceneChanged);
+            NetworkServer.RegisterHandler<SceneChangeFinished>(OnClientSceneChanged, false);
 
             GameObject contr = Instantiate(controllerPrefab, transform);
             NetworkServer.Spawn(contr);
@@ -119,6 +121,7 @@ namespace Gameplay.Controllers
         public override void OnClientSceneChanged()
         {
             base.OnClientSceneChanged();
+            Debug.Log("I'm loaded!");
             NetworkClient.Send(new SceneChangeFinished());
         }
     }
