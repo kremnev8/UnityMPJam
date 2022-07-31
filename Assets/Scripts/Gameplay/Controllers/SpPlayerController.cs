@@ -1,5 +1,6 @@
 ﻿using System;
 using Gameplay.Core;
+using Gameplay.World;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,6 +30,8 @@ namespace Gameplay.Controllers
         
         private PlayerState state;
         private float stateTimeLeft;
+
+        private static RaycastHit2D[] hits = new RaycastHit2D[6];
 
         public void Start()
         {
@@ -95,12 +98,36 @@ namespace Gameplay.Controllers
                 {
                     lastMoveDir = dir;
                     Vector2 pos = ToWorldPos(position);
-                    RaycastHit2D hit = Physics2D.CircleCast(pos, 0.9f, dir, 2f, config.wallMask);
-                    
-                    if (hit.collider != null)
+
+                    int hitCount = Physics2D.CircleCastNonAlloc(pos, 0.9f, dir, hits, 2f, config.wallMask);
+                    if (hitCount > 0)
                     {
-                        EnterState(PlayerState.STUCK_ANIM);
-                        return;
+                        bool shouldStop = false;
+                        for (int i = 0; i < hitCount; i++)
+                        {
+                            RaycastHit2D hit = hits[i];
+                            if (hit.collider != null)
+                            {
+                                if (hit.collider.isTrigger)
+                                {
+                                    IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+                                    if (interactable != null && interactable.FacingDirection == -dir)
+                                    {
+                                        interactable.Activate();
+                                    }
+                                }
+                                else
+                                {
+                                    shouldStop = true;
+                                }
+                            }
+                        }
+
+                        if (shouldStop)
+                        {
+                            EnterState(PlayerState.STUCK_ANIM);
+                            return;
+                        }
                     }
 
                     prevPosition = position;
