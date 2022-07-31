@@ -66,6 +66,11 @@ namespace Util
         {
             return new Vector3(vector.x,vector.y, 0);
         }
+        
+        public static Vector2Int ToVector2Int(this Vector3 vector)
+        {
+            return new Vector2Int(Mathf.RoundToInt(vector.x),Mathf.RoundToInt(vector.y));
+        }
 
         /// <summary>
         /// Change this Vector3 by setting it's Y axis value
@@ -197,6 +202,14 @@ namespace Util
         /// Apply function to all components of vector
         /// </summary>
         public static Vector2Int Apply(this Vector2 vec, Func<float, int> func)
+        {
+            return new Vector2Int(func(vec.x), func(vec.y));
+        }
+        
+        /// <summary>
+        /// Apply function to all components of vector
+        /// </summary>
+        public static Vector2Int Apply(this Vector2Int vec, Func<int, int> func)
         {
             return new Vector2Int(func(vec.x), func(vec.y));
         }

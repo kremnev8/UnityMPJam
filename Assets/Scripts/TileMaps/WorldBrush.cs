@@ -5,9 +5,20 @@ using UnityEngine.Tilemaps;
 
 namespace TileMaps
 {
+    public enum TileType
+    {
+        NONE,
+        WALL,
+        FLOOR
+    }
+    
+    
     [CustomGridBrush(true, false, false, "TileSet Brush")]
     public class WorldBrush : GridBrush
     {
+        public TileBase floor;
+        public TileBase wall;
+        
         public int currentTileSet;
         
         [SerializeField]
@@ -18,24 +29,44 @@ namespace TileMaps
         {
             Vector3Int min = position - pivot;
             BoundsInt bounds = new BoundsInt(min, size);
-            CustomBoxFill(gridLayout, brushTarget, bounds, false);
+
+            DetermineAndPaint(gridLayout, brushTarget, bounds);
+        }
+
+        private void DetermineAndPaint(GridLayout gridLayout, GameObject brushTarget, BoundsInt bounds)
+        {
+            if (cells.Length > 0)
+            {
+                BrushCell cell = cells[0];
+                if (cell.tile == floor)
+                {
+                    CustomBoxFill(gridLayout, brushTarget, bounds, TileType.FLOOR);
+                }
+                else if (cell.tile == wall)
+                {
+                    CustomBoxFill(gridLayout, brushTarget, bounds, TileType.WALL);
+                }
+                return;
+            }
+
+            CustomBoxFill(gridLayout, brushTarget, bounds, TileType.NONE);
         }
 
         public override void Erase(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
         {
             Vector3Int min = position - pivot;
             BoundsInt bounds = new BoundsInt(min, size);
-            CustomBoxFill(gridLayout, brushTarget, bounds, true);
+            CustomBoxFill(gridLayout, brushTarget, bounds, TileType.NONE);
         }
 
         public override void BoxFill(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
         {
-            CustomBoxFill(gridLayout, brushTarget, position, false);
+            DetermineAndPaint(gridLayout, brushTarget, position);
         }
 
         public override void BoxErase(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
         {
-            CustomBoxFill(gridLayout, brushTarget, position, true);
+            CustomBoxFill(gridLayout, brushTarget, position, TileType.NONE);
         }
 
 
@@ -43,7 +74,7 @@ namespace TileMaps
         /// <param name="gridLayout">Grid to box fill data to.</param>
         /// <param name="brushTarget">Target of the box fill operation. By default the currently selected GameObject.</param>
         /// <param name="position">The bounds to box fill data into.</param>
-        public void CustomBoxFill(GridLayout gridLayout, GameObject brushTarget, BoundsInt position, bool isErase)
+        public void CustomBoxFill(GridLayout gridLayout, GameObject brushTarget, BoundsInt position, TileType tileType)
         {
             if (brushTarget == null)
                 return;
@@ -68,7 +99,12 @@ namespace TileMaps
                 if (settings != null && currentTileSet < settings.tileSets.Length)
                 {
                     TileSet tileSet = settings.tileSets[currentTileSet];
-                    TileBase tileBase = isErase ? tileSet.floorTile : tileSet.wallTile;
+                    TileBase tileBase = null;
+                    
+                    if (tileType != TileType.NONE)
+                    {
+                        tileBase = tileType == TileType.FLOOR ? tileSet.floorTile : tileSet.wallTile;
+                    }
 
                     PaintTileMap(tilemap, tileBase, position);
                 }

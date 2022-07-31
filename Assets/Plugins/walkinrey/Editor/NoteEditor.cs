@@ -4,11 +4,11 @@ using UnityEngine;
 [CustomEditor(typeof(NoteComponent))]
 public class NoteEditor : Editor
 {
-    [MenuItem("Tools/EasyNotes/View All Notes")]
+    /*[MenuItem("Tools/EasyNotes/View All Notes")]
     public static void ViewObjectNotesWindow()
     {
         EditorWindow.GetWindow(typeof(ObjectNotesWindow));   
-    }
+    }*/
 
     [MenuItem("GameObject/Create Other/Easy Note")]
     public static void AddNoteComponent()
@@ -28,8 +28,6 @@ public class NoteEditor : Editor
         }
 
         Selection.activeGameObject.AddComponent<NoteComponent>();
-
-        Debug.Log("Successfully added the Note Component to selected GameObject!");
     }
 
     public override void OnInspectorGUI()

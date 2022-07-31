@@ -16,9 +16,10 @@ namespace ScriptableObjects
         public float scrollSensitivity;
         
         [Header("Movement")]
-        public float normalMaxSpeed = 5f;
-        public float moveSmoothTime = 1f;
-        public float normalSmoothTime = 1f;
-        public float friction = 0.8f;
+        public float moveTime = 1f;
+        public float failMoveTime = 1f;
+        public LayerMask wallMask;
+
+        public AnimationCurve stuckAnim;
     }
 }
