@@ -19,6 +19,11 @@ namespace Gameplay.Conrollers
 
         private void Awake()
         {
+            if (Application.isPlaying && instance != null)
+            {
+                Destroy(gameObject);
+            }
+            
             instance = this;
             Simulation.SetModel(model);
             if (Application.isPlaying)

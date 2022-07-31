@@ -22,8 +22,22 @@ namespace Gameplay
         public GameNetworkManager networkManager;
         public RoleController roleController;
 
-        public LobbyUI lobbyUI;
+        public LobbyUI eosLobby;
+        public LocalLobby localLobby;
         
+        public ILobby lobbyUI
+        {
+            get
+            {
+                if (eosLobby != null)
+                {
+                    return eosLobby;
+                }
+
+                return localLobby;
+            }
+        }
+
         public HoverUI hoverUI;
         
         public SettingsController settings;

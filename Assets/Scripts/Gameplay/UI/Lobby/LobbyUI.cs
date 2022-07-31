@@ -14,7 +14,7 @@ using Attribute = Epic.OnlineServices.Lobby.Attribute;
 
 namespace Gameplay.UI.Lobby
 {
-    public class LobbyUI : EOSLobby
+    public class LobbyUI : EOSLobby, ILobby
     {
         private List<LobbyDetails> foundLobbies = new List<LobbyDetails>();
         private List<Attribute> lobbyData = new List<Attribute>();

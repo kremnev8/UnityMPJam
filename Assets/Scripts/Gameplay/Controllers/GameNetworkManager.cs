@@ -36,21 +36,26 @@ namespace Gameplay.Controllers
             base.Start();
             model = Simulation.GetModel<GameModel>();
             ((PlayerAuthenticator) authenticator).OnAuthenticationResult += OnServerAddPlayer;
+
+            if (Application.isEditor)
+            {
+                canStartGame = true;
+            }
         }
         
         public void StartGame()
         {
             if (IsInLobby())
             {
-                if (!canStartGame) return;
-            
+                if (!Application.isEditor && !canStartGame) return;
+
                 ServerChangeScene(gameScene);
             }
         }
 
         private bool IsInLobby()
         {
-            return SceneManager.GetActiveScene().path.Equals(lobbyScene);
+            return SceneManager.GetActiveScene().path.ToLower().Contains("lobby");
         }
 
         private void OnServerAddPlayer(NetworkConnectionToClient conn, string username)
@@ -67,9 +72,8 @@ namespace Gameplay.Controllers
 
         private void OnClientSceneChanged(NetworkConnectionToClient conn, SceneChangeFinished msg)
         {
-            Debug.Log("Called OnClientSceneChanged");
             playersLoaded++;
-            if (playersLoaded >= 2)
+            if (playersLoaded >= players.Count)
             {
                 OnAllSceneChanged();
             }
@@ -77,7 +81,6 @@ namespace Gameplay.Controllers
         
         public void OnAllSceneChanged()
         {
-            Debug.Log("Calling StartMap");
             foreach (PlayerController player in players)
             {
                 player.StartMap();
@@ -121,7 +124,6 @@ namespace Gameplay.Controllers
         public override void OnClientSceneChanged()
         {
             base.OnClientSceneChanged();
-            Debug.Log("I'm loaded!");
             NetworkClient.Send(new SceneChangeFinished());
         }
     }

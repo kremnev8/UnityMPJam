@@ -11,7 +11,7 @@ namespace Gameplay.Controllers.Network
 {
     public class PlayerAuthenticator : NetworkAuthenticator
     {
-        private LobbyUI lobby;
+        private ILobby lobby;
 
         private void Start()
         {

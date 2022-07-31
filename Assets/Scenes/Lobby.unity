@@ -3288,7 +3288,8 @@ MonoBehaviour:
     mainCamera: {fileID: 1565352268}
     networkManager: {fileID: 437631058}
     roleController: {fileID: 0}
-    lobbyUI: {fileID: 1005627851}
+    eosLobby: {fileID: 1005627851}
+    localLobby: {fileID: 0}
     hoverUI: {fileID: 0}
     settings: {fileID: 0}
     layers: {fileID: 0}
