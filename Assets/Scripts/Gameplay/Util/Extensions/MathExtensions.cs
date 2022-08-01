@@ -379,5 +379,15 @@ namespace Util
             Debug.DrawLine(new Vector3(rect.x + rect.width, rect.y + rect.height), new Vector3(rect.x + rect.width, rect.y), color);
             Debug.DrawLine(new Vector3(rect.x + rect.width, rect.y + rect.height), new Vector3(rect.x, rect.y + rect.height), color);
         }
+        
+        public static Vector2 ToWorldPos(this Vector2Int gridPos)
+        {
+            return gridPos * 2 + Vector2Int.one;
+        }
+
+        public static Vector2Int ToGridPos(this Vector3 worldPos)
+        {
+            return ((worldPos - Vector3.one) / 2).ToVector2Int();
+        }
     }
 }

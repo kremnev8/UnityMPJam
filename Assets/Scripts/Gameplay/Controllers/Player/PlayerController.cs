@@ -12,7 +12,7 @@ using Util;
 namespace Gameplay.Conrollers
 {
 
-    public enum PlayerRole : byte
+    public enum Timeline : byte
     {
         PAST,
         FUTURE
@@ -23,7 +23,7 @@ namespace Gameplay.Conrollers
         [SyncVar]
         private string playerName;
         [SyncVar(hook=nameof(SetRoleHook))]
-        private PlayerRole m_role;
+        private Timeline m_role;
         [SyncVar]
         public bool controlEnabled;
         
@@ -53,7 +53,7 @@ namespace Gameplay.Conrollers
             set => playerName = value;
         }
 
-        public PlayerRole role
+        public Timeline role
         {
             get => m_role;
             set => m_role = value;
@@ -76,10 +76,10 @@ namespace Gameplay.Conrollers
 
         private void UpdateVisual()
         {
-            renderer.sprite = role == PlayerRole.PAST ? pastSprite : futureSprite;
+            renderer.sprite = role == Timeline.PAST ? pastSprite : futureSprite;
         }
 
-        void SetRoleHook(PlayerRole before, PlayerRole now)
+        void SetRoleHook(Timeline before, Timeline now)
         {
             if (renderer == null)
             {
@@ -144,7 +144,7 @@ namespace Gameplay.Conrollers
                 if (xAbs + yAbs == 1)
                 {
                     lastMoveDir = dir;
-                    Vector2 pos = ToWorldPos(position);
+                    Vector2 pos = position.ToWorldPos();
 
                     int hitCount = Physics2D.CircleCastNonAlloc(pos, 0.9f, dir, hits, 2f, config.wallMask);
                     if (hitCount > 0)
@@ -234,7 +234,7 @@ namespace Gameplay.Conrollers
             
             prevPosition = target;
             position = target;
-            body.position = ToWorldPos(target);
+            body.position = target.ToWorldPos();
             EnterState(PlayerState.IDLE);
         }
 
@@ -252,11 +252,11 @@ namespace Gameplay.Conrollers
                     
                     if (stateTimeLeft > 0)
                     {
-                        body.MovePosition(Vector2.Lerp(ToWorldPos(prevPosition), ToWorldPos(position), t));
+                        body.MovePosition(Vector2.Lerp(prevPosition.ToWorldPos(), position.ToWorldPos(), t));
                     }
                     else
                     {
-                        body.MovePosition(ToWorldPos(position));
+                        body.MovePosition(position.ToWorldPos());
                         EnterState(PlayerState.IDLE);
                     }
                     break;
@@ -265,12 +265,12 @@ namespace Gameplay.Conrollers
                     if (stateTimeLeft > 0)
                     {
                         float nt = config.stuckAnim.Evaluate(t);
-                        Vector2 pos = ToWorldPos(position);
+                        Vector2 pos = position.ToWorldPos();
                         body.MovePosition(Vector2.Lerp(pos, pos + lastMoveDir, nt));
                     }
                     else
                     {
-                        body.MovePosition(ToWorldPos(position));
+                        body.MovePosition(position.ToWorldPos());
                         EnterState(PlayerState.IDLE);
                     }
                     
@@ -280,16 +280,6 @@ namespace Gameplay.Conrollers
             }
         }
 
-        private Vector2 ToWorldPos(Vector2Int gridPos)
-        {
-            return gridPos * 2 + Vector2Int.one;
-        }
-
-        private Vector2Int ToGridPos(Vector3 worldPos)
-        {
-            return ((worldPos - Vector3.one) / 2).ToVector2Int();
-        }
-
         public void StartMap()
         {
             Debug.Log($"Start Map is called on {(isServer ? "Server" : "Client")}");
@@ -297,7 +287,7 @@ namespace Gameplay.Conrollers
             controlEnabled = true;
             GameObject go = GameObject.Find("Spawn");
             SpawnPoints points = go.GetComponent<SpawnPoints>();
-            Vector2Int pos = ToGridPos(points.spawns[(int)role].transform.position);
+            Vector2Int pos = points.spawns[(int)role].transform.position.ToGridPos();
             
             RpcTeleport(pos);
         }

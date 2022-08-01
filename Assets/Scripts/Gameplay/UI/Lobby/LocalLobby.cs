@@ -26,13 +26,13 @@ namespace Gameplay.UI.Lobby
         public void SetPast()
         {
             if ( model.roleController != null)
-                model.roleController.SetPlayerRole(PlayerRole.PAST);
+                model.roleController.SetPlayerRole(Timeline.PAST);
         }
 
         public void SetFuture()
         {
             if ( model.roleController != null)
-                model.roleController.SetPlayerRole(PlayerRole.FUTURE);
+                model.roleController.SetPlayerRole(Timeline.FUTURE);
         }
         
         public void UpdateWaitUI()
@@ -40,8 +40,8 @@ namespace Gameplay.UI.Lobby
             if (NetworkClient.localPlayer != null)
             {
                 PlayerController controller = NetworkClient.localPlayer.gameObject.GetComponent<PlayerController>();
-                pastButton.interactable = controller.role != PlayerRole.PAST;
-                futureButton.interactable = controller.role != PlayerRole.FUTURE;
+                pastButton.interactable = controller.role != Timeline.PAST;
+                futureButton.interactable = controller.role != Timeline.FUTURE;
             }
         }
         

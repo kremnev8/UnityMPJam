@@ -24,23 +24,23 @@ namespace Gameplay.Controllers
             DontDestroyOnLoad(gameObject);
         }
 
-        public PlayerRole GetNextRole()
+        public Timeline GetNextRole()
         {
             if (pastPlayer == null)
             {
-                return PlayerRole.PAST;
+                return Timeline.PAST;
             }else if (futurePlayer == null)
             {
-                return PlayerRole.FUTURE;
+                return Timeline.FUTURE;
             }
 
-            return PlayerRole.FUTURE;
+            return Timeline.FUTURE;
         }
 
         [Server]
-        public void SetPlayerRole(PlayerController player, PlayerRole role)
+        public void SetPlayerRole(PlayerController player, Timeline role)
         {
-            if (role == PlayerRole.PAST)
+            if (role == Timeline.PAST)
             {
                 if (pastPlayer == player) return;
 
@@ -49,10 +49,10 @@ namespace Gameplay.Controllers
                 pastPlayer = player;
 
                 if (pastPlayer != null)
-                    pastPlayer.role = PlayerRole.PAST;
+                    pastPlayer.role = Timeline.PAST;
                 
                 if (futurePlayer != null)
-                    futurePlayer.role = PlayerRole.FUTURE;
+                    futurePlayer.role = Timeline.FUTURE;
             }
             else
             {
@@ -63,21 +63,21 @@ namespace Gameplay.Controllers
                 futurePlayer = player;
 
                 if (pastPlayer != null)
-                    pastPlayer.role = PlayerRole.PAST;
+                    pastPlayer.role = Timeline.PAST;
                 
                 if (futurePlayer != null)
-                    futurePlayer.role = PlayerRole.FUTURE;
+                    futurePlayer.role = Timeline.FUTURE;
             }
         }
         
         [Client]
-        public void SetPlayerRole(PlayerRole role)
+        public void SetPlayerRole(Timeline role)
         {
             CmdSetPlayerRole(role);
         }
 
         [Command(requiresAuthority = false)]
-        public void CmdSetPlayerRole(PlayerRole role, NetworkConnectionToClient sender = null)
+        public void CmdSetPlayerRole(Timeline role, NetworkConnectionToClient sender = null)
         {
             PlayerController clientController = sender.identity.GetComponent<PlayerController>();
             SetPlayerRole(clientController, role);

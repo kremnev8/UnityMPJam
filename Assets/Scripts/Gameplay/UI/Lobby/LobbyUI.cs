@@ -178,24 +178,24 @@ namespace Gameplay.UI.Lobby
             if (NetworkClient.localPlayer != null)
             {
                 PlayerController controller = NetworkClient.localPlayer.gameObject.GetComponent<PlayerController>();
-                pastButton.interactable = controller.role != PlayerRole.PAST;
-                pastText.text = controller.role == PlayerRole.PAST ? "Past" : "Switch to Past";
+                pastButton.interactable = controller.role != Timeline.PAST;
+                pastText.text = controller.role == Timeline.PAST ? "Past" : "Switch to Past";
                 
-                futureButton.interactable = controller.role != PlayerRole.FUTURE;
-                futureText.text = controller.role == PlayerRole.FUTURE ? "Future" : "Switch to Future";
+                futureButton.interactable = controller.role != Timeline.FUTURE;
+                futureText.text = controller.role == Timeline.FUTURE ? "Future" : "Switch to Future";
             }
         }
 
         public void SetPast()
         {
             if ( model.roleController != null)
-                model.roleController.SetPlayerRole(PlayerRole.PAST);
+                model.roleController.SetPlayerRole(Timeline.PAST);
         }
 
         public void SetFuture()
         {
             if ( model.roleController != null)
-                model.roleController.SetPlayerRole(PlayerRole.FUTURE);
+                model.roleController.SetPlayerRole(Timeline.FUTURE);
         }
 
         public string GetPlayerName()
