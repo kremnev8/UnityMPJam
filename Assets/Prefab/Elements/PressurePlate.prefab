@@ -94,8 +94,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8767163856519963912}
   - component: {fileID: 8549499195468980885}
+  - component: {fileID: 1309523366096113239}
   - component: {fileID: 6392399857155512455}
   - component: {fileID: 1472330566051753596}
+  - component: {fileID: 2099186991307901229}
   m_Layer: 8
   m_Name: PressurePlate
   m_TagString: Untagged
@@ -131,14 +133,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b0daada254e1faeac96a95feaebc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forward: {x: 0, y: 0}
   spriteRenderer: {fileID: 8767163855579578308}
   idle: {fileID: -116983382, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
   activated: {fileID: -762826427, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
+  destroyed: {fileID: 2070926079, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
+  initialState: 0
   onStateChanged:
     m_PersistentCalls:
       m_Calls: []
   inside: []
   disableDelay: 2
+--- !u!114 &1309523366096113239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8767163856519963913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 415cbd4bc0024ad69aadf93ae383cb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeline: 0
+  pastState: 1
+  futureState: 1
+  target: {fileID: 0}
 --- !u!61 &6392399857155512455
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -179,3 +202,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {x: 2, y: 2}
   offset: {x: 1, y: 1}
+--- !u!114 &2099186991307901229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8767163856519963913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: d8f706eed9716d74aab01afb494d590f
+  hasSpawned: 0

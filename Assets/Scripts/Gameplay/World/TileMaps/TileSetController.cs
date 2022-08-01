@@ -36,19 +36,22 @@ namespace TileMaps
 
         private void Update()
         {
-            if (lastLiveUpdate != liveUpdate)
+            if (!Application.isPlaying)
             {
-                lastLiveUpdate = liveUpdate;
-                Tilemap.tilemapTileChanged -= OnTileMapChanged;
-                if (liveUpdate)
+                if (lastLiveUpdate != liveUpdate)
                 {
-                    Tilemap.tilemapTileChanged += OnTileMapChanged;
+                    lastLiveUpdate = liveUpdate;
+                    Tilemap.tilemapTileChanged -= OnTileMapChanged;
+                    if (liveUpdate)
+                    {
+                        Tilemap.tilemapTileChanged += OnTileMapChanged;
+                    }
                 }
-            }
 
-            if (tilemaps == null)
-            {
-                GetTilemaps();
+                if (tilemaps == null)
+                {
+                    GetTilemaps();
+                }
             }
         }
         
@@ -97,7 +100,6 @@ namespace TileMaps
                 pair.Value.ClearAllTiles();
             }
 
-            Debug.Log(master.cellBounds.size);
             tileDict.Clear();
             
             int count = master.GetTilesRangeCount(master.cellBounds.min, master.cellBounds.max);
@@ -220,7 +222,10 @@ namespace TileMaps
                             PaintAt(syncTile.position, syncTile.tile);
                         }
                         
+                        ClearAt(up);
                         PaintAt(up, top);
+                        
+                        ClearAt(down);
                         PaintAt(down, bottom);
                     }
                     catch (Exception)

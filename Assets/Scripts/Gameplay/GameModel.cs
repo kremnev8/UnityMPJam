@@ -3,6 +3,7 @@ using Gameplay.Controllers;
 using Gameplay.ScriptableObjects;
 using Gameplay.UI;
 using Gameplay.UI.Lobby;
+using Gameplay.World.Spacetime;
 using Mirror;
 using Player;
 using UnityEngine;
@@ -21,7 +22,8 @@ namespace Gameplay
         public Camera mainCamera;
         public GameNetworkManager networkManager;
         public RoleController roleController;
-
+        public SpacetimeController spacetime;
+        
         public LobbyUI eosLobby;
         public LocalLobby localLobby;
         

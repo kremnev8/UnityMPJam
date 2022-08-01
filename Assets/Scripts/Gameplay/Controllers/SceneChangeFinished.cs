@@ -6,4 +6,9 @@ namespace Gameplay.Controllers
     {
         
     }
+
+    public struct ClientPressedPlay : NetworkMessage
+    {
+        
+    }
 }

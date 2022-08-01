@@ -1,9 +1,10 @@
 ﻿using System;
+using Gameplay.World.Spacetime;
 using UnityEngine;
 
 namespace Gameplay.World
 {
-    public class Door : MonoBehaviour
+    public class Door : MonoBehaviour, ITimeLinked
     {
         public Transform doorTransform;
         public new Collider2D collider;
@@ -19,7 +20,12 @@ namespace Gameplay.World
 
         private bool reachedEnd;
 
-        public void SetState(bool state)
+        public void ReciveStateChange(bool state)
+        {
+            SetState(state);
+        }
+
+        private void SetState(bool state, bool sendEvent = true)
         {
             if (this.state != state)
             {
@@ -32,6 +38,11 @@ namespace Gameplay.World
                 else
                 {
                     timeElapsed = moveTime - timeElapsed;
+                }
+
+                if (sendEvent)
+                {
+                    timeObject.SendTimeEvent(new[] { state ? 1 : 0 });
                 }
             }
         }
@@ -58,6 +69,16 @@ namespace Gameplay.World
                 collider.enabled = !state;
                 reachedEnd = true;
             }
+        }
+
+        public SpaceTimeObject timeObject { get; set; }
+        public void Configure(ObjectState state)
+        {
+        }
+
+        public void ReciveTimeEvent(int[] args)
+        {
+            SetState(args[0] == 1, false);
         }
     }
 }

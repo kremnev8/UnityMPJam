@@ -51,12 +51,6 @@ public class TerrainAutoRuleTile : ScriptableObject
                 return 0;
         }).ToArray();
 
-        for (int i = 0; i < sprites.Length; i++)
-        {
-            Sprite sprite = sprites[i];
-            Debug.Log($"Sprite {i}: {sprite.name}");
-        }
-
         if (sprites.Length != RuleTileTemplate.m_TilingRules.Count)
         {
             Debug.LogWarning("The Tilemap doesn't have the same number of sprites than the Rule Tile template has rules.");

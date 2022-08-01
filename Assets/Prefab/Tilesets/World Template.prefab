@@ -1436,6 +1436,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8856148939548303232}
+  - component: {fileID: 1651893312029420322}
   - component: {fileID: 2180631835916518214}
   m_Layer: 0
   m_Name: World Template
@@ -1461,6 +1462,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1651893312029420322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8856148939548303233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28787c3e91244a7ea5f4ebb1e26817bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldTimeline: 0
+  tileSet: {fileID: 2180631835916518214}
+  objectTransform: {fileID: 8856148938586911044}
 --- !u!114 &2180631835916518214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1475,7 +1491,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileSet: {fileID: 11400000, guid: 102923025da176c49befc2ae89d7bec9, type: 2}
   master: {fileID: 0}
-  multiplyMasterBy2: 1
   liveUpdate: 0
 --- !u!1 &8856148939801194015
 GameObject:

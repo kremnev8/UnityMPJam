@@ -24,8 +24,11 @@ namespace Gameplay.Conrollers
         private string playerName;
         [SyncVar(hook=nameof(SetRoleHook))]
         private Timeline m_role;
-        [SyncVar]
+        
+        [SyncVar(hook =nameof (SetControlHook))]
         public bool controlEnabled;
+
+        public new Camera camera;
         
         public PlayerConfig config;
         public Vector2Int position;
@@ -72,6 +75,7 @@ namespace Gameplay.Conrollers
             EnterState(PlayerState.IDLE);
             UpdateVisual();
             DontDestroyOnLoad(gameObject);
+            camera.gameObject.SetActive(false);
         }
 
         private void UpdateVisual()
@@ -87,6 +91,11 @@ namespace Gameplay.Conrollers
             }
             
             UpdateVisual();
+        }
+
+        private void SetControlHook(bool before, bool after)
+        {
+            camera.gameObject.SetActive(isLocalPlayer && after);
         }
 
         public float GetTimeIn(PlayerState state)

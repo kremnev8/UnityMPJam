@@ -4,12 +4,10 @@ using Util;
 
 namespace Gameplay.World
 {
-    public class Lever : Interactible, IInteractable
+    public class Lever : Interactible
     {
-        public Vector2Int forward;
-        public Vector2Int FacingDirection => forward;
         
-        public void Activate()
+        public override void Activate()
         {
             CmdSetState(!state);
         }

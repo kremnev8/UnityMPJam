@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Gameplay.World
 {
@@ -42,6 +40,8 @@ namespace Gameplay.World
         {
             if (isServer)
             {
+                if (!interactible) return;
+                
                 if (!inside.Contains(col))
                 {
                     inside.Add(col);
@@ -55,6 +55,8 @@ namespace Gameplay.World
         {
             if (isServer)
             {
+                if (!interactible) return;
+                
                 if (inside.Contains(col))
                 {
                     inside.Remove(col);

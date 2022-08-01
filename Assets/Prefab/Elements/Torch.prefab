@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 1255560421
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2070926079, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
+  m_Sprite: {fileID: 2050178572, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,6 +93,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5047757152235772780}
+  - component: {fileID: 6152785445021726366}
+  - component: {fileID: 8325507365377183214}
+  - component: {fileID: 3985087969477710592}
   - component: {fileID: 3439473482613814783}
   m_Layer: 8
   m_Name: Torch
@@ -118,6 +121,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6152785445021726366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5047757152235772819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8315636698e84081be8440aeaf337644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forward: {x: 0, y: -1}
+  spriteRenderer: {fileID: 5047757151214758572}
+  idle: {fileID: -1954821200, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
+  activated: {fileID: 2050178572, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
+  destroyed: {fileID: 127057812, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
+  initialState: 1
+  onStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  light: {fileID: 5047757152471003354}
+--- !u!114 &8325507365377183214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5047757152235772819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 415cbd4bc0024ad69aadf93ae383cb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeline: 0
+  pastState: 1
+  futureState: 1
+  target: {fileID: 0}
+--- !u!114 &3985087969477710592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5047757152235772819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: de946ae776530584985af87da175164f
+  hasSpawned: 0
 --- !u!114 &3439473482613814783
 MonoBehaviour:
   m_ObjectHideFlags: 0

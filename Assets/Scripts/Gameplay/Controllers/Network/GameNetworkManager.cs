@@ -45,6 +45,12 @@ namespace Gameplay.Controllers
         
         public void StartGame()
         {
+            if (mode == NetworkManagerMode.ClientOnly)
+            {
+                NetworkClient.Send(new ClientPressedPlay());
+                return;
+            }
+            
             if (IsInLobby())
             {
                 if (!Application.isEditor && !canStartGame) return;
@@ -93,11 +99,17 @@ namespace Gameplay.Controllers
         {
             base.OnStartServer();
             NetworkServer.RegisterHandler<SceneChangeFinished>(OnClientSceneChanged, false);
+            NetworkServer.RegisterHandler<ClientPressedPlay>(OnClientPressedPlay, false);
 
             GameObject contr = Instantiate(controllerPrefab, transform);
             NetworkServer.Spawn(contr);
         }
-        
+
+        private void OnClientPressedPlay(NetworkConnectionToClient arg1, ClientPressedPlay arg2)
+        {
+            StartGame();
+        }
+
 
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
