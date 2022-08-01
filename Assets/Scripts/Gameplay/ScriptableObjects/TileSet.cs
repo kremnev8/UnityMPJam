@@ -7,11 +7,19 @@ using UnityEngine.Tilemaps;
 
 namespace Gameplay.ScriptableObjects
 {
+    public enum TileSideType
+    {
+        ALL,
+        TOP,
+        BOTTOM
+    }
+    
     [Serializable]
     public class TileMapping
     {
         public TileBase tile;
         public List<TileMapType> targets;
+        public TileSideType sideType = TileSideType.ALL;
     }
 
     [Serializable]

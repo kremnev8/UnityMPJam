@@ -26,7 +26,7 @@ MonoBehaviour:
     tileMappings:
     - tile: {fileID: 11400000, guid: 095ae625934731042ba77265c3fec268, type: 2}
       targets: 0a000000
-    - tile: {fileID: 11400000, guid: 35c7c5c9107f36742afd80f871b14c41, type: 2}
+    - tile: {fileID: 11400000, guid: cd528cdfc0b2c6d468ce21833c3fdf0b, type: 2}
       targets: 0b000000
     - tile: {fileID: 11400000, guid: 90a8b5085c5a72c46a17adc0f714eff8, type: 2}
       targets: 0c000000

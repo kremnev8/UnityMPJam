@@ -18,15 +18,21 @@ MonoBehaviour:
     tileMappings:
     - tile: {fileID: 11400000, guid: 83a9f3aa06f196f40b93d960bfb639bd, type: 2}
       targets: 14000000
+      sideType: 0
     - tile: {fileID: 11400000, guid: 10df29f51cf80384795d0140c8264a6c, type: 2}
       targets: 15000000
+      sideType: 0
     - tile: {fileID: 11400000, guid: 3a699631c53abb54ea362760d14fdd6a, type: 2}
       targets: 16000000
+      sideType: 1
   - brushTile: {fileID: 11400000, guid: 1924942f0c841494e9da8dbec95288d3, type: 2}
     tileMappings:
     - tile: {fileID: 11400000, guid: 9757c24e1008fae47aadf0ee164b2be0, type: 2}
       targets: 0a000000
-    - tile: {fileID: 11400000, guid: 35c7c5c9107f36742afd80f871b14c41, type: 2}
+      sideType: 0
+    - tile: {fileID: 11400000, guid: cd528cdfc0b2c6d468ce21833c3fdf0b, type: 2}
       targets: 0b000000
+      sideType: 0
     - tile: {fileID: 11400000, guid: 90a8b5085c5a72c46a17adc0f714eff8, type: 2}
       targets: 0c000000
+      sideType: 0
