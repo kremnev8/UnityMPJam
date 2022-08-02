@@ -437,7 +437,7 @@ TextureImporter:
         x: 224
         y: 64
         width: 32
-        height: 32
+        height: 59
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -561,9 +561,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 160
-        y: 32
+        y: 30
         width: 32
-        height: 32
+        height: 52
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -584,7 +584,7 @@ TextureImporter:
         x: 192
         y: 32
         width: 32
-        height: 32
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -827,8 +827,8 @@ TextureImporter:
       objects_5: 127057812
       objects_0: -116983382
       objects_12: 1647741779
-      objects_4: -1954821200
       objects_6: -245097137
+      objects_4: -1954821200
       objects_11: -676584112
   spritePackingTag: 
   pSDRemoveMatte: 0
