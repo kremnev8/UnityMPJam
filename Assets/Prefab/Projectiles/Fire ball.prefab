@@ -4865,6 +4865,7 @@ MonoBehaviour:
   syncInterval: 0.1
   trailSystem: {fileID: 8984919041827110928}
   renderer: {fileID: 2518369672579979233}
+  collider: {fileID: 0}
   projectileID: 1
   destoryTime: 0.2
 --- !u!114 &4997097714237469513

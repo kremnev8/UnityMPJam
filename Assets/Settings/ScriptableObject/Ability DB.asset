@@ -15,19 +15,19 @@ MonoBehaviour:
   abilityStacks:
   - role: 0
     abilities:
-    - abilityName: Create Cube
-      abilityType: 0
-      projectileID: 2
-      abilityCooldown: 1
     - abilityName: Create Time Portal
       abilityType: 0
       projectileID: 3
+      abilityCooldown: 1
+    - abilityName: Wire Vision
+      abilityType: 1
+      projectileID: 0
       abilityCooldown: 2
   - role: 1
     abilities:
-    - abilityName: Shoot Fire Ball
+    - abilityName: Create Cube
       abilityType: 0
-      projectileID: 1
+      projectileID: 2
       abilityCooldown: 3
     - abilityName: Wire Vision
       abilityType: 1

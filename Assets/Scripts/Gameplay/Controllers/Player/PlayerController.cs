@@ -537,8 +537,12 @@ namespace Gameplay.Conrollers
             controlEnabled = true;
             GameObject go = GameObject.Find("Spawn");
             SpawnPoints points = go.GetComponent<SpawnPoints>();
-            Vector2Int pos = points.spawns[(int)role].transform.position.ToGridPos();
             timeline = (Timeline)(int)role;
+            
+            World.World world = model.spacetime.GetWorld(timeline);
+            Vector2Int pos = world.GetGridPos(points.spawns[(int)role].transform.position);
+            
+            Debug.Log($"Timeline: {timeline}, grid pos: {pos}");
 
             Teleport(timeline, pos);
         }
