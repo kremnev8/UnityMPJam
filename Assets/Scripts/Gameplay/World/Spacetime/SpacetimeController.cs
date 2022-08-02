@@ -72,12 +72,22 @@ namespace Gameplay.World.Spacetime
                 
                 if (timeObject.pastState == ObjectState.DOES_NOT_EXIST)
                 {
-                    timeObject.gameObject.SetActive(false);
+                    timeObject.gameObject.SetActive(true);
+                    SpriteRenderer[] renderers = timeObject.GetComponentsInChildren<SpriteRenderer>();
+                    foreach (SpriteRenderer spriteRenderer in renderers)
+                    {
+                        spriteRenderer.color = new Color(1, 1, 1, 0.6f);
+                    }
                 }
                 else
                 {
                     timeObject.gameObject.SetActive(true);
                     timeObject.Set(Timeline.PAST, timeObject.GetComponent<ITimeLinked>());
+                    SpriteRenderer[] renderers = timeObject.GetComponentsInChildren<SpriteRenderer>();
+                    foreach (SpriteRenderer spriteRenderer in renderers)
+                    {
+                        spriteRenderer.color = Color.white;
+                    }
                 }
 
             }

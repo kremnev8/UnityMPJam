@@ -1,13 +1,15 @@
 ﻿using System;
+using Gameplay.World.Spacetime;
 using UnityEngine;
 
 namespace Gameplay.Util
 {
+    [ExecuteInEditMode]
     public class GridSnap : MonoBehaviour
     {
         public Vector2 grid = new Vector2(2,2);
         public Vector2 offset = Vector2.one;
-        
+
         private void OnDrawGizmos()
         {
             SnapToGrid();
@@ -27,10 +29,21 @@ namespace Gameplay.Util
 
             transform.position = newPos;
         }
-
+        
         private void Awake()
         {
-            Destroy(this);
+            if (Application.isPlaying)
+            {
+                Destroy(this);
+            }
+            else if (Application.isEditor)
+            {
+                if (transform.parent == null)
+                {
+                    SpacetimeController spacetime = FindObjectOfType<SpacetimeController>();
+                    transform.parent = spacetime.pastWorld.objectTransform;
+                }
+            }
         }
     }
 }
