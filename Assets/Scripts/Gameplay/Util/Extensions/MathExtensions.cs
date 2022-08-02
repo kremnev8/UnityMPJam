@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Gameplay;
+using Gameplay.Conrollers;
+using Gameplay.Core;
+using Gameplay.World;
 using UnityEngine;
 
 namespace Util
@@ -388,6 +392,18 @@ namespace Util
         public static Vector2Int ToGridPos(this Vector3 worldPos)
         {
             return ((worldPos - Vector3.one) / 2).ToVector2Int();
+        }
+        
+        public static Vector2 ToWorldPos(this Vector2Int pos, Timeline timeline)
+        {
+            World world = Simulation.GetModel<GameModel>().spacetime.GetWorld(timeline);
+            return world.GetWorldSpacePos(pos);
+        }
+
+        public static Vector2Int ToGridPos(this Vector3 worldPos, Timeline timeline)
+        {
+            World world = Simulation.GetModel<GameModel>().spacetime.GetWorld(timeline);
+            return world.GetGridPos(worldPos);
         }
     }
 }

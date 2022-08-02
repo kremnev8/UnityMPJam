@@ -3,6 +3,7 @@ using Gameplay.Conrollers;
 using Gameplay.World.Spacetime;
 using TileMaps;
 using UnityEngine;
+using Util;
 
 namespace Gameplay.World
 {
@@ -62,6 +63,22 @@ namespace Gameplay.World
             }
 
             return null;
+        }
+        
+        public Vector2 GetWorldSpacePos(Vector2Int pos)
+        {
+            return (Vector2)transform.position + pos.ToWorldPos();
+        }
+
+        public Vector2Int GetGridPos(Vector3 worldPos)
+        {
+            return (worldPos - transform.position).ToGridPos();
+        }
+
+        public void AddObject(GameObject obj, Vector2Int position)
+        {
+            obj.transform.parent = objectTransform;
+            obj.transform.localPosition = position.ToWorldPos();
         }
     }
 }

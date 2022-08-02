@@ -4,6 +4,7 @@ using Gameplay.Controllers;
 using Gameplay.Core;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -14,8 +15,8 @@ namespace Gameplay.UI.Lobby
         private GameNetworkManager networkManager;
         private GameModel model;
 
-        public Button pastButton;
-        public Button futureButton;
+        [FormerlySerializedAs("pastButton")] public Button iceButton;
+        [FormerlySerializedAs("futureButton")] public Button fireButton;
         
         public void Start()
         {
@@ -23,16 +24,16 @@ namespace Gameplay.UI.Lobby
             networkManager = model.networkManager;
         }
         
-        public void SetPast()
+        public void SetIce()
         {
             if ( model.roleController != null)
-                model.roleController.SetPlayerRole(Timeline.PAST);
+                model.roleController.SetPlayerRole(PlayerRole.ICE_MAGE);
         }
 
-        public void SetFuture()
+        public void SetFire()
         {
             if ( model.roleController != null)
-                model.roleController.SetPlayerRole(Timeline.FUTURE);
+                model.roleController.SetPlayerRole(PlayerRole.FIRE_MAGE);
         }
         
         public void UpdateWaitUI()
@@ -40,8 +41,8 @@ namespace Gameplay.UI.Lobby
             if (NetworkClient.localPlayer != null)
             {
                 PlayerController controller = NetworkClient.localPlayer.gameObject.GetComponent<PlayerController>();
-                pastButton.interactable = controller.role != Timeline.PAST;
-                futureButton.interactable = controller.role != Timeline.FUTURE;
+                iceButton.interactable = controller.role != PlayerRole.ICE_MAGE;
+                fireButton.interactable = controller.role != PlayerRole.FIRE_MAGE;
             }
         }
         

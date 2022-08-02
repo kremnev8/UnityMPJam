@@ -13,7 +13,7 @@ namespace Gameplay.Controllers
         IDLE,
         MOVING,
         STUCK_ANIM,
-        FALLING
+        FALLING,
     }
     
     public class SpPlayerController : MonoBehaviour
