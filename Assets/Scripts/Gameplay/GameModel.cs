@@ -46,5 +46,7 @@ namespace Gameplay
 
         public LayerSettings layers;
         public StringsDB strings;
+        public AbilityDB abilities;
+        public ProjectileDB projectiles;
     }
 }

@@ -38,9 +38,10 @@ namespace Gameplay.Util
             }
             else if (Application.isEditor)
             {
-                if (transform.parent == null)
+                if (transform.parent != null) return;
+                SpacetimeController spacetime = FindObjectOfType<SpacetimeController>();
+                if (spacetime != null)
                 {
-                    SpacetimeController spacetime = FindObjectOfType<SpacetimeController>();
                     transform.parent = spacetime.pastWorld.objectTransform;
                 }
             }

@@ -8,6 +8,7 @@ using Gameplay.Core;
 using Mirror;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Util;
 using Attribute = Epic.OnlineServices.Lobby.Attribute;
@@ -38,11 +39,11 @@ namespace Gameplay.UI.Lobby
         public GameObject waitUI;
         public GameObject waitText;
 
-        public Button pastButton;
-        public Button futureButton;
+        [FormerlySerializedAs("pastButton")] public Button iceButton;
+        [FormerlySerializedAs("futureButton")] public Button fireButton;
 
-        public TMP_Text pastText;
-        public TMP_Text futureText;
+        [FormerlySerializedAs("pastText")] public TMP_Text iceText;
+        [FormerlySerializedAs("futureText")] public TMP_Text fireText;
 
         public TMP_InputField userNameInputField;
 
@@ -178,24 +179,24 @@ namespace Gameplay.UI.Lobby
             if (NetworkClient.localPlayer != null)
             {
                 PlayerController controller = NetworkClient.localPlayer.gameObject.GetComponent<PlayerController>();
-                pastButton.interactable = controller.role != Timeline.PAST;
-                pastText.text = controller.role == Timeline.PAST ? "Past" : "Switch to Past";
+                iceButton.interactable = controller.role != PlayerRole.ICE_MAGE;
+                iceText.text = controller.role == PlayerRole.ICE_MAGE ? "Ice" : "Switch to Ice";
                 
-                futureButton.interactable = controller.role != Timeline.FUTURE;
-                futureText.text = controller.role == Timeline.FUTURE ? "Future" : "Switch to Future";
+                fireButton.interactable = controller.role != PlayerRole.FIRE_MAGE;
+                fireText.text = controller.role == PlayerRole.FIRE_MAGE ? "Fire" : "Switch to Fire";
             }
         }
 
-        public void SetPast()
+        public void SetIceMage()
         {
             if ( model.roleController != null)
-                model.roleController.SetPlayerRole(Timeline.PAST);
+                model.roleController.SetPlayerRole(PlayerRole.ICE_MAGE);
         }
 
-        public void SetFuture()
+        public void SetFireMage()
         {
             if ( model.roleController != null)
-                model.roleController.SetPlayerRole(Timeline.FUTURE);
+                model.roleController.SetPlayerRole(PlayerRole.FIRE_MAGE);
         }
 
         public string GetPlayerName()

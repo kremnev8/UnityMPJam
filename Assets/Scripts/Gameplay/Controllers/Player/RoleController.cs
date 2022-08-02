@@ -11,10 +11,10 @@ namespace Gameplay.Controllers
         private GameModel model;
 
         [SyncVar]
-        public PlayerController pastPlayer;
+        public PlayerController iceMagePlayer;
         
         [SyncVar]
-        public PlayerController futurePlayer;
+        public PlayerController fireMagePlayer;
 
         
         public void Start()
@@ -24,60 +24,60 @@ namespace Gameplay.Controllers
             DontDestroyOnLoad(gameObject);
         }
 
-        public Timeline GetNextRole()
+        public PlayerRole GetNextRole()
         {
-            if (pastPlayer == null)
+            if (iceMagePlayer == null)
             {
-                return Timeline.PAST;
-            }else if (futurePlayer == null)
+                return PlayerRole.ICE_MAGE;
+            }else if (fireMagePlayer == null)
             {
-                return Timeline.FUTURE;
+                return PlayerRole.FIRE_MAGE;
             }
 
-            return Timeline.FUTURE;
+            return PlayerRole.FIRE_MAGE;
         }
 
         [Server]
-        public void SetPlayerRole(PlayerController player, Timeline role)
+        public void SetPlayerRole(PlayerController player, PlayerRole role)
         {
-            if (role == Timeline.PAST)
+            if (role == PlayerRole.ICE_MAGE)
             {
-                if (pastPlayer == player) return;
+                if (iceMagePlayer == player) return;
 
-                (pastPlayer, futurePlayer) = (futurePlayer, pastPlayer);
+                (iceMagePlayer, fireMagePlayer) = (fireMagePlayer, iceMagePlayer);
 
-                pastPlayer = player;
+                iceMagePlayer = player;
 
-                if (pastPlayer != null)
-                    pastPlayer.role = Timeline.PAST;
+                if (iceMagePlayer != null)
+                    iceMagePlayer.role = PlayerRole.ICE_MAGE;
                 
-                if (futurePlayer != null)
-                    futurePlayer.role = Timeline.FUTURE;
+                if (fireMagePlayer != null)
+                    fireMagePlayer.role = PlayerRole.FIRE_MAGE;
             }
             else
             {
-                if (futurePlayer == player) return;
+                if (fireMagePlayer == player) return;
                 
-                (pastPlayer, futurePlayer) = (futurePlayer, pastPlayer);
+                (iceMagePlayer, fireMagePlayer) = (fireMagePlayer, iceMagePlayer);
 
-                futurePlayer = player;
+                fireMagePlayer = player;
 
-                if (pastPlayer != null)
-                    pastPlayer.role = Timeline.PAST;
+                if (iceMagePlayer != null)
+                    iceMagePlayer.role = PlayerRole.ICE_MAGE;
                 
-                if (futurePlayer != null)
-                    futurePlayer.role = Timeline.FUTURE;
+                if (fireMagePlayer != null)
+                    fireMagePlayer.role = PlayerRole.FIRE_MAGE;
             }
         }
         
         [Client]
-        public void SetPlayerRole(Timeline role)
+        public void SetPlayerRole(PlayerRole role)
         {
             CmdSetPlayerRole(role);
         }
 
         [Command(requiresAuthority = false)]
-        public void CmdSetPlayerRole(Timeline role, NetworkConnectionToClient sender = null)
+        public void CmdSetPlayerRole(PlayerRole role, NetworkConnectionToClient sender = null)
         {
             PlayerController clientController = sender.identity.GetComponent<PlayerController>();
             SetPlayerRole(clientController, role);

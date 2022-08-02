@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04f6cc53ab514a16b091efa72e023f62, type: 3}
+  m_Name: Projectile DB
+  m_EditorClassIdentifier: 
+  items:
+  - itemId: 1
+    projectileName: Fireball
+    maxActive: 2
+    canReplace: 0
+    moveTime: 0.5
+    wallMask:
+      serializedVersion: 2
+      m_Bits: 320
+    damage: 0
+    prefab: {fileID: 4321768997356975327, guid: 8997df2e066355d48888542500c0e82e,
+      type: 3}
+    spawnOnHit: {fileID: 0}
+  - itemId: 2
+    projectileName: Ice Cube
+    maxActive: 1
+    canReplace: 1
+    moveTime: 1
+    wallMask:
+      serializedVersion: 2
+      m_Bits: 320
+    damage: 0
+    prefab: {fileID: 4321768997356975327, guid: 8997df2e066355d48888542500c0e82e,
+      type: 3}
+    spawnOnHit: {fileID: 0}
+  - itemId: 3
+    projectileName: Portal
+    maxActive: 1
+    canReplace: 1
+    moveTime: 1
+    wallMask:
+      serializedVersion: 2
+      m_Bits: 320
+    damage: 0
+    prefab: {fileID: 4321768997356975327, guid: 8997df2e066355d48888542500c0e82e,
+      type: 3}
+    spawnOnHit: {fileID: 1844685588833815413, guid: d0738aca1c861c8498f6d0618245faff,
+      type: 3}

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 648c8f46d519428786d9689ac9714a51, type: 3}
+  m_Name: Ability DB
+  m_EditorClassIdentifier: 
+  abilityStacks:
+  - role: 0
+    abilities:
+    - abilityName: Create Cube
+      abilityType: 0
+      projectileID: 2
+      abilityCooldown: 1
+    - abilityName: Create Time Portal
+      abilityType: 0
+      projectileID: 3
+      abilityCooldown: 2
+  - role: 1
+    abilities:
+    - abilityName: Shoot Fire Ball
+      abilityType: 0
+      projectileID: 1
+      abilityCooldown: 3
+    - abilityName: Wire Vision
+      abilityType: 1
+      projectileID: 0
+      abilityCooldown: 1

@@ -5,7 +5,7 @@ namespace Gameplay.World
     public interface IPlayerData
     {
         string PlayerName { get; set; }
-        Timeline role { get; set; }
+        PlayerRole role { get; set; }
 
         void StartMap();
 
