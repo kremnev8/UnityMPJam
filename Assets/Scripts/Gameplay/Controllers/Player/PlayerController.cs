@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gameplay;
 using Gameplay.Controllers;
 using Gameplay.Controllers.Player;
 using Gameplay.Core;
 using Gameplay.ScriptableObjects;
 using Gameplay.Util;
 using Gameplay.World;
-using UnityEngine;
 using Mirror;
 using ScriptableObjects;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using Util;
 
@@ -21,47 +20,44 @@ namespace Gameplay.Conrollers
         ICE_MAGE,
         FIRE_MAGE
     }
-    
-    public class PlayerController : NetworkBehaviour, IPlayerData, ICanTeleport
-    {
-        [SyncVar]
-        private string playerName;
-        [SyncVar(hook=nameof(SetRoleHook))]
-        private PlayerRole m_role;
 
-        [SyncVar]
-        public Timeline timeline;
-        
-        [SyncVar(hook =nameof (SetControlHook))]
+    public class PlayerController : NetworkBehaviour, IPlayerData, ICanTeleport, IHeavyObject
+    {
+        [SyncVar] private string playerName;
+        [SyncVar(hook = nameof(SetRoleHook))] private PlayerRole m_role;
+
+        [SyncVar] public Timeline timeline;
+
+        [SyncVar(hook = nameof(SetControlHook))]
         public bool controlEnabled;
 
         public new Camera camera;
-        
+
         public PlayerConfig config;
         public Vector2Int position;
 
         public new SpriteRenderer renderer;
         public Sprite pastSprite;
         public Sprite futureSprite;
-        
+
         private InputAction movement;
         private InputAction firstAbility;
         private InputAction secondAbility;
         private Rigidbody2D body;
-        
+
         private Vector2Int prevPosition;
         private Vector2Int lastMoveDir;
-        
+
         private PlayerState state;
         private float stateTimeLeft;
-        
+
         private Dictionary<Ability, float> abilityCooldowns = new Dictionary<Ability, float>();
         private Dictionary<ProjectileID, List<GameObject>> playerObjects = new Dictionary<ProjectileID, List<GameObject>>();
 
         private GameModel model;
 
         private static RaycastHit2D[] hits = new RaycastHit2D[6];
-        
+
         public string PlayerName
         {
             get => playerName;
@@ -74,6 +70,8 @@ namespace Gameplay.Conrollers
             set => m_role = value;
         }
 
+        public int Mass => 50;
+
         public void Start()
         {
             model = Simulation.GetModel<GameModel>();
@@ -83,7 +81,7 @@ namespace Gameplay.Conrollers
 
             body = GetComponent<Rigidbody2D>();
             renderer = GetComponent<SpriteRenderer>();
-            
+
             EnterState(PlayerState.IDLE);
             UpdateVisual();
             DontDestroyOnLoad(gameObject);
@@ -96,7 +94,7 @@ namespace Gameplay.Conrollers
         private void OnCastSecondAbility(InputAction.CallbackContext obj)
         {
             if (!controlEnabled) return;
-            
+
             AbilityStack abilityStack = model.abilities.GetAbilities(role);
             if (abilityStack.abilities.Count > 0)
             {
@@ -108,7 +106,7 @@ namespace Gameplay.Conrollers
         private void OnCastFirstAbility(InputAction.CallbackContext obj)
         {
             if (!controlEnabled) return;
-            
+
             AbilityStack abilityStack = model.abilities.GetAbilities(role);
             if (abilityStack.abilities.Count > 1)
             {
@@ -128,7 +126,7 @@ namespace Gameplay.Conrollers
             {
                 renderer = GetComponent<SpriteRenderer>();
             }
-            
+
             UpdateVisual();
         }
 
@@ -169,7 +167,7 @@ namespace Gameplay.Conrollers
         void FixedUpdate()
         {
             if (!controlEnabled) return;
-            
+
             if (stateTimeLeft > 0)
             {
                 stateTimeLeft -= Time.fixedDeltaTime;
@@ -182,17 +180,16 @@ namespace Gameplay.Conrollers
                     abilityCooldowns[ability] -= Time.fixedDeltaTime;
                 }
             }
-            
+
             UpdatePosition();
             UpdateInState(state);
-            
         }
 
         private void UpdatePosition()
         {
             if (!isLocalPlayer) return;
             if (state != PlayerState.IDLE) return;
-                
+
             Vector2Int dir = movement.ReadValue<Vector2>().Apply(Mathf.RoundToInt);
             if (dir != Vector2Int.zero && stateTimeLeft < 0.1f)
             {
@@ -222,6 +219,11 @@ namespace Gameplay.Conrollers
                                 }
                                 else
                                 {
+                                    IMoveAble moveAble = hit.collider.GetComponent<IMoveAble>();
+                                    if (moveAble != null)
+                                    {
+                                        moveAble.Move(lastMoveDir.GetDirection());
+                                    }
                                     shouldStop = true;
                                 }
                             }
@@ -250,14 +252,14 @@ namespace Gameplay.Conrollers
             EnterState(PlayerState.STUCK_ANIM);
             RpcStuckAnim(direction);
         }
-        
+
         [ClientRpc(includeOwner = false)]
         public void RpcStuckAnim(Direction direction)
         {
             lastMoveDir = direction.GetVector();
             EnterState(PlayerState.STUCK_ANIM);
         }
-        
+
         [Command]
         public void CmdMove(Vector2Int pos, Direction direction)
         {
@@ -269,30 +271,33 @@ namespace Gameplay.Conrollers
         }
 
         #region Ability
-        
 
         [Command]
         public void CmdActivateAbility(Ability ability)
         {
             if (CanCast(ability, out string feedback))
             {
+                bool success = false;
                 if (ability.abilityType == AbilityType.SHOOT)
                 {
-                    ShootProjectile(ability.projectileID);
+                    success = ShootProjectile(ability.projectileID);
                 }
                 else
                 {
                     Debug.Log("Noting to see here!");
                 }
-                
-                StartCooldown(ability);
+
+                if (success)
+                {
+                    StartCooldown(ability);
+                }
             }
             else
             {
                 RpcFeedback(feedback);
             }
         }
-        
+
         public void StartCooldown(Ability ability)
         {
             if (abilityCooldowns.ContainsKey(ability))
@@ -355,7 +360,7 @@ namespace Gameplay.Conrollers
         {
             RemoveObject(projectileID, oldObj);
             AddProjectile(projectileID, newObj);
-            
+
             if (oldObj != null)
             {
                 ISpawnable behavior = oldObj.GetComponent<ISpawnable>();
@@ -376,34 +381,60 @@ namespace Gameplay.Conrollers
         }
 
         [Server]
-        private void ShootProjectile(ProjectileID projectileID)
+        private bool ShootProjectile(ProjectileID projectileID)
         {
             try
             {
                 Projectile projectile = model.projectiles.Get(projectileID);
                 List<GameObject> active = GetActiveProjectiles(projectileID);
-                if (active.Count < projectile.maxActive)
+                Vector2Int pos = position + lastMoveDir;
+
+                int hitCount = Physics2D.CircleCastNonAlloc(position, 0.3f, lastMoveDir, hits, 0.5f, config.wallMask);
+
+                bool foundAWall = false;
+                if (hitCount > 0)
                 {
-                    SpawnWithLink(projectile.itemId,timeline, position, lastMoveDir.GetDirection(), projectile.prefab);
-                }else if (projectile.canReplace)
-                {
-                    GameObject oldObj = active.Last();
-                    SpawnWithReplace(projectile.itemId, timeline, position, lastMoveDir.GetDirection(), oldObj, projectile.prefab);
-                }
-                else
-                {
-                    RpcFeedback("Can't spawn new projectile! You have too many!");
+                    for (int i = 0; i < hitCount; i++)
+                    {
+                        RaycastHit2D hit = hits[i];
+                        if (hit.collider == null || hit.collider.isTrigger) continue;
+
+                        foundAWall = true;
+                        break;
+                    }
                 }
 
+
+                if (foundAWall)
+                {
+                    RpcFeedback("Can't use this ability facing a wall");
+                    return false;
+                }
+
+                if (active.Count < projectile.maxActive)
+                {
+                    SpawnWithLink(projectile.itemId, timeline, pos, lastMoveDir.GetDirection(), projectile.prefab);
+                    return true;
+                }
+
+                if (projectile.canReplace)
+                {
+                    GameObject oldObj = active.Last();
+                    SpawnWithReplace(projectile.itemId, timeline, pos, lastMoveDir.GetDirection(), oldObj, projectile.prefab);
+                    return true;
+                }
+
+                RpcFeedback("Can't spawn new projectile! You have too many!");
+                return false;
             }
             catch (IndexOutOfRangeException e)
             {
                 RpcFeedback($"Internal Server Error: No projectile with ID {projectileID}");
             }
-           
+            return false;
         }
-        
-        
+
+
         [Server]
         public GameObject Spawn(Timeline s_timeline, Vector2Int pos, Direction direction, GameObject prefab)
         {
@@ -423,7 +454,7 @@ namespace Gameplay.Conrollers
         }
 
         [Server]
-        public void SpawnWithReplace(ProjectileID projectileID, Timeline s_timeline, Vector2Int pos,Direction direction, GameObject oldGO, GameObject prefab)
+        public void SpawnWithReplace(ProjectileID projectileID, Timeline s_timeline, Vector2Int pos, Direction direction, GameObject oldGO, GameObject prefab)
         {
             GameObject projectileObj = Spawn(s_timeline, pos, direction, prefab);
             ReplaceObject(projectileID, oldGO, projectileObj);
@@ -438,9 +469,9 @@ namespace Gameplay.Conrollers
                 Debug.Log(message);
             }
         }
-        
+
         #endregion
-        
+
         [ClientRpc(includeOwner = false)]
         public void RpcMove(Vector2Int pos, Direction direction)
         {
@@ -461,13 +492,13 @@ namespace Gameplay.Conrollers
         {
             float stateTime = GetTimeIn(state);
             float t = (stateTime - stateTimeLeft) / stateTimeLeft;
-            
+
             switch (state)
             {
                 case PlayerState.IDLE:
                     break;
                 case PlayerState.MOVING:
-                    
+
                     if (stateTimeLeft > 0)
                     {
                         body.MovePosition(Vector2.Lerp(prevPosition.ToWorldPos(timeline), position.ToWorldPos(timeline), t));
@@ -477,9 +508,10 @@ namespace Gameplay.Conrollers
                         body.MovePosition(position.ToWorldPos(timeline));
                         EnterState(PlayerState.IDLE);
                     }
+
                     break;
                 case PlayerState.STUCK_ANIM:
-                    
+
                     if (stateTimeLeft > 0)
                     {
                         float nt = config.stuckAnim.Evaluate(t);
@@ -491,7 +523,7 @@ namespace Gameplay.Conrollers
                         body.MovePosition(position.ToWorldPos(timeline));
                         EnterState(PlayerState.IDLE);
                     }
-                    
+
                     break;
                 case PlayerState.FALLING:
                     break;
@@ -507,11 +539,11 @@ namespace Gameplay.Conrollers
             SpawnPoints points = go.GetComponent<SpawnPoints>();
             Vector2Int pos = points.spawns[(int)role].transform.position.ToGridPos();
             timeline = (Timeline)(int)role;
-            
+
             Teleport(timeline, pos);
         }
 
-        public void Teleport(Timeline timeline, Vector2Int position)
+        public bool Teleport(Timeline timeline, Vector2Int position)
         {
             if (body == null)
             {
@@ -529,6 +561,8 @@ namespace Gameplay.Conrollers
             {
                 RpcTeleport(timeline, position);
             }
+
+            return true;
         }
     }
 }

@@ -16,8 +16,11 @@ namespace Gameplay.ScriptableObjects
         public int maxActive;
         public bool canReplace;
         public float startMoveSpeed;
+        public float pushMoveSpeed;
         public LayerMask wallMask;
         public int damage;
+        public bool destroySelfOnHit;
+        public int projectileMass;
         
         public GameObject prefab;
         public GameObject spawnOnHit;

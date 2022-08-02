@@ -89,9 +89,12 @@ namespace Gameplay.World
                         return;
                     }
                     
-                    ignoreList.Add(canTeleport);
-                    canTeleport.Teleport(otherPortal.timeline, otherPortal.position);
-                    Destroy();
+                    bool result = canTeleport.Teleport(otherPortal.timeline, otherPortal.position);
+                    if (result)
+                    {
+                        ignoreList.Add(canTeleport);
+                        Destroy();
+                    }
                 }
             }
             

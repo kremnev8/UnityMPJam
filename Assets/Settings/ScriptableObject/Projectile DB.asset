@@ -17,35 +17,41 @@ MonoBehaviour:
     projectileName: Fireball
     maxActive: 2
     canReplace: 0
-    moveTime: 0.5
+    startMoveSpeed: 3
+    pushMoveSpeed: 0
     wallMask:
       serializedVersion: 2
       m_Bits: 320
     damage: 0
-    prefab: {fileID: 4321768997356975327, guid: 8997df2e066355d48888542500c0e82e,
+    destroySelfOnHit: 1
+    prefab: {fileID: 4997097714237469524, guid: fe0b4f671d68d2948be81439e1ea08b1,
       type: 3}
     spawnOnHit: {fileID: 0}
   - itemId: 2
     projectileName: Ice Cube
     maxActive: 1
     canReplace: 1
-    moveTime: 1
+    startMoveSpeed: 0
+    pushMoveSpeed: 2
     wallMask:
       serializedVersion: 2
       m_Bits: 320
     damage: 0
-    prefab: {fileID: 4321768997356975327, guid: 8997df2e066355d48888542500c0e82e,
+    destroySelfOnHit: 0
+    prefab: {fileID: 1593202355466616539, guid: 4473bdc8c2376864a9ec173c55a25e9d,
       type: 3}
     spawnOnHit: {fileID: 0}
   - itemId: 3
     projectileName: Portal
     maxActive: 1
     canReplace: 1
-    moveTime: 1
+    startMoveSpeed: 3
+    pushMoveSpeed: 0
     wallMask:
       serializedVersion: 2
       m_Bits: 320
     damage: 0
+    destroySelfOnHit: 1
     prefab: {fileID: 4321768997356975327, guid: 8997df2e066355d48888542500c0e82e,
       type: 3}
     spawnOnHit: {fileID: 1844685588833815413, guid: d0738aca1c861c8498f6d0618245faff,

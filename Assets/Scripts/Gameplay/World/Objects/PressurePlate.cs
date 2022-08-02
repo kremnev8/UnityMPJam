@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mirror;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Gameplay.World
@@ -8,6 +9,7 @@ namespace Gameplay.World
     {
         public List<Collider2D> inside = new List<Collider2D>();
         public float disableDelay;
+        public int minMass = 10;
 
         [Server]
         private void UpdateState(bool newState)
@@ -41,6 +43,11 @@ namespace Gameplay.World
             if (isServer)
             {
                 if (!interactible) return;
+                IHeavyObject heavyObject = col.GetComponent<IHeavyObject>();
+                if (heavyObject == null || heavyObject.Mass < minMass)
+                {
+                    return;
+                }
                 
                 if (!inside.Contains(col))
                 {
@@ -56,6 +63,11 @@ namespace Gameplay.World
             if (isServer)
             {
                 if (!interactible) return;
+                IHeavyObject heavyObject = col.GetComponent<IHeavyObject>();
+                if (heavyObject == null || heavyObject.Mass < minMass)
+                {
+                    return;
+                }
                 
                 if (inside.Contains(col))
                 {

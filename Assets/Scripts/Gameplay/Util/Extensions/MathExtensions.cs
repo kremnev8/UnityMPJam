@@ -399,5 +399,11 @@ namespace Util
             World world = Simulation.GetModel<GameModel>().spacetime.GetWorld(timeline);
             return world.GetWorldSpacePos(pos);
         }
+
+        public static Vector2Int ToGridPos(this Vector3 worldPos, Timeline timeline)
+        {
+            World world = Simulation.GetModel<GameModel>().spacetime.GetWorld(timeline);
+            return world.GetGridPos(worldPos);
+        }
     }
 }

@@ -19,10 +19,12 @@ namespace Gameplay.World
     }
 
     [RequireComponent(typeof(Rigidbody2D))]
-    public class ProjectileBehavior : NetworkBehaviour, ISpawnable, ICanTeleport
+    public class ProjectileBehavior : NetworkBehaviour, ISpawnable, ICanTeleport, IMoveAble, IHeavyObject
     {
+        public ParticleSystem trailSystem;
         public new SpriteRenderer renderer;
-
+        public Collider2D collider;
+        
         private Rigidbody2D body;
 
         public ProjectileID projectileID;
@@ -63,43 +65,43 @@ namespace Gameplay.World
             get => m_timeline;
             set => m_timeline = value;
         }
-
-        private void Start()
-        {
-            model = Simulation.GetModel<GameModel>();
-            ProjectileDB projectileDB = model.projectiles;
-            projectile = projectileDB.Get(projectileID);
-
-            body = GetComponent<Rigidbody2D>();
-
-            EnterState(ProjectileState.MOVING);
-        }
+        
+        public int Mass => projectile.projectileMass;
 
         [Server]
         public void Spawn(PlayerController player, Timeline timeline, Vector2Int position, Direction direction)
         {
             model = Simulation.GetModel<GameModel>();
+            body = GetComponent<Rigidbody2D>();
+            ProjectileDB projectileDB = model.projectiles;
+            projectile = projectileDB.Get(projectileID);
+            collider = GetComponent<Collider2D>();
 
             m_timeline = timeline;
             this.position = position;
             owner = player;
-            
+            trailSystem.Play();
+
             RpcSpawn(position, timeline, direction);
-            StartMove(direction, projectile.startMoveSpeed);
+            if (projectile.startMoveSpeed > 0)
+            {
+                StartMove(direction, projectile.startMoveSpeed);
+            }
         }
 
         [ClientRpc]
         public void RpcSpawn(Vector2Int position, Timeline timeline, Direction direction)
         {
-            if (body == null)
-            {
-                body = GetComponent<Rigidbody2D>();
-            }
+            model = Simulation.GetModel<GameModel>();
+            body = GetComponent<Rigidbody2D>();
+            ProjectileDB projectileDB = model.projectiles;
+            projectile = projectileDB.Get(projectileID);
+            collider = GetComponent<Collider2D>();
 
             m_timeline = timeline;
             this.position = position;
             moveDir = direction;
-            EnterState(ProjectileState.IDLE);
+            trailSystem.Play();
         }
 
         [Server]
@@ -115,6 +117,15 @@ namespace Gameplay.World
 
         [Server]
         public void StartMove(Direction direction, float velocity)
+        {
+            moveDir = direction;
+            this.velocity = velocity;
+            EnterState(ProjectileState.MOVING);
+            RpcStartMove(direction, velocity);
+        }
+
+        [Command(requiresAuthority = false)]
+        public void CmdStartMove(Direction direction, float velocity)
         {
             moveDir = direction;
             this.velocity = velocity;
@@ -137,6 +148,7 @@ namespace Gameplay.World
         [ClientRpc]
         public void RpcStuck()
         {
+            velocity = 0;
             EnterState(ProjectileState.STUCK);
         }
 
@@ -173,8 +185,11 @@ namespace Gameplay.World
                     RaycastHit2D hit = hits[i];
                     if (hit.collider != null)
                     {
+                        if (hit.collider == collider) continue;
+                        
                         if (!hit.collider.isTrigger)
                         {
+                            velocity = 0;
                             EnterState(ProjectileState.STUCK);
                             RpcStuck();
                             return;
@@ -192,11 +207,17 @@ namespace Gameplay.World
         {
             if (projectile.spawnOnHit != null)
             {
-                owner.SpawnWithReplace(projectileID, m_timeline, transform.position.ToGridPos(), moveDir.GetOpposite(), gameObject, projectile.spawnOnHit);
+                
+                owner.SpawnWithReplace(projectileID, m_timeline, transform.position.ToGridPos(timeline), moveDir.GetOpposite(), gameObject, projectile.spawnOnHit);
+            }
+            else if (projectile.destroySelfOnHit)
+            {
+                Destroy();
+                owner.RemoveObject(projectileID, gameObject);
             }
             else
             {
-                Destroy();
+                EnterState(ProjectileState.IDLE);
             }
         }
 
@@ -219,8 +240,10 @@ namespace Gameplay.World
             }
         }
 
-        public void Teleport(Timeline timeline, Vector2Int position)
+        public bool Teleport(Timeline timeline, Vector2Int position)
         {
+            if (destroyTimer > 0) return false;
+            
             m_timeline = timeline;
             this.position = position;
             moveDir = moveDir.GetOpposite();
@@ -228,6 +251,8 @@ namespace Gameplay.World
             {
                 RpcTeleport(timeline, position);
             }
+
+            return true;
         }
 
         [ClientRpc(includeOwner = false)]
@@ -236,6 +261,15 @@ namespace Gameplay.World
             if (isClientOnly)
             {
                 Teleport(timeline, position);
+            }
+        }
+
+        [Client]
+        public void Move(Direction direction)
+        {
+            if (projectile.pushMoveSpeed > 0)
+            {
+                CmdStartMove(direction, projectile.pushMoveSpeed);
             }
         }
     }

@@ -1,5 +1,7 @@
 ﻿using System;
 using Gameplay.World.Spacetime;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Gameplay.Util
@@ -38,6 +40,8 @@ namespace Gameplay.Util
             }
             else if (Application.isEditor)
             {
+                bool isPrefabInstance = PrefabStageUtility.GetCurrentPrefabStage() != null;
+                if (isPrefabInstance) return;
                 if (transform.parent != null) return;
                 SpacetimeController spacetime = FindObjectOfType<SpacetimeController>();
                 if (spacetime != null)
