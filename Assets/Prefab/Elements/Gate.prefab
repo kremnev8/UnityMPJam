@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2962109141609326945}
   - component: {fileID: 2962109141609326950}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Bars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2962109142578823799}
   - component: {fileID: 2962109142578823796}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 7893591617795630487}
   - component: {fileID: 8132555877205274972}
   - component: {fileID: 7893591617795630486}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,8 +222,8 @@ MonoBehaviour:
   collider: {fileID: 7893591617795630486}
   timeGlitchEffect: {fileID: 4544273131581901091}
   moveTime: 3
-  openPos: {x: 0, y: 0, z: 0}
-  closedPos: {x: 0, y: -1.3125, z: 0}
+  openPos: {x: 0, y: -1.3125, z: 0}
+  closedPos: {x: 0, y: 0, z: 0}
   minPassDistance: 0.1
 --- !u!114 &8132555877205274972
 MonoBehaviour:
@@ -277,7 +277,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7893591618812450001}
   - component: {fileID: 7893591618812449966}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,7 +361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1176796377353892948}
   - component: {fileID: 3825800082403769127}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Groove
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -442,10 +442,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7893591617795630446}
     m_Modifications:
+    - target: {fileID: 1535211262962505583, guid: 14aea2571d26b104392755e7a19da81b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 3681196406621465848, guid: 14aea2571d26b104392755e7a19da81b,
         type: 3}
       propertyPath: m_Name
       value: TimeEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 3681196406621465848, guid: 14aea2571d26b104392755e7a19da81b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 9099915876524442124, guid: 14aea2571d26b104392755e7a19da81b,
         type: 3}

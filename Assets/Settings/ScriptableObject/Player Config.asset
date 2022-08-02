@@ -20,7 +20,7 @@ MonoBehaviour:
   failMoveTime: 0.2
   wallMask:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 832
   stuckAnim:
     serializedVersion: 2
     m_Curve:

@@ -484,7 +484,10 @@ namespace Gameplay.Conrollers
         [ClientRpc(includeOwner = false)]
         public void RpcTeleport(Timeline timeline, Vector2Int target)
         {
-            Teleport(timeline, target);
+            if (isClientOnly)
+            {
+                Teleport(timeline, target);
+            }
         }
 
 
