@@ -35,11 +35,12 @@ namespace Gameplay.World
         {
             GameModel model = Simulation.GetModel<GameModel>();
             World world = model.spacetime.GetWorld(timeline);
-            world.AddObject(gameObject, position);
+            transform.position = world.GetWorldSpacePos(position);
             this.position = position;
             
             m_timeline = timeline;
             owner = player;
+            RpcSpawn(timeline, position, direction);
 
             if (owner.timeline == timeline)
             {
@@ -52,13 +53,27 @@ namespace Gameplay.World
             }
         }
 
+        [ClientRpc]
+        public void RpcSpawn(Timeline timeline, Vector2Int position, Direction direction)
+        {
+            GameModel model = Simulation.GetModel<GameModel>();
+            World world = model.spacetime.GetWorld(timeline);
+            transform.position = world.GetWorldSpacePos(position);
+            this.position = position;
+            
+            m_timeline = timeline;
+        }
+
         public void Destroy()
         {
             if (destroyTimer <= 0)
             {
                 destroyTimer = destoryTime;
                 owner.RemoveObject(ProjectileID.PORTAL, gameObject);
-                otherPortal.Destroy();
+                if (otherPortal != null)
+                {
+                    otherPortal.Destroy();
+                }
             }
         }
         
@@ -78,7 +93,8 @@ namespace Gameplay.World
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (isServer)
+            if (destroyTimer > 0) return;
+            if (isServer && otherPortal != null)
             {
                 ICanTeleport canTeleport = other.GetComponent<ICanTeleport>();
                 if (canTeleport != null)

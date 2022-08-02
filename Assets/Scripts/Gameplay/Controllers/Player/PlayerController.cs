@@ -481,7 +481,7 @@ namespace Gameplay.Conrollers
             EnterState(PlayerState.MOVING);
         }
 
-        [ClientRpc(includeOwner = false)]
+        [ClientRpc]
         public void RpcTeleport(Timeline timeline, Vector2Int target)
         {
             if (isClientOnly)
@@ -562,7 +562,7 @@ namespace Gameplay.Conrollers
             this.timeline = timeline;
             prevPosition = position;
             this.position = position;
-            body.position = world.GetWorldSpacePos(position);
+            transform.position = world.GetWorldSpacePos(position);
             EnterState(PlayerState.IDLE);
             if (isServer)
             {

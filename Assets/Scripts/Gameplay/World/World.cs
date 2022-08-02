@@ -74,11 +74,5 @@ namespace Gameplay.World
         {
             return (worldPos - transform.position).ToGridPos();
         }
-
-        public void AddObject(GameObject obj, Vector2Int position)
-        {
-            obj.transform.parent = objectTransform;
-            obj.transform.localPosition = position.ToWorldPos();
-        }
     }
 }

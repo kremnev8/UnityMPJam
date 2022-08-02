@@ -22,6 +22,12 @@ namespace Gameplay.World
 
         private bool reachedEnd;
 
+        private void Start()
+        {
+            reachedEnd = false;
+            timeElapsed = moveTime;
+        }
+
         public void ReciveStateChange(bool state, bool isPermanent)
         {
           
