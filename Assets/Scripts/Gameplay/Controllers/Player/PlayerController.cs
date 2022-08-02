@@ -94,6 +94,7 @@ namespace Gameplay.Conrollers
         private void OnCastSecondAbility(InputAction.CallbackContext obj)
         {
             if (!controlEnabled) return;
+            if (!isLocalPlayer) return;
 
             AbilityStack abilityStack = model.abilities.GetAbilities(role);
             if (abilityStack.abilities.Count > 0)
@@ -106,6 +107,7 @@ namespace Gameplay.Conrollers
         private void OnCastFirstAbility(InputAction.CallbackContext obj)
         {
             if (!controlEnabled) return;
+            if (!isLocalPlayer) return;
 
             AbilityStack abilityStack = model.abilities.GetAbilities(role);
             if (abilityStack.abilities.Count > 1)
@@ -272,7 +274,7 @@ namespace Gameplay.Conrollers
 
         #region Ability
 
-        [Command(requiresAuthority = false)]
+        [Command]
         public void CmdActivateAbility(Ability ability)
         {
             if (CanCast(ability, out string feedback))

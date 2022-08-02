@@ -172,27 +172,29 @@ namespace Gameplay.World
 
         private void UpdatePosition()
         {
-            if (!isServer) return;
             if (state != ProjectileState.MOVING) return;
 
-            Vector2 pos = body.position;
-
-            int hitCount = Physics2D.CircleCastNonAlloc(pos, 0.33f, moveDir.GetVector(), hits, 0.5f, projectile.wallMask);
-            if (hitCount > 0)
+            if (isServer)
             {
-                for (int i = 0; i < hitCount; i++)
+                Vector2 pos = body.position;
+
+                int hitCount = Physics2D.CircleCastNonAlloc(pos, 0.33f, moveDir.GetVector(), hits, 0.5f, projectile.wallMask);
+                if (hitCount > 0)
                 {
-                    RaycastHit2D hit = hits[i];
-                    if (hit.collider != null)
+                    for (int i = 0; i < hitCount; i++)
                     {
-                        if (hit.collider == collider) continue;
-                        
-                        if (!hit.collider.isTrigger)
+                        RaycastHit2D hit = hits[i];
+                        if (hit.collider != null)
                         {
-                            velocity = 0;
-                            EnterState(ProjectileState.STUCK);
-                            RpcStuck();
-                            return;
+                            if (hit.collider == collider) continue;
+
+                            if (!hit.collider.isTrigger)
+                            {
+                                velocity = 0;
+                                EnterState(ProjectileState.STUCK);
+                                RpcStuck();
+                                return;
+                            }
                         }
                     }
                 }
