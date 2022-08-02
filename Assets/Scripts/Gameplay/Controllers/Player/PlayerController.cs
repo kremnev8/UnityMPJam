@@ -389,9 +389,12 @@ namespace Gameplay.Conrollers
             {
                 Projectile projectile = model.projectiles.Get(projectileID);
                 List<GameObject> active = GetActiveProjectiles(projectileID);
+                World.World world = model.spacetime.GetWorld(timeline);
+                
                 Vector2Int pos = position + lastMoveDir;
+                Vector2 worldPos = world.GetWorldSpacePos(position);
 
-                int hitCount = Physics2D.CircleCastNonAlloc(position, 0.3f, lastMoveDir, hits, 0.5f, config.wallMask);
+                int hitCount = Physics2D.CircleCastNonAlloc(worldPos, 0.9f, lastMoveDir, hits, 2f, projectile.wallMask);
 
                 bool foundAWall = false;
                 if (hitCount > 0)
@@ -405,6 +408,8 @@ namespace Gameplay.Conrollers
                         break;
                     }
                 }
+                
+                Debug.DrawLine(worldPos, worldPos + (Vector2)lastMoveDir * 2f, foundAWall ? Color.red : Color.green, 5);
 
 
                 if (foundAWall)

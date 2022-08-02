@@ -19,6 +19,8 @@ namespace Gameplay.World
 
         public float destoryTime;
         private float destroyTimer;
+
+        private bool ignoreEvent;
         
         [SyncVar]
         private Timeline m_timeline;
@@ -28,8 +30,6 @@ namespace Gameplay.World
             get => m_timeline;
             set => m_timeline = value;
         }
-
-        private static List<ICanTeleport> ignoreList = new List<ICanTeleport>();
 
         public void Spawn(PlayerController player, Timeline timeline,  Vector2Int position, Direction direction)
         {
@@ -94,22 +94,21 @@ namespace Gameplay.World
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (destroyTimer > 0) return;
+            if (ignoreEvent) return;
             if (isServer && otherPortal != null)
             {
                 ICanTeleport canTeleport = other.GetComponent<ICanTeleport>();
                 if (canTeleport != null)
                 {
-                    if (ignoreList.Contains(canTeleport))
-                    {
-                        ignoreList.Remove(canTeleport);
-                        return;
-                    }
-                    
+                    otherPortal.ignoreEvent = true;
                     bool result = canTeleport.Teleport(otherPortal.timeline, otherPortal.position);
                     if (result)
                     {
-                        ignoreList.Add(canTeleport);
                         Destroy();
+                    }
+                    else
+                    {
+                        otherPortal.ignoreEvent = false;
                     }
                 }
             }
