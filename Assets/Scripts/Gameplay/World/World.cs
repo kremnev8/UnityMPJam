@@ -24,7 +24,11 @@ namespace Gameplay.World
             {
                 if (timeObject.GetState(worldTimeline) == ObjectState.DOES_NOT_EXIST)
                 {
-                    timeObject.gameObject.SetActive(false);
+                    if (Application.isPlaying)
+                    {
+                        timeObject.gameObject.SetActive(false);
+                    }
+
                     continue;
                 }
                 
@@ -39,6 +43,14 @@ namespace Gameplay.World
                 }
 
                 timeObject.Set(worldTimeline, linked);
+                if (Application.isPlaying)
+                {
+                    SpriteRenderer[] renderers = timeObject.GetComponentsInChildren<SpriteRenderer>();
+                    foreach (SpriteRenderer spriteRenderer in renderers)
+                    {
+                        spriteRenderer.color = Color.white;
+                    }
+                }
             }
         }
 

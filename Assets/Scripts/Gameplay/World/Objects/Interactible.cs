@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Gameplay.Core;
+using Gameplay.Util;
 using Gameplay.World.Spacetime;
 using Mirror;
 using UnityEngine;
@@ -19,6 +20,8 @@ namespace Gameplay.World
         public Sprite idle;
         public Sprite activated;
         public Sprite destroyed;
+        
+        public ParticleLight timeGlitchEffect;
 
         protected bool interactible = true; 
         
@@ -40,27 +43,27 @@ namespace Gameplay.World
         }
 
         [ClientRpc]
-        public void RpcSetState(bool newState)
+        public void RpcSetState(bool newState, bool isPermanent)
         {
             if (isClientOnly)
             {
                 if (!interactible) return;
                 
-                SetState(newState);
+                SetState(newState, isPermanent);
             }
         }
 
         [Command(requiresAuthority = false)]
-        public void CmdSetState(bool newState)
+        public void CmdSetState(bool newState, bool isPermanent)
         {
             if (!interactible) return;
             
-            SetState(newState);
-            RpcSetState(newState);
+            SetState(newState, isPermanent);
+            RpcSetState(newState, isPermanent);
         }
         
         
-        protected virtual void SetState(bool newState)
+        protected virtual void SetState(bool newState, bool isPermanent = true)
         {
             if (!interactible) return;
             
@@ -70,7 +73,7 @@ namespace Gameplay.World
             {
                 foreach (SpaceTimeObject spaceTimeObject in connections)
                 {
-                    timeObject.SendLogicState(spaceTimeObject.UniqueId, newState);
+                    timeObject.SendLogicState(spaceTimeObject.UniqueId, newState, isPermanent);
                 }
                 timeObject.SendTimeEvent(new []{ newState ? 1 : 0});
             }
@@ -115,11 +118,14 @@ namespace Gameplay.World
         public virtual void ReciveTimeEvent(int[] args)
         {
             SetState(args[0] == 1);
+            
+            if (timeGlitchEffect != null)
+                timeGlitchEffect.Play();
         }
 
-        public virtual void ReciveStateChange(bool value)
+        public virtual void ReciveStateChange(bool value, bool isPermanent)
         {
-
+            
         }
     }
 }

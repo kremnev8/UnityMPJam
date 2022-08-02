@@ -7,15 +7,15 @@ namespace Gameplay.World
     {
         public new Light2D light;
 
-        protected override void SetState(bool newState)
+        protected override void SetState(bool newState, bool isPermanent )
         {
-            base.SetState(newState);
+            base.SetState(newState, isPermanent);
             light.enabled = newState;
         }
 
         public override void Activate()
         {
-            CmdSetState(!state);
+            CmdSetState(!state, true);
         }
     }
 }

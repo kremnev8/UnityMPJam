@@ -1,4 +1,5 @@
 ﻿using System;
+using Gameplay.Util;
 using Gameplay.World.Spacetime;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace Gameplay.World
     {
         public Transform doorTransform;
         public new Collider2D collider;
+        public ParticleLight timeGlitchEffect;
         public float moveTime;
         
         public Vector3 openPos;
@@ -20,12 +22,13 @@ namespace Gameplay.World
 
         private bool reachedEnd;
 
-        public void ReciveStateChange(bool state)
+        public void ReciveStateChange(bool state, bool isPermanent)
         {
-            SetState(state);
+          
+            SetState(state, isPermanent);
         }
 
-        private void SetState(bool state, bool sendEvent = true)
+        private void SetState(bool state, bool isPermanent)
         {
             if (this.state != state)
             {
@@ -40,11 +43,19 @@ namespace Gameplay.World
                     timeElapsed = moveTime - timeElapsed;
                 }
 
-                if (sendEvent)
+                if (isPermanent)
                 {
                     timeObject.SendTimeEvent(new[] { state ? 1 : 0 });
                 }
             }
+        }
+
+        private void SetStateImmidiate(bool value)
+        {
+            state = value;
+            reachedEnd = false;
+            timeElapsed = moveTime;
+            timeGlitchEffect.Play();
         }
 
 
@@ -78,7 +89,7 @@ namespace Gameplay.World
 
         public void ReciveTimeEvent(int[] args)
         {
-            SetState(args[0] == 1, false);
+            SetStateImmidiate(args[0] == 1);
         }
     }
 }

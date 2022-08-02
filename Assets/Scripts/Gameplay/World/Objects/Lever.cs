@@ -9,7 +9,7 @@ namespace Gameplay.World
         
         public override void Activate()
         {
-            CmdSetState(!state);
+            CmdSetState(!state, true);
         }
     }
 }

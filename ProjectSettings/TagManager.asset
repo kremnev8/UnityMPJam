@@ -62,3 +62,6 @@ TagManager:
   - name: On Top Objects
     uniqueID: 553502251
     locked: 0
+  - name: Effects
+    uniqueID: 4113380951
+    locked: 0
