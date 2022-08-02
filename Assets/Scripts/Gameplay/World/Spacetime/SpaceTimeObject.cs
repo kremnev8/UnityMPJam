@@ -71,11 +71,11 @@ namespace Gameplay.World.Spacetime
             }
         }
 
-        public void SendLogicState(string targetId, bool value)
+        public void SendLogicState(string targetId, bool value, bool isPermanent)
         {
             if (Application.isPlaying && SpacetimeController.eventListenerUp)
             {
-                model.spacetime.ChangeLogicState(timeline, targetId, value);
+                model.spacetime.ChangeLogicState(timeline, targetId, value, isPermanent);
             }
         }
 

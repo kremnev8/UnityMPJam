@@ -20,8 +20,8 @@ namespace Gameplay.World
                 }
                 else
                 {
-                    SetState(newState);
-                    RpcSetState(newState);
+                    SetState(newState, false);
+                    RpcSetState(newState, false);
                 }
             }
         }
@@ -31,8 +31,8 @@ namespace Gameplay.World
         {
             if (inside.Count == 0)
             {
-                SetState(false);
-                RpcSetState(false);
+                SetState(false, false);
+                RpcSetState(false, false);
             }
         }
         
@@ -64,6 +64,10 @@ namespace Gameplay.World
 
                 UpdateState(inside.Count > 0);
             }
+        }
+
+        public override void ReciveTimeEvent(int[] args)
+        {
         }
     }
 }

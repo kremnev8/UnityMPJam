@@ -143,11 +143,11 @@ namespace Gameplay.World.Spacetime
             }
         }
 
-        public void ChangeLogicState(Timeline timeline, string targetId, bool value)
+        public void ChangeLogicState(Timeline timeline, string targetId, bool value, bool isPermanent)
         {
             World world = GetWorld(timeline);
             SpaceTimeObject timeObject = world.GetObject(targetId);
-            timeObject.target.ReciveStateChange(value);
+            timeObject.target.ReciveStateChange(value, isPermanent);
         }
         
         
