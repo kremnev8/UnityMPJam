@@ -1,8 +1,11 @@
 ﻿using System;
 using Gameplay.World.Spacetime;
+using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine;
+#endif
 
 namespace Gameplay.Util
 {
@@ -38,6 +41,8 @@ namespace Gameplay.Util
             {
                 Destroy(this);
             }
+#if UNITY_EDITOR
+            
             else if (Application.isEditor)
             {
                 bool isPrefabInstance = PrefabStageUtility.GetCurrentPrefabStage() != null;
@@ -49,6 +54,7 @@ namespace Gameplay.Util
                     transform.parent = spacetime.pastWorld.objectTransform;
                 }
             }
+ #endif
         }
     }
 }

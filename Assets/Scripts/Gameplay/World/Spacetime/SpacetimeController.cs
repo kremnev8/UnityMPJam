@@ -25,7 +25,7 @@ namespace Gameplay.World.Spacetime
         public static bool eventListenerUp = false;
         
         
-        
+#if UNITY_EDITOR
         [InspectorButton]
         public void Generate()
         {
@@ -100,6 +100,7 @@ namespace Gameplay.World.Spacetime
                 eventListenerUp = true;
             }
         }
+#endif
 
         public void Configure()
         {

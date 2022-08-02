@@ -24,20 +24,25 @@ namespace TileMaps
         private static TileBase[] tiles = new TileBase[100];
         private static Dictionary<Vector3Int, TileBase> tileDict = new Dictionary<Vector3Int, TileBase>(100);
 
+        
+#if UNITY_EDITOR        
         private void Awake()
         {
             GetTilemaps();
         }
-
+        
         private void OnDestroy()
         {
             Tilemap.tilemapTileChanged -= OnTileMapChanged;
         }
+#endif
 
+#if UNITY_EDITOR       
         private void Update()
         {
             if (!Application.isPlaying)
             {
+
                 if (lastLiveUpdate != liveUpdate)
                 {
                     lastLiveUpdate = liveUpdate;
@@ -55,7 +60,6 @@ namespace TileMaps
             }
         }
         
-
         private void GetTilemaps()
         {
             Tilemap[] tmp_maps = GetComponentsInChildren<Tilemap>();
@@ -128,6 +132,7 @@ namespace TileMaps
                 PaintAt(pos, tile);
             }
         }
+#endif
 
         private TileBase GetTileAt(Vector3Int pos)
         {
@@ -191,6 +196,7 @@ namespace TileMaps
             }
         }
 
+#if UNITY_EDITOR
         public void OnTileMapChanged(Tilemap tilemap, Tilemap.SyncTile[] syncTiles)
         {
             if (tilemap == master)
@@ -235,6 +241,7 @@ namespace TileMaps
                 }
             }
         }
+#endif
 
         private void PaintMultiply(Vector3Int pos, Tilemap tilemap, TileBase tile, TileSideType sideType)
         {
