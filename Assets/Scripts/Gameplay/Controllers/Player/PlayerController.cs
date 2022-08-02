@@ -272,7 +272,7 @@ namespace Gameplay.Conrollers
 
         #region Ability
 
-        [Command]
+        [Command(requiresAuthority = false)]
         public void CmdActivateAbility(Ability ability)
         {
             if (CanCast(ability, out string feedback))
