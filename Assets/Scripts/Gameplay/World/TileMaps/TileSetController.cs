@@ -259,7 +259,7 @@ namespace TileMaps
             }
             catch (InvalidOperationException)
             {
-                Debug.Log($"Failed to paint tile at pos: {pos}, brush: {brush.name}");
+                Debug.Log($"Failed to paint tile at pos: {pos}, brush: {(brush != null ? brush.name : "null")}");
             }
         }
 
@@ -321,14 +321,21 @@ namespace TileMaps
                             CheckShadowAt(syncTile.position, syncTile.tile);
                         }
 
-                        PaintAt(up, top);
-                        PaintAt(down, bottom);
+                        if (top != null)
+                        {
+                            PaintAt(up, top);
+                            CheckShadowAt(up, top);
+                        }
 
-                        CheckShadowAt(up, top);
-                        CheckShadowAt(down, bottom);
+                        if (bottom != null)
+                        {
+                            PaintAt(down, bottom);
+                            CheckShadowAt(down, bottom);
+                        }
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        Debug.Log($"Error syncing!\n{e}");
                         // ignored
                     }
                 }
