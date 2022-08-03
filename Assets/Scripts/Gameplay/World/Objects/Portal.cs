@@ -10,8 +10,23 @@ using Util;
 
 namespace Gameplay.World
 {
+    public enum Polarity
+    {
+        ALL,
+        TO_PAST,
+        TO_FUTURE
+    }
+    
     public class Portal : NetworkBehaviour, ISpawnable
     {
+        public Polarity polarity;
+
+        public SpriteRenderer renderer;
+        
+        public Color all;
+        public Color topast;
+        public Color tofuture;
+        
         private Vector2Int position;
         
         private PlayerController owner;
@@ -37,6 +52,16 @@ namespace Gameplay.World
             World world = model.spacetime.GetWorld(timeline);
             transform.position = world.GetWorldSpacePos(position);
             this.position = position;
+            renderer.color = all;
+            if (polarity == Polarity.TO_PAST)
+            {
+                renderer.color = topast;
+            }
+            
+            if (polarity == Polarity.TO_FUTURE)
+            {
+                renderer.color = tofuture;
+            }
             
             m_timeline = timeline;
             owner = player;
@@ -60,6 +85,17 @@ namespace Gameplay.World
             World world = model.spacetime.GetWorld(timeline);
             transform.position = world.GetWorldSpacePos(position);
             this.position = position;
+            
+            renderer.color = all;
+            if (polarity == Polarity.TO_PAST)
+            {
+                renderer.color = topast;
+            }
+            
+            if (polarity == Polarity.TO_FUTURE)
+            {
+                renderer.color = tofuture;
+            }
             
             m_timeline = timeline;
         }
@@ -100,6 +136,12 @@ namespace Gameplay.World
                 ICanTeleport canTeleport = other.GetComponent<ICanTeleport>();
                 if (canTeleport != null)
                 {
+                    if (polarity == Polarity.TO_PAST && 
+                        otherPortal.timeline != Timeline.PAST) return;
+                    
+                    if (polarity == Polarity.TO_FUTURE && 
+                        otherPortal.timeline != Timeline.FUTURE) return;
+
                     otherPortal.ignoreEvent = true;
                     bool result = canTeleport.Teleport(otherPortal.timeline, otherPortal.position);
                     if (result)
