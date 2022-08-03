@@ -199,6 +199,14 @@ namespace TileMaps
         {
             if (type == TileSideType.TOP && hasBottom) return TileSideType.ALL;
             if (type == TileSideType.BOTTOM && hasTop) return TileSideType.ALL;
+            if (type == TileSideType.TOP_LOOK_UP && hasTop) return TileSideType.ALL;
+            if (type == TileSideType.BOTTOM_LOOK_DOWN && hasBottom) return TileSideType.ALL;
+
+            if (type == TileSideType.TOP_IF_NOT_THIS && !hasTop) return TileSideType.TOP;
+            if (type == TileSideType.TOP_IF_NOT_THIS) return TileSideType.NONE;
+            
+            if (type == TileSideType.BOTTOM_IF_NOT_THIS && !hasBottom) return TileSideType.BOTTOM;
+            if (type == TileSideType.BOTTOM_IF_NOT_THIS) return TileSideType.NONE;
 
             return type;
         }
@@ -357,12 +365,14 @@ namespace TileMaps
 
         private void PaintMultiply(Vector3Int pos, Tilemap tilemap, TileBase tile, TileSideType sideType)
         {
+            if (sideType == TileSideType.NONE) return;
+            
             for (int i = 0; i < 2; i++)
             {
                 for (int j = 0; j < 2; j++)
                 {
-                    if (sideType == TileSideType.TOP && j == 0) continue;
-                    if (sideType == TileSideType.BOTTOM && j != 0) continue;
+                    if (sideType is TileSideType.TOP or TileSideType.TOP_LOOK_UP && j == 0) continue;
+                    if (sideType is TileSideType.BOTTOM or TileSideType.BOTTOM_LOOK_DOWN && j != 0) continue;
 
                     Vector3Int mulPos = pos + new Vector3Int(i, j);
                     tilemap.SetTile(mulPos, tile);

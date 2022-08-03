@@ -147,9 +147,10 @@ namespace Gameplay.World.Spacetime
 
         public void CallTimeEvent(Timeline timeline, string sourceId, int[] data)
         {
-            if (timeline == Timeline.PAST)
+            SpaceTimeObject timeObject = futureWorld.GetObject(sourceId);
+            
+            if (timeline == Timeline.PAST || timeObject.underParadox)
             {
-                SpaceTimeObject timeObject = futureWorld.GetObject(sourceId);
                 timeObject.target.ReciveTimeEvent(data);
             }
         }

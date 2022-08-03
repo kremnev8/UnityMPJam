@@ -11,9 +11,14 @@ namespace Gameplay.ScriptableObjects
     {
         ALL,
         TOP,
-        BOTTOM
+        BOTTOM,
+        TOP_LOOK_UP,
+        BOTTOM_LOOK_DOWN,
+        TOP_IF_NOT_THIS,
+        BOTTOM_IF_NOT_THIS,
+        NONE
     }
-    
+
     [Serializable]
     public class TileMapping
     {

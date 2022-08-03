@@ -7,6 +7,7 @@
         ICE_CUBE = 2,
         PORTAL = 3,
         PAST_PORTAL = 4,
-        FUTURE_PORTAL = 5
+        FUTURE_PORTAL = 5,
+        PARADOX = 6
     }
 }

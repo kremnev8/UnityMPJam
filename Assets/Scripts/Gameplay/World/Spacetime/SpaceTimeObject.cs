@@ -24,7 +24,9 @@ namespace Gameplay.World.Spacetime
         
         [SerializeField]
         protected string m_uniqueId;
-        
+
+        public bool underParadox;
+
         private GameModel model;
         
         public string UniqueId 

@@ -49,8 +49,8 @@ MonoBehaviour:
       sideType: 2
     - tile: {fileID: 11400000, guid: d3c512b8765533c419d2bb9e12436c81, type: 2}
       targets: 01000000
-      sideType: 1
+      sideType: 5
     - tile: {fileID: 11400000, guid: 43f31be03fe723a42b41976d7d5471b3, type: 2}
       targets: 02000000
-      sideType: 1
+      sideType: 5
   wallBrush: {fileID: 11400000, guid: 867f1063e3260a142801192fe01560b1, type: 2}

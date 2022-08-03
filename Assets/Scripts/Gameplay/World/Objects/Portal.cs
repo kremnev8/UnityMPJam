@@ -17,42 +17,24 @@ namespace Gameplay.World
         TO_FUTURE
     }
     
-    public class Portal : NetworkBehaviour, ISpawnable
+    public class Portal : Spawnable
     {
         public Polarity polarity;
 
-        public SpriteRenderer renderer;
+        public new SpriteRenderer renderer;
         
         public Color all;
         public Color topast;
         public Color tofuture;
         
-        private Vector2Int position;
-        
-        private PlayerController owner;
         private Portal otherPortal;
 
-        public float destoryTime;
-        private float destroyTimer;
-
         private bool ignoreEvent;
-        
-        [SyncVar]
-        private Timeline m_timeline;
-        
-        public Timeline timeline
-        {
-            get => m_timeline;
-            set => m_timeline = value;
-        }
 
-        public void Spawn(PlayerController player, Timeline timeline,  Vector2Int position, Direction direction)
+        public override void Spawn(PlayerController player, Timeline timeline,  Vector2Int position, Direction direction)
         {
-            GameModel model = Simulation.GetModel<GameModel>();
-            World world = model.spacetime.GetWorld(timeline);
-            transform.position = world.GetWorldSpacePos(position);
-            this.position = position;
-            renderer.color = all;
+            base.Spawn(player, timeline, position, direction);
+            
             if (polarity == Polarity.TO_PAST)
             {
                 renderer.color = topast;
@@ -62,10 +44,6 @@ namespace Gameplay.World
             {
                 renderer.color = tofuture;
             }
-            
-            m_timeline = timeline;
-            owner = player;
-            RpcSpawn(timeline, position, direction);
 
             if (owner.timeline == timeline)
             {
@@ -79,13 +57,10 @@ namespace Gameplay.World
         }
 
         [ClientRpc]
-        public void RpcSpawn(Timeline timeline, Vector2Int position, Direction direction)
+        public override void RpcSpawn(Timeline timeline, Vector2Int position, Direction direction)
         {
-            GameModel model = Simulation.GetModel<GameModel>();
-            World world = model.spacetime.GetWorld(timeline);
-            transform.position = world.GetWorldSpacePos(position);
-            this.position = position;
-            
+            base.RpcSpawn(timeline, position, direction);
+
             renderer.color = all;
             if (polarity == Polarity.TO_PAST)
             {
@@ -96,11 +71,9 @@ namespace Gameplay.World
             {
                 renderer.color = tofuture;
             }
-            
-            m_timeline = timeline;
         }
 
-        public void Destroy()
+        public override void Destroy()
         {
             if (destroyTimer <= 0)
             {
@@ -112,21 +85,6 @@ namespace Gameplay.World
                 }
             }
         }
-        
-        void FixedUpdate()
-        {
-            if (destroyTimer > 0)
-            {
-                destroyTimer -= Time.fixedDeltaTime;
-                if (destroyTimer < 0)
-                {
-                    Destroy(gameObject);
-                } 
-                
-                return;
-            }
-        }
-        
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (destroyTimer > 0) return;

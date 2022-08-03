@@ -16,7 +16,8 @@ namespace Gameplay.World
         public Vector3 closedPos;
         public float minPassDistance;
 
-
+        public bool startState;
+        
         private bool state;
         private float timeElapsed;
 
@@ -24,6 +25,7 @@ namespace Gameplay.World
 
         private void Start()
         {
+            state = startState;
             reachedEnd = false;
             timeElapsed = moveTime;
         }

@@ -19,17 +19,17 @@ namespace Gameplay.World
     }
 
     [RequireComponent(typeof(Rigidbody2D))]
-    public class ProjectileBehavior : NetworkBehaviour, ISpawnable, ICanTeleport, IMoveAble, IHeavyObject
+    public class ProjectileBehavior : Spawnable, ICanTeleport, IMoveAble, IHeavyObject
     {
         public ParticleSystem trailSystem;
         public new SpriteRenderer renderer;
-        private Collider2D collider;
+        private new Collider2D collider;
         
         private Rigidbody2D body;
 
         public ProjectileID projectileID;
 
-        public Vector2Int position
+        public override Vector2Int position
         {
             get
             {
@@ -50,39 +50,23 @@ namespace Gameplay.World
         private ProjectileState state;
 
         private Projectile projectile;
-        private PlayerController owner;
-        private GameModel model;
-
-        public float destoryTime;
-        private float destroyTimer;
 
         private static RaycastHit2D[] hits = new RaycastHit2D[6];
 
-        [SyncVar] private Timeline m_timeline;
-
-        public Timeline timeline
-        {
-            get => m_timeline;
-            set => m_timeline = value;
-        }
-        
         public int Mass => projectile.projectileMass;
 
         [Server]
-        public void Spawn(PlayerController player, Timeline timeline, Vector2Int position, Direction direction)
+        public override void Spawn(PlayerController player, Timeline timeline, Vector2Int position, Direction direction)
         {
-            model = Simulation.GetModel<GameModel>();
             body = GetComponent<Rigidbody2D>();
+            collider = GetComponent<Collider2D>();
+            
+            base.Spawn(player, timeline, position, direction);
+            
             ProjectileDB projectileDB = model.projectiles;
             projectile = projectileDB.Get(projectileID);
-            collider = GetComponent<Collider2D>();
-
-            m_timeline = timeline;
-            this.position = position;
-            owner = player;
             trailSystem.Play();
 
-            RpcSpawn(position, timeline, direction);
             if (projectile.startMoveSpeed > 0)
             {
                 StartMove(direction, projectile.startMoveSpeed);
@@ -90,24 +74,18 @@ namespace Gameplay.World
         }
 
         [ClientRpc]
-        public void RpcSpawn(Vector2Int position, Timeline timeline, Direction direction)
+        public override void RpcSpawn(Timeline timeline, Vector2Int position, Direction direction)
         {
-            model = Simulation.GetModel<GameModel>();
             body = GetComponent<Rigidbody2D>();
+            collider = GetComponent<Collider2D>();
+            
+            base.RpcSpawn(timeline, position, direction);
+            
             ProjectileDB projectileDB = model.projectiles;
             projectile = projectileDB.Get(projectileID);
-            collider = GetComponent<Collider2D>();
-
-            m_timeline = timeline;
-            this.position = position;
+            
             moveDir = direction;
             trailSystem.Play();
-        }
-
-        [Server]
-        public void Destroy()
-        {
-            destroyTimer = destoryTime;
         }
 
         public void EnterState(ProjectileState state)
@@ -153,21 +131,15 @@ namespace Gameplay.World
         }
 
 
-        void FixedUpdate()
+        protected override void FixedUpdate()
         {
-            if (destroyTimer > 0)
+            base.FixedUpdate();
+
+            if (destroyTimer <= 0)
             {
-                destroyTimer -= Time.fixedDeltaTime;
-                if (destroyTimer < 0)
-                {
-                    Destroy(gameObject);
-                }
-
-                return;
+                UpdatePosition();
+                UpdateInState(state);
             }
-
-            UpdatePosition();
-            UpdateInState(state);
         }
 
         private void UpdatePosition()
@@ -210,7 +182,7 @@ namespace Gameplay.World
             if (projectile.spawnOnHit != null)
             {
                 
-                owner.SpawnWithReplace(projectileID, m_timeline, transform.position.ToGridPos(timeline), moveDir.GetOpposite(), gameObject, projectile.spawnOnHit);
+                owner.SpawnWithReplace(projectileID, timeline, transform.position.ToGridPos(timeline), moveDir.GetOpposite(), gameObject, projectile.spawnOnHit);
             }
             else if (projectile.destroySelfOnHit)
             {
@@ -246,7 +218,7 @@ namespace Gameplay.World
         {
             if (destroyTimer > 0) return false;
             
-            m_timeline = timeline;
+            this.timeline = timeline;
             this.position = position;
             moveDir = moveDir.GetOpposite();
             if (isServer)

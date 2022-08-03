@@ -9,6 +9,13 @@ using UnityEngine.Events;
 
 namespace Gameplay.World
 {
+    [Serializable]
+    public class LogicConnection
+    {
+        public SpaceTimeObject target;
+        public bool value;
+    }
+    
     public class Interactible : NetworkBehaviour, IInteractable, ITimeLinked
     {
         public Vector2Int forward;
@@ -27,9 +34,12 @@ namespace Gameplay.World
         
         protected bool state;
         public bool initialState;
-
+        public bool fromTimeEvent;
+        
+        
         public List<SpaceTimeObject> connections;
         
+        [HideInInspector]
         [SerializeField] 
         private SpaceTimeObject m_timeObject;
 
@@ -75,7 +85,11 @@ namespace Gameplay.World
                 {
                     timeObject.SendLogicState(spaceTimeObject.UniqueId, newState, isPermanent);
                 }
-                timeObject.SendTimeEvent(new []{ newState ? 1 : 0});
+
+                if (!fromTimeEvent)
+                {
+                    timeObject.SendTimeEvent(new[] { newState ? 1 : 0 });
+                }
             }
             catch (Exception e)
             {
@@ -117,7 +131,9 @@ namespace Gameplay.World
 
         public virtual void ReciveTimeEvent(int[] args)
         {
+            fromTimeEvent = true;
             SetState(args[0] == 1);
+            fromTimeEvent = false;
             
             if (timeGlitchEffect != null)
                 timeGlitchEffect.Play();

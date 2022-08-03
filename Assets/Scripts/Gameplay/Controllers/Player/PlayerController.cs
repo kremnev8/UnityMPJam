@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Gameplay.Controllers;
 using Gameplay.Controllers.Player;
+using Gameplay.Controllers.Player.Ability;
 using Gameplay.Core;
 using Gameplay.ScriptableObjects;
 using Gameplay.Util;
@@ -40,11 +41,16 @@ namespace Gameplay.Conrollers
         public Sprite pastSprite;
         public Sprite futureSprite;
 
+        public Transform directionGizmo;
+
         private InputAction movement;
         private InputAction firstAbility;
         private InputAction secondAbility;
+        private InputAction mousePosition;
+        
         private Rigidbody2D body;
-        private new Collider2D collider;
+        [HideInInspector]
+        public new Collider2D collider;
 
         private Vector2Int prevPosition;
         private Vector2Int lastMoveDir;
@@ -52,7 +58,7 @@ namespace Gameplay.Conrollers
         private PlayerState state;
         private float stateTimeLeft;
 
-        private Dictionary<Ability, float> abilityCooldowns = new Dictionary<Ability, float>();
+        private Dictionary<BaseAbility, float> abilityCooldowns = new Dictionary<BaseAbility, float>();
         private Dictionary<ProjectileID, List<GameObject>> playerObjects = new Dictionary<ProjectileID, List<GameObject>>();
 
         private GameModel model;
@@ -79,6 +85,7 @@ namespace Gameplay.Conrollers
             movement = model.input.actions["move"];
             firstAbility = model.input.actions["first"];
             secondAbility = model.input.actions["second"];
+            mousePosition = model.input.actions["mouse"];
 
             body = GetComponent<Rigidbody2D>();
             renderer = GetComponent<SpriteRenderer>();
@@ -101,8 +108,10 @@ namespace Gameplay.Conrollers
             AbilityStack abilityStack = model.abilities.GetAbilities(role);
             if (abilityStack.abilities.Count > 0)
             {
-                Ability ability = abilityStack.abilities[0];
-                CmdActivateAbility(ability);
+                Vector2Int dir = GetLookDir().ToVector2Int();
+
+                BaseAbility ability = abilityStack.abilities[0];
+                CmdActivateAbility(ability.ItemId, dir.GetDirection());
             }
         }
 
@@ -114,8 +123,10 @@ namespace Gameplay.Conrollers
             AbilityStack abilityStack = model.abilities.GetAbilities(role);
             if (abilityStack.abilities.Count > 1)
             {
-                Ability ability = abilityStack.abilities[1];
-                CmdActivateAbility(ability);
+                Vector2Int dir = GetLookDir().ToVector2Int();
+                
+                BaseAbility ability = abilityStack.abilities[1];
+                CmdActivateAbility(ability.ItemId, dir.GetDirection());
             }
         }
 
@@ -177,16 +188,31 @@ namespace Gameplay.Conrollers
                 stateTimeLeft -= Time.fixedDeltaTime;
             }
 
-            foreach (Ability ability in abilityCooldowns.Keys.ToArray())
+            foreach (BaseAbility ability in abilityCooldowns.Keys.ToArray())
             {
                 if (abilityCooldowns[ability] > 0)
                 {
                     abilityCooldowns[ability] -= Time.fixedDeltaTime;
                 }
             }
+            
+            Vector3 dir = GetLookDir();
 
+            Quaternion target = Quaternion.LookRotation(Vector3.forward, dir);
+            directionGizmo.rotation = Quaternion.RotateTowards(directionGizmo.rotation, target, 360*Time.fixedDeltaTime);
+           
             UpdatePosition();
             UpdateInState(state);
+        }
+
+        private Vector3 GetLookDir()
+        {
+            Vector3 mouse = mousePosition.ReadValue<Vector2>();
+            mouse.z = 10;
+            Vector3 worldMousePos = camera.ScreenToWorldPoint(mouse);
+            worldMousePos.z = 0;
+            Vector3 dir = (worldMousePos - transform.position).normalized.AxisRound();
+            return dir;
         }
 
         private void UpdatePosition()
@@ -277,20 +303,13 @@ namespace Gameplay.Conrollers
         #region Ability
 
         [Command]
-        public void CmdActivateAbility(Ability ability)
+        public void CmdActivateAbility(string abilityId, Direction direction)
         {
-            if (CanCast(ability, out string feedback))
+            if (CanCast(abilityId, out string feedback))
             {
-                bool success = false;
-                if (ability.abilityType == AbilityType.SHOOT)
-                {
-                    success = ShootProjectile(ability.projectileID);
-                }
-                else
-                {
-                    Debug.Log("Noting to see here!");
-                }
-
+                BaseAbility ability = model.abilities.Get(abilityId);
+                bool success = ability.ActivateAbility(this, direction);
+                
                 if (success)
                 {
                     StartCooldown(ability);
@@ -302,7 +321,7 @@ namespace Gameplay.Conrollers
             }
         }
 
-        public void StartCooldown(Ability ability)
+        public void StartCooldown(BaseAbility ability)
         {
             if (abilityCooldowns.ContainsKey(ability))
             {
@@ -314,11 +333,12 @@ namespace Gameplay.Conrollers
             }
         }
 
-        public bool CanCast(Ability ability, out string feedback)
+        public bool CanCast(string abilityId, out string feedback)
         {
             AbilityStack abilityStack = model.abilities.GetAbilities(role);
-            if (abilityStack.abilities.Contains(ability))
+            if (abilityStack.abilities.Any(ability => ability.ItemId == abilityId))
             {
+                BaseAbility ability = model.abilities.Get(abilityId);
                 if (abilityCooldowns.ContainsKey(ability))
                 {
                     feedback = "Ability is on cooldown!";
@@ -334,7 +354,7 @@ namespace Gameplay.Conrollers
         }
 
         [Server]
-        private List<GameObject> GetActiveProjectiles(ProjectileID projectileID)
+        public List<GameObject> GetActiveProjectiles(ProjectileID projectileID)
         {
             if (playerObjects.ContainsKey(projectileID))
             {
@@ -383,67 +403,6 @@ namespace Gameplay.Conrollers
                 playerObjects[projectileID].Remove(o);
             }
         }
-
-        [Server]
-        private bool ShootProjectile(ProjectileID projectileID)
-        {
-            try
-            {
-                Projectile projectile = model.projectiles.Get(projectileID);
-                List<GameObject> active = GetActiveProjectiles(projectileID);
-                World.World world = model.spacetime.GetWorld(timeline);
-                
-                Vector2Int pos = position + lastMoveDir;
-                Vector2 worldPos = world.GetWorldSpacePos(position);
-
-                int hitCount = Physics2D.CircleCastNonAlloc(worldPos, 0.9f, lastMoveDir, hits, 2f, projectile.wallMask);
-
-                bool foundAWall = false;
-                if (hitCount > 0)
-                {
-                    for (int i = 0; i < hitCount; i++)
-                    {
-                        RaycastHit2D hit = hits[i];
-                        if (hit.collider != null && hit.collider != collider && !hit.collider.isTrigger)
-                        {
-                            foundAWall = true;
-                            break;
-                        }
-                    }
-                }
-                
-                Debug.DrawLine(worldPos, worldPos + (Vector2)lastMoveDir * 2f, foundAWall ? Color.red : Color.green, 5);
-
-
-                if (foundAWall)
-                {
-                    RpcFeedback("Can't use this ability facing a wall");
-                    return false;
-                }
-
-                if (active.Count < projectile.maxActive)
-                {
-                    SpawnWithLink(projectile.itemId, timeline, pos, lastMoveDir.GetDirection(), projectile.prefab);
-                    return true;
-                }
-
-                if (projectile.canReplace)
-                {
-                    GameObject oldObj = active.Last();
-                    SpawnWithReplace(projectile.itemId, timeline, pos, lastMoveDir.GetDirection(), oldObj, projectile.prefab);
-                    return true;
-                }
-
-                RpcFeedback("Can't spawn new projectile! You have too many!");
-                return false;
-            }
-            catch (IndexOutOfRangeException e)
-            {
-                RpcFeedback($"Internal Server Error: No projectile with ID {projectileID}");
-            }
-            return false;
-        }
-
 
         [Server]
         public GameObject Spawn(Timeline s_timeline, Vector2Int pos, Direction direction, GameObject prefab)

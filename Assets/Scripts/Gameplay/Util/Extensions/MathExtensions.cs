@@ -210,6 +210,14 @@ namespace Util
         /// <summary>
         /// Apply function to all components of vector
         /// </summary>
+        public static Vector3 Apply(this Vector3 vec, Func<float, float> func)
+        {
+            return new Vector3(func(vec.x), func(vec.y), func(vec.z));
+        }
+        
+        /// <summary>
+        /// Apply function to all components of vector
+        /// </summary>
         public static Vector2Int Apply(this Vector2 vec, Func<float, int> func)
         {
             return new Vector2Int(func(vec.x), func(vec.y));
@@ -409,6 +417,26 @@ namespace Util
         {
             World world = Simulation.GetModel<GameModel>().spacetime.GetWorld(timeline);
             return world.GetGridPos(worldPos);
+        }
+        
+        /// <summary>
+        /// Rounds a Vector3 to world axis or relative to another transform
+        /// </summary>
+        /// <param name="vector">Vector to round</param>
+        /// <param name="relativeTo">Optional relative transform space axis</param>
+        /// <returns></returns>
+        public static Vector3 AxisRound(this Vector3 vector)
+        {
+            int largestIndex = 0;
+            for (int i = 1; i < 3; i++)
+            {
+                largestIndex = Mathf.Abs(vector[i]) > Mathf.Abs(vector[largestIndex]) ? i : largestIndex;
+            }
+            float newLargest = vector[largestIndex] > 0 ? 1 : -1;
+            vector = Vector3.zero;
+            vector[largestIndex] = newLargest;
+
+            return vector;
         }
     }
 }
