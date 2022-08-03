@@ -28,6 +28,7 @@ namespace Gameplay.World
         public float destoryTime;
         protected float destroyTimer;
         protected GameModel model;
+        public bool pendingDestroy;
 
         public virtual void Spawn(PlayerController player, Timeline timeline, Vector2Int position, Direction direction)
         {
@@ -53,6 +54,7 @@ namespace Gameplay.World
         public virtual void Destroy()
         {
             destroyTimer = destoryTime;
+            pendingDestroy = true;
         }
         
         protected virtual void FixedUpdate()

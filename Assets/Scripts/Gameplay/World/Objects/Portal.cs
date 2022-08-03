@@ -78,6 +78,7 @@ namespace Gameplay.World
             if (destroyTimer <= 0)
             {
                 destroyTimer = destoryTime;
+                pendingDestroy = true;
                 owner.RemoveObject(ProjectileID.PORTAL, gameObject);
                 if (otherPortal != null)
                 {
@@ -87,7 +88,7 @@ namespace Gameplay.World
         }
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (destroyTimer > 0) return;
+            if (pendingDestroy) return;
             if (ignoreEvent) return;
             if (isServer && otherPortal != null)
             {

@@ -111,7 +111,10 @@ namespace Gameplay.Conrollers
                 Vector2Int dir = GetLookDir().ToVector2Int();
 
                 BaseAbility ability = abilityStack.abilities[0];
-                CmdActivateAbility(ability.ItemId, dir.GetDirection());
+                if (ability != null)
+                {
+                    CmdActivateAbility(ability.ItemId, dir.GetDirection());
+                }
             }
         }
 
@@ -126,7 +129,10 @@ namespace Gameplay.Conrollers
                 Vector2Int dir = GetLookDir().ToVector2Int();
                 
                 BaseAbility ability = abilityStack.abilities[1];
-                CmdActivateAbility(ability.ItemId, dir.GetDirection());
+                if (ability != null)
+                {
+                    CmdActivateAbility(ability.ItemId, dir.GetDirection());
+                }
             }
         }
 
@@ -336,7 +342,7 @@ namespace Gameplay.Conrollers
         public bool CanCast(string abilityId, out string feedback)
         {
             AbilityStack abilityStack = model.abilities.GetAbilities(role);
-            if (abilityStack.abilities.Any(ability => ability.ItemId == abilityId))
+            if (abilityStack.abilities.Any(ability => ability != null && ability.ItemId == abilityId))
             {
                 BaseAbility ability = model.abilities.Get(abilityId);
                 if (abilityCooldowns.ContainsKey(ability))

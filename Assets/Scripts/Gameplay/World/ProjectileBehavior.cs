@@ -135,7 +135,7 @@ namespace Gameplay.World
         {
             base.FixedUpdate();
 
-            if (destroyTimer <= 0)
+            if (!pendingDestroy)
             {
                 UpdatePosition();
                 UpdateInState(state);
@@ -181,7 +181,6 @@ namespace Gameplay.World
         {
             if (projectile.spawnOnHit != null)
             {
-                
                 owner.SpawnWithReplace(projectileID, timeline, transform.position.ToGridPos(timeline), moveDir.GetOpposite(), gameObject, projectile.spawnOnHit);
             }
             else if (projectile.destroySelfOnHit)
