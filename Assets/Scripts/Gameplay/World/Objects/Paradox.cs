@@ -21,7 +21,7 @@ namespace Gameplay.World
             World world = model.spacetime.GetWorld(timeline);
             try
             {
-                SpaceTimeObject timeObject = world.objects.Values.First(pair => pair.transform.localPosition.ToVector2Int() == position);
+                SpaceTimeObject timeObject = world.objects.Values.First(pair => pair.transform.localPosition.ToGridPos() == position);
                 timeObject.underParadox = true;
                 targets.Add(timeObject);
 
@@ -36,7 +36,6 @@ namespace Gameplay.World
             catch (InvalidOperationException)
             {
                 Debug.Log($"Failed to paradox at {position}!");
-                Destroy();
             }
         }
 
