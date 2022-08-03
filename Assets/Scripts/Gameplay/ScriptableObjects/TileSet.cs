@@ -35,6 +35,8 @@ namespace Gameplay.ScriptableObjects
         public string tilesetName;
         public List<TileGroup> tileGroups;
 
+        public TileBase wallBrush;
+
         public TileGroup GetGroup(TileBase tileBase)
         {
             return tileGroups.First(group => group.brushTile == tileBase);

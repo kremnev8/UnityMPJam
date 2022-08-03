@@ -5,6 +5,9 @@ namespace TileMaps
     public enum TileMapType
     {
         PIT = 1,
+        PIT_OVERLAY_1,
+        PIT_OVERLAY_2,
+        PIT_OVERLAY_3,
         FLOOR = 10,
         FLOOR_OVERLAY_1,
         FLOOR_OVERLAY_2,

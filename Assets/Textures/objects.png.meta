@@ -79,7 +79,7 @@ TextureImporter:
   - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
-    resizeAlgorithm: 0
+    resizeAlgorithm: 1
     textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
@@ -827,8 +827,8 @@ TextureImporter:
       objects_5: 127057812
       objects_0: -116983382
       objects_12: 1647741779
-      objects_6: -245097137
       objects_4: -1954821200
+      objects_6: -245097137
       objects_11: -676584112
   spritePackingTag: 
   pSDRemoveMatte: 0

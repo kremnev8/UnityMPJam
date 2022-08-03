@@ -15,7 +15,7 @@ TagManager:
   - Player
   - Objects
   - Gates
-  - 
+  - Pit
   - 
   - 
   - 
@@ -38,6 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Below Water
+    uniqueID: 796989441
+    locked: 0
+  - name: Water
+    uniqueID: 2745475465
+    locked: 0
   - name: Floor
     uniqueID: 984626509
     locked: 0

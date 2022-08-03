@@ -23,7 +23,7 @@ namespace Gameplay.World
     {
         public ParticleSystem trailSystem;
         public new SpriteRenderer renderer;
-        public Collider2D collider;
+        private Collider2D collider;
         
         private Rigidbody2D body;
 

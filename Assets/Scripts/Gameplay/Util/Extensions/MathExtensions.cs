@@ -75,6 +75,11 @@ namespace Util
         {
             return new Vector2Int(Mathf.RoundToInt(vector.x),Mathf.RoundToInt(vector.y));
         }
+        
+        public static Vector3Int ToVector3Int(this Vector3 vector)
+        {
+            return new Vector3Int(Mathf.RoundToInt(vector.x),Mathf.RoundToInt(vector.y),Mathf.RoundToInt(vector.z));
+        }
 
         /// <summary>
         /// Change this Vector3 by setting it's Y axis value

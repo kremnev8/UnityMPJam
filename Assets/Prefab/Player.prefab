@@ -133,9 +133,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ComponentVersion: 1
   m_AssetsPPU: 16
-  m_RefResolutionX: 320
-  m_RefResolutionY: 280
-  m_CropFrame: 0
+  m_RefResolutionX: 720
+  m_RefResolutionY: 405
+  m_CropFrame: 4
   m_GridSnapping: 1
   m_UpscaleRT: 0
   m_PixelSnapping: 0
@@ -246,6 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  timeline: 0
   controlEnabled: 0
   camera: {fileID: 391643494}
   config: {fileID: 11400000, guid: 63368c31b3719ee4b87e5ae62f8efdf1, type: 2}

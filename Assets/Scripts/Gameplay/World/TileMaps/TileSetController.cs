@@ -8,6 +8,12 @@ using Util;
 
 namespace TileMaps
 {
+    public class ShadowInfo
+    {
+        public GameObject top;
+        public GameObject left;
+    }
+
     [ExecuteInEditMode]
     public class TileSetController : MonoBehaviour
     {
@@ -17,32 +23,37 @@ namespace TileMaps
         public Tilemap master;
         public bool liveUpdate;
 
+        public Transform shadows;
+        public GameObject topShadowPrefab;
+        public GameObject leftShadowPrefab;
+
+
         [NonSerialized] private bool lastLiveUpdate = false;
 
 
         private static Vector3Int[] positions = new Vector3Int[100];
         private static TileBase[] tiles = new TileBase[100];
         private static Dictionary<Vector3Int, TileBase> tileDict = new Dictionary<Vector3Int, TileBase>(100);
+        private static Dictionary<Vector3Int, ShadowInfo> shadowsDict = new Dictionary<Vector3Int, ShadowInfo>(100);
 
-        
-#if UNITY_EDITOR        
+
+#if UNITY_EDITOR
         private void Awake()
         {
             GetTilemaps();
         }
-        
+
         private void OnDestroy()
         {
             Tilemap.tilemapTileChanged -= OnTileMapChanged;
         }
 #endif
 
-#if UNITY_EDITOR       
+#if UNITY_EDITOR
         private void Update()
         {
             if (!Application.isPlaying)
             {
-
                 if (lastLiveUpdate != liveUpdate)
                 {
                     lastLiveUpdate = liveUpdate;
@@ -59,7 +70,7 @@ namespace TileMaps
                 }
             }
         }
-        
+
         private void GetTilemaps()
         {
             Tilemap[] tmp_maps = GetComponentsInChildren<Tilemap>();
@@ -93,6 +104,43 @@ namespace TileMaps
                     TileBase tile = tiles[i];
                     tileDict.Add(pos, tile);
                 }
+
+                shadowsDict.Clear();
+
+                foreach (Transform shadow in shadows)
+                {
+                    Vector3Int pos = shadow.localPosition.ToVector3Int();
+                    AddShadowInfo(pos, shadow);
+                }
+            }
+        }
+
+        private static void AddShadowInfo(Vector3Int pos, Transform shadow)
+        {
+            if (shadowsDict.ContainsKey(pos))
+            {
+                if (shadow.name.Contains("top"))
+                {
+                    shadowsDict[pos].top = shadow.gameObject;
+                }
+                else
+                {
+                    shadowsDict[pos].left = shadow.gameObject;
+                }
+            }
+            else
+            {
+                ShadowInfo info = new ShadowInfo();
+                if (shadow.name.Contains("top"))
+                {
+                    info.top = shadow.gameObject;
+                }
+                else
+                {
+                    info.left = shadow.gameObject;
+                }
+
+                shadowsDict.Add(pos, info);
             }
         }
 
@@ -104,8 +152,10 @@ namespace TileMaps
                 pair.Value.ClearAllTiles();
             }
 
+            shadows.ClearChildren();
+
             tileDict.Clear();
-            
+
             int count = master.GetTilesRangeCount(master.cellBounds.min, master.cellBounds.max);
 
             if (positions.Length <= count)
@@ -123,13 +173,14 @@ namespace TileMaps
                 TileBase tile = tiles[i];
                 tileDict.Add(pos, tile);
             }
-            
+
             for (int i = 0; i < count; i++)
             {
                 Vector3Int pos = positions[i];
                 TileBase tile = tiles[i];
-                
+
                 PaintAt(pos, tile);
+                CheckShadowAt(pos, tile);
             }
         }
 #endif
@@ -152,29 +203,63 @@ namespace TileMaps
             return type;
         }
 
+        private void CheckShadowAt(Vector3Int pos, TileBase brush)
+        {
+            if (tileSet.wallBrush == brush)
+            {
+                TileBase top = GetTileAt(pos + Vector3Int.up);
+                TileBase left = GetTileAt(pos + Vector3Int.left);
+                pos *= 2;
+
+                if (top != brush)
+                {
+                    AddWallShadow(pos, topShadowPrefab);
+                }
+
+                if (left != brush)
+                {
+                    AddWallShadow(pos, leftShadowPrefab);
+                }
+            }
+        }
+
+        private void AddWallShadow(Vector3Int pos, GameObject prefab)
+        {
+            GameObject shadow = Instantiate(prefab, shadows);
+            shadow.transform.localPosition = pos;
+            AddShadowInfo(pos, shadow.transform); 
+        }
+
         private void PaintAt(Vector3Int pos, TileBase brush)
         {
-            TileGroup group = tileSet.GetGroup(brush);
-            TileBase top = GetTileAt(pos + Vector3Int.up);
-            TileBase bottom = GetTileAt(pos + Vector3Int.down);
-
-            pos *= 2;
-
-            foreach (TileMapping mapping in group.tileMappings)
+            try
             {
-                foreach (TileMapType target in mapping.targets)
+                TileGroup group = tileSet.GetGroup(brush);
+                TileBase top = GetTileAt(pos + Vector3Int.up);
+                TileBase bottom = GetTileAt(pos + Vector3Int.down);
+
+                pos *= 2;
+
+                foreach (TileMapping mapping in group.tileMappings)
                 {
-                    try
+                    foreach (TileMapType target in mapping.targets)
                     {
-                        Tilemap tileMap = tilemaps[target];
-                        TileSideType sideType = DetermineSideType(mapping.sideType, top == brush, bottom == brush);
-                        PaintMultiply(pos, tileMap, mapping.tile, sideType);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.Log($"Failed to paint TileMapping:\n{e}");
+                        try
+                        {
+                            Tilemap tileMap = tilemaps[target];
+                            TileSideType sideType = DetermineSideType(mapping.sideType, top == brush, bottom == brush);
+                            PaintMultiply(pos, tileMap, mapping.tile, sideType);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Log($"Failed to paint TileMapping:\n{e}");
+                        }
                     }
                 }
+            }
+            catch (InvalidOperationException)
+            {
+                Debug.Log($"Failed to paint tile at pos: {pos}, brush: {brush.name}");
             }
         }
 
@@ -221,24 +306,44 @@ namespace TileMaps
                         Vector3Int down = syncTile.position + Vector3Int.down;
                         TileBase top = GetTileAt(up);
                         TileBase bottom = GetTileAt(down);
-                        
+
                         ClearAt(syncTile.position);
+                        ClearAt(up);
+                        ClearAt(down);
+
+                        ClearShadowAt(syncTile.position);
+                        ClearShadowAt(up);
+                        ClearShadowAt(down);
+
                         if (syncTile.tile != null)
                         {
                             PaintAt(syncTile.position, syncTile.tile);
+                            CheckShadowAt(syncTile.position, syncTile.tile);
                         }
-                        
-                        ClearAt(up);
+
                         PaintAt(up, top);
-                        
-                        ClearAt(down);
                         PaintAt(down, bottom);
+
+                        CheckShadowAt(up, top);
+                        CheckShadowAt(down, bottom);
                     }
                     catch (Exception)
                     {
                         // ignored
                     }
                 }
+            }
+        }
+
+        private static void ClearShadowAt(Vector3Int position)
+        {
+            position *= 2;
+
+            if (shadowsDict.ContainsKey(position))
+            {
+                ShadowInfo info = shadowsDict[position];
+                DestroyImmediate(info.top);
+                DestroyImmediate(info.left);
             }
         }
 #endif
@@ -251,7 +356,7 @@ namespace TileMaps
                 {
                     if (sideType == TileSideType.TOP && j == 0) continue;
                     if (sideType == TileSideType.BOTTOM && j != 0) continue;
-                    
+
                     Vector3Int mulPos = pos + new Vector3Int(i, j);
                     tilemap.SetTile(mulPos, tile);
                 }

@@ -44,6 +44,7 @@ namespace Gameplay.Conrollers
         private InputAction firstAbility;
         private InputAction secondAbility;
         private Rigidbody2D body;
+        private new Collider2D collider;
 
         private Vector2Int prevPosition;
         private Vector2Int lastMoveDir;
@@ -81,6 +82,7 @@ namespace Gameplay.Conrollers
 
             body = GetComponent<Rigidbody2D>();
             renderer = GetComponent<SpriteRenderer>();
+            collider = GetComponent<Collider2D>();
 
             EnterState(PlayerState.IDLE);
             UpdateVisual();
@@ -209,7 +211,7 @@ namespace Gameplay.Conrollers
                         for (int i = 0; i < hitCount; i++)
                         {
                             RaycastHit2D hit = hits[i];
-                            if (hit.collider != null)
+                            if (hit.collider != null && hit.collider != collider)
                             {
                                 if (hit.collider.isTrigger)
                                 {
@@ -402,10 +404,11 @@ namespace Gameplay.Conrollers
                     for (int i = 0; i < hitCount; i++)
                     {
                         RaycastHit2D hit = hits[i];
-                        if (hit.collider == null || hit.collider.isTrigger) continue;
-
-                        foundAWall = true;
-                        break;
+                        if (hit.collider != null && hit.collider != collider && !hit.collider.isTrigger)
+                        {
+                            foundAWall = true;
+                            break;
+                        }
                     }
                 }
                 

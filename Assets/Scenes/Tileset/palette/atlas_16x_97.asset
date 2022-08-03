@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: atlas_16x_97
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 4384239464099539460, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
+  m_Sprite: {fileID: 4384239464099539460, guid: 498d6c33c89360e43b56b0934609c613,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -33,4 +34,4 @@ MonoBehaviour:
     e33: 1
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
-  m_ColliderType: 1
+  m_ColliderType: 2
