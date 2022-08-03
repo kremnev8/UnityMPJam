@@ -717,7 +717,7 @@ MonoBehaviour:
   players: []
   canStartGame: 0
   lobbyScene: Assets/Scenes/Lobby.unity
-  gameScene: Assets/Scenes/Game4.unity
+  gameScene: Assets/Scenes/Game3.unity
 --- !u!114 &437631059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1791,7 +1791,7 @@ MonoBehaviour:
     settings: {fileID: 0}
     layers: {fileID: 0}
     strings: {fileID: 0}
-    abilities: {fileID: 11400000, guid: 9e86e8848d119304ea9dc9e28da72023, type: 2}
+    abilities: {fileID: 11400000, guid: 90f538d225f7711498fe02a9ac9cb640, type: 2}
     projectiles: {fileID: 11400000, guid: c48eeb89caaa5514682e16f745293605, type: 2}
 --- !u!4 &1211281762
 Transform:

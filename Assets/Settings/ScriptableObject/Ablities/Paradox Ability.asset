@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: ParadoxAbility
   abilityCooldown: 3
+  paradoxPrefab: {fileID: 4321768997356975327, guid: 7767ff294712063409446812a8602b57,
+    type: 3}

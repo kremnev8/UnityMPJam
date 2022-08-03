@@ -1465,7 +1465,7 @@ MonoBehaviour:
   players: []
   canStartGame: 0
   lobbyScene: Assets/Scenes/Lobby.unity
-  gameScene: Assets/Scenes/Game2.unity
+  gameScene: Assets/Scenes/Game3.unity
 --- !u!114 &437631059
 MonoBehaviour:
   m_ObjectHideFlags: 0
