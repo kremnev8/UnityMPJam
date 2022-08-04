@@ -13,6 +13,7 @@ using Mirror;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 using Util;
 
 namespace Gameplay.Conrollers
@@ -48,6 +49,7 @@ namespace Gameplay.Conrollers
 
         public new SpriteRenderer renderer;
         public Transform lightTransform;
+        public Light2D staffLight;
 
         private InputAction movement;
         private InputAction firstAbility;
@@ -229,10 +231,12 @@ namespace Gameplay.Conrollers
         {
             Sprite[] sprites = role == PlayerRole.ICE_MAGE ? config.iceMageSprites : config.fireMageSprites;
             Vector3[] ligthPoses = role == PlayerRole.ICE_MAGE ? config.iceStaffLightPos : config.fireStaffLightPos;
+            Color lightColor = role == PlayerRole.ICE_MAGE ? config.iceMageLightColor : config.fireMageLightColor;
             
             
             renderer.sprite = sprites[(int)direction];
             lightTransform.localPosition = ligthPoses[(int)direction];
+            staffLight.color = lightColor;
         }
 
         [Command]

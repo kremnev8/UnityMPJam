@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 968520671, guid: a94ac06841af6784489369fb15f7d5f0, type: 3}
   m_Color: {r: 1, g: 0, b: 0.90588236, a: 1}
   m_FlipX: 0
@@ -156,10 +156,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  destoryTime: 0.2
+  pendingDestroy: 0
   trailSystem: {fileID: 583949827342575366}
   renderer: {fileID: 4321768996914236043}
   projectileID: 4
-  destoryTime: 0.2
 --- !u!114 &4321768997356975298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4995,7 +4996,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0

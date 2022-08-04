@@ -51,6 +51,10 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 1002711409, guid: d547d9a0d5baaa044bd0ee5433cccfc0, type: 3}
+  - {fileID: -720965665, guid: d547d9a0d5baaa044bd0ee5433cccfc0, type: 3}
+  - {fileID: 330977827, guid: d547d9a0d5baaa044bd0ee5433cccfc0, type: 3}
+  - {fileID: -1311887454, guid: d547d9a0d5baaa044bd0ee5433cccfc0, type: 3}
   - {fileID: 999611767, guid: 9c9b2b32b022b8f4b8fdb1e3ee9a5ce7, type: 3}
   - {fileID: 1276390146, guid: 9c9b2b32b022b8f4b8fdb1e3ee9a5ce7, type: 3}
   - {fileID: 743987830, guid: 9c9b2b32b022b8f4b8fdb1e3ee9a5ce7, type: 3}
@@ -848,10 +852,10 @@ SpriteAtlas:
   - {fileID: -6494508124517928069, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
   - {fileID: 6252300327141186995, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
   - {fileID: -4445457053680830696, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
-  - {fileID: 797361714, guid: 63cf2437d3bc5874f950af3c8104ab44, type: 3}
-  - {fileID: 350789858, guid: 63cf2437d3bc5874f950af3c8104ab44, type: 3}
-  - {fileID: 886275289, guid: 63cf2437d3bc5874f950af3c8104ab44, type: 3}
-  - {fileID: -1907873269, guid: 63cf2437d3bc5874f950af3c8104ab44, type: 3}
+  - {fileID: 1278089007, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
+  - {fileID: 881227398, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
+  - {fileID: -712161801, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
+  - {fileID: 1109702328, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
   - {fileID: 1692033246, guid: a94ac06841af6784489369fb15f7d5f0, type: 3}
   - {fileID: 968520671, guid: a94ac06841af6784489369fb15f7d5f0, type: 3}
   - {fileID: 1920005322, guid: a94ac06841af6784489369fb15f7d5f0, type: 3}
@@ -968,10 +972,6 @@ SpriteAtlas:
   - {fileID: 1613097801, guid: 8f518cdb8a126164299c1ac22dbc5ced, type: 3}
   - {fileID: 1569092208, guid: 8f518cdb8a126164299c1ac22dbc5ced, type: 3}
   - {fileID: -1998938041, guid: 09065aac2e62bd746bde185b662636e1, type: 3}
-  - {fileID: -2001059393, guid: e67d0b3eebd4c574ca87018b371f2c3a, type: 3}
-  - {fileID: -225900029, guid: e67d0b3eebd4c574ca87018b371f2c3a, type: 3}
-  - {fileID: 1143505136, guid: e67d0b3eebd4c574ca87018b371f2c3a, type: 3}
-  - {fileID: 1056417133, guid: e67d0b3eebd4c574ca87018b371f2c3a, type: 3}
   - {fileID: 604232694, guid: e145e34e6a7a72e43ac71e80e16e99e5, type: 3}
   - {fileID: 1823019292, guid: 094add4f325d19a4fba5608a9f49d2c5, type: 3}
   - {fileID: -2006733262, guid: 094add4f325d19a4fba5608a9f49d2c5, type: 3}
@@ -979,6 +979,10 @@ SpriteAtlas:
   - {fileID: 1064787831, guid: b87efd4faeaab82468f2f8fa2326bf3b, type: 3}
   - {fileID: 1156883401, guid: b87efd4faeaab82468f2f8fa2326bf3b, type: 3}
   m_PackedSpriteNamesToIndex:
+  - FireMage_0
+  - FireMage_1
+  - FireMage_2
+  - FireMage_3
   - wall-template_12
   - wall-template_13
   - wall-template_7
@@ -1776,10 +1780,10 @@ SpriteAtlas:
   - atlas_16x_61
   - atlas_16x_59
   - atlas_16x_461
-  - IceMage _3
-  - IceMage _2
-  - IceMage _1
-  - IceMage _0
+  - IceMage_3
+  - IceMage_2
+  - IceMage_1
+  - IceMage_0
   - portal-ball_7
   - portal-ball_0
   - portal-ball_1
@@ -1896,10 +1900,6 @@ SpriteAtlas:
   - Image21_2
   - Image21_3
   - Ice_0
-  - FireMage _2
-  - FireMage _3
-  - FireMage _0
-  - FireMage _1
   - Image21_0
   - time-particle-sheet_0
   - time-particle-sheet_1

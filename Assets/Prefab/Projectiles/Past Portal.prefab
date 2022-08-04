@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: -1334557038, guid: 227a555a32547a847966ec50cf44ada1, type: 3}
   m_Color: {r: 1, g: 0, b: 0.90588236, a: 1}
   m_FlipX: 0
@@ -155,12 +155,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  destoryTime: 0.5
+  pendingDestroy: 0
   polarity: 1
   renderer: {fileID: 1844685587253735638}
   all: {r: 1, g: 1, b: 1, a: 1}
   topast: {r: 1, g: 0, b: 0.90713406, a: 1}
   tofuture: {r: 1, g: 0.83297265, b: 0, a: 1}
-  destoryTime: 0.5
 --- !u!114 &1844685588833815400
 MonoBehaviour:
   m_ObjectHideFlags: 0

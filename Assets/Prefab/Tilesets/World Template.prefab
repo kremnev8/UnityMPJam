@@ -1326,6 +1326,7 @@ GameObject:
   - component: {fileID: 8856148938295535101}
   - component: {fileID: 8856148938295535098}
   - component: {fileID: 8856148938295535096}
+  - component: {fileID: 6495424103088638832}
   m_Layer: 6
   m_Name: Walls
   m_TagString: Untagged
@@ -1553,6 +1554,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 20
+--- !u!114 &6495424103088638832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8856148938295535094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f8302ec99664791b7ee42fa22c8042d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TilemapCollider: {fileID: 8856148938295535098}
+  m_SelfShadows: 0
+  applyToLayers: 0118812f89a1a4a34d35b03a1f8ae33fcb10876f65a5bae3c19d12c7e554d64a000000002bc6fd2057362df5
 --- !u!1 &8856148938586911045
 GameObject:
   m_ObjectHideFlags: 0

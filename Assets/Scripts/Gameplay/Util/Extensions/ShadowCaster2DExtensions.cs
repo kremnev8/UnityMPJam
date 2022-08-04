@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using TileMaps;
 using UnityEngine;
@@ -151,15 +152,61 @@ namespace Util
             }
 
             TileMapShadowCaster2D settings = collider.GetComponent<TileMapShadowCaster2D>();
+            if (settings == null) return;
 
             // Then it creates the new shadow casters, based on the paths of the composite collider
             int pathCount = collider.pathCount;
             List<Vector2> pointsInPath = new List<Vector2>();
             List<Vector3> pointsInPath3D = new List<Vector3>();
 
+            List<Vector2> firstPathPoints = new List<Vector2>();
+            bool boxFixed = false;
+
             for (int i = 0; i < pathCount; ++i)
             {
                 collider.GetPath(i, pointsInPath);
+                if (i == 0)
+                {
+                    firstPathPoints = pointsInPath.ToList();
+                    if (pathCount > 1)
+                    {
+                        continue;
+                    }
+                }
+                else if (!boxFixed)
+                {
+                    if (pointsInPath.Any(vector2 => firstPathPoints.IsPointInPolygon4(vector2)))
+                    {
+                        float minDist = 10000000;
+                        int first = 0;
+                        int second = 0;
+
+                        for (int j = 0; j < firstPathPoints.Count; j++)
+                        {
+                            Vector2 outer = firstPathPoints[j];
+                            for (int k = 0; k < pointsInPath.Count; k++)
+                            {
+                                Vector2 inner = pointsInPath[k];
+                                float dist = (outer - inner).sqrMagnitude;
+                                if (dist < minDist)
+                                {
+                                    minDist = dist;
+                                    first = j;
+                                    second = k;
+                                }
+                            }
+                        }
+
+                        Vector2 myPoint = pointsInPath[second];
+                        
+                        pointsInPath.InsertRange(second, firstPathPoints.GetRange(first, firstPathPoints.Count - first));
+                        pointsInPath.InsertRange(second + firstPathPoints.Count - first, firstPathPoints.GetRange(0, first));
+                        pointsInPath.Insert(second + firstPathPoints.Count, firstPathPoints[first]);
+                        pointsInPath.Insert(second + firstPathPoints.Count + 1, myPoint);
+                        boxFixed = true;
+                    }
+                    
+                }
 
                 GameObject newShadowCaster = new GameObject("ShadowCaster2D");
                 newShadowCaster.isStatic = true;

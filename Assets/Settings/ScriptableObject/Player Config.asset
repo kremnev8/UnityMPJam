@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a7ba555f2df4ed5961353d2803e74b6, type: 3}
   m_Name: Player Config
   m_EditorClassIdentifier: 
+  iceMageLightColor: {r: 0.16470589, g: 0.65882355, b: 0.90588236, a: 1}
+  fireMageLightColor: {r: 1, g: 0.61960787, b: 0, a: 1}
   iceMageSprites:
-  - {fileID: 350789858, guid: 63cf2437d3bc5874f950af3c8104ab44, type: 3}
-  - {fileID: 886275289, guid: 63cf2437d3bc5874f950af3c8104ab44, type: 3}
-  - {fileID: -1907873269, guid: 63cf2437d3bc5874f950af3c8104ab44, type: 3}
-  - {fileID: 797361714, guid: 63cf2437d3bc5874f950af3c8104ab44, type: 3}
+  - {fileID: 1109702328, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
+  - {fileID: -712161801, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
+  - {fileID: 881227398, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
+  - {fileID: 1278089007, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
   fireMageSprites:
-  - {fileID: -2001059393, guid: e67d0b3eebd4c574ca87018b371f2c3a, type: 3}
-  - {fileID: 1056417133, guid: e67d0b3eebd4c574ca87018b371f2c3a, type: 3}
-  - {fileID: 1143505136, guid: e67d0b3eebd4c574ca87018b371f2c3a, type: 3}
-  - {fileID: -225900029, guid: e67d0b3eebd4c574ca87018b371f2c3a, type: 3}
+  - {fileID: 1002711409, guid: d547d9a0d5baaa044bd0ee5433cccfc0, type: 3}
+  - {fileID: -720965665, guid: d547d9a0d5baaa044bd0ee5433cccfc0, type: 3}
+  - {fileID: 330977827, guid: d547d9a0d5baaa044bd0ee5433cccfc0, type: 3}
+  - {fileID: -1311887454, guid: d547d9a0d5baaa044bd0ee5433cccfc0, type: 3}
   iceStaffLightPos:
   - {x: 0.65, y: 0.81, z: 0}
   - {x: -0.65, y: 0.81, z: 0}
