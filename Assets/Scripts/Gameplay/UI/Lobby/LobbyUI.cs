@@ -21,7 +21,8 @@ namespace Gameplay.UI.Lobby
         private List<Attribute> lobbyData = new List<Attribute>();
 
         private List<LobbyItem> lobbyItems = new List<LobbyItem>();
-
+        public GameObject lobbyUI;
+        
         private GameNetworkManager networkManager;
         private GameModel model;
 
@@ -39,11 +40,7 @@ namespace Gameplay.UI.Lobby
         public GameObject waitUI;
         public GameObject waitText;
 
-        [FormerlySerializedAs("pastButton")] public Button iceButton;
-        [FormerlySerializedAs("futureButton")] public Button fireButton;
-
-        [FormerlySerializedAs("pastText")] public TMP_Text iceText;
-        [FormerlySerializedAs("futureText")] public TMP_Text fireText;
+        public TMP_Text roleText;
 
         public TMP_InputField userNameInputField;
 
@@ -117,6 +114,11 @@ namespace Gameplay.UI.Lobby
             
         }
         
+        public void HideLobby()
+        {
+            lobbyUI.SetActive(false);
+        }
+        
         private void OnCreateLobbyFail(string errormessage)
         {
             canCreateLobby = true;
@@ -179,25 +181,19 @@ namespace Gameplay.UI.Lobby
             if (NetworkClient.localPlayer != null)
             {
                 PlayerController controller = NetworkClient.localPlayer.gameObject.GetComponent<PlayerController>();
-                iceButton.interactable = controller.role != PlayerRole.ICE_MAGE;
-                iceText.text = controller.role == PlayerRole.ICE_MAGE ? "Ice" : "Switch to Ice";
-                
-                fireButton.interactable = controller.role != PlayerRole.FIRE_MAGE;
-                fireText.text = controller.role == PlayerRole.FIRE_MAGE ? "Fire" : "Switch to Fire";
+                roleText.text = controller.role == PlayerRole.ICE_MAGE ? "Ice" : "Fire";
             }
         }
 
-        public void SetIceMage()
+        public void ToggleRole()
         {
-            if ( model.roleController != null)
-                model.roleController.SetPlayerRole(PlayerRole.ICE_MAGE);
+            if (model.roleController != null)
+            {
+                PlayerController controller = NetworkClient.localPlayer.gameObject.GetComponent<PlayerController>();
+                model.roleController.SetPlayerRole(controller.role == PlayerRole.ICE_MAGE ? PlayerRole.FIRE_MAGE : PlayerRole.ICE_MAGE);
+            }
         }
 
-        public void SetFireMage()
-        {
-            if ( model.roleController != null)
-                model.roleController.SetPlayerRole(PlayerRole.FIRE_MAGE);
-        }
 
         public string GetPlayerName()
         {

@@ -143,6 +143,7 @@ MonoBehaviour:
   destroyed: {fileID: 127057812, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
   timeGlitchEffect: {fileID: 0}
   initialState: 1
+  fromTimeEvent: 0
   connections: []
   m_timeObject: {fileID: 0}
   light: {fileID: 5047757152471003354}
@@ -162,6 +163,7 @@ MonoBehaviour:
   pastState: 1
   futureState: 1
   m_uniqueId: 
+  underParadox: 0
 --- !u!114 &3985087969477710592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,7 +282,7 @@ MonoBehaviour:
   m_NormalMapDistance: 3
   m_NormalMapQuality: 2
   m_UseNormalMap: 0
-  m_ShadowIntensityEnabled: 1
+  m_ShadowIntensityEnabled: 0
   m_ShadowIntensity: 0.75
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75

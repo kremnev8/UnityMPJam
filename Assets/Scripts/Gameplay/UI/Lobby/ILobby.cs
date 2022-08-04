@@ -3,5 +3,6 @@
     public interface ILobby
     {
         string GetPlayerName();
+        void HideLobby();
     }
 }

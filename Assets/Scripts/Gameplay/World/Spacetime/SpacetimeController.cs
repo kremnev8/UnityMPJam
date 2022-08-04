@@ -95,6 +95,8 @@ namespace Gameplay.World.Spacetime
             pastWorld.Init();
             futureWorld.Init();
 
+            SpawnPoints.stateChecked = false;
+
             if (Application.isPlaying)
             {
                 eventListenerUp = true;

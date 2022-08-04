@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Gameplay.Conrollers;
+using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 namespace Gameplay.World
@@ -13,7 +14,7 @@ namespace Gameplay.World
             light.enabled = newState;
         }
 
-        public override void Activate()
+        public override void Activate(PlayerController player)
         {
             CmdSetState(!state, true);
         }

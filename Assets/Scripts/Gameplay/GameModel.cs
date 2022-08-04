@@ -26,6 +26,7 @@ namespace Gameplay
         
         public LobbyUI eosLobby;
         public LocalLobby localLobby;
+        public LoadingUI loadingUI;
         
         public ILobby lobbyUI
         {
@@ -48,5 +49,6 @@ namespace Gameplay
         public StringsDB strings;
         public AbilityDB abilities;
         public ProjectileDB projectiles;
+        public LevelsDB levels;
     }
 }

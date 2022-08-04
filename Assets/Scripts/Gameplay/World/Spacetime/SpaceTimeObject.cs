@@ -52,6 +52,11 @@ namespace Gameplay.World.Spacetime
             target.Configure(GetState(timeline));
         }
 
+        public ObjectState GetState()
+        {
+            return timeline == Timeline.PAST ? pastState : futureState;
+        }
+        
         public ObjectState GetState(Timeline time)
         {
             

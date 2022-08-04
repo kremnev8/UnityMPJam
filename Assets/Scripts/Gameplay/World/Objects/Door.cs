@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Gameplay.World
 {
+    [RequireComponent(typeof(SpaceTimeObject))]
     public class Door : MonoBehaviour, ITimeLinked
     {
         public Transform doorTransform;

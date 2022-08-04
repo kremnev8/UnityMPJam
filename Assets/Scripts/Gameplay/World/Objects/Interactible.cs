@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Gameplay.Conrollers;
 using Gameplay.Core;
 using Gameplay.Util;
 using Gameplay.World.Spacetime;
@@ -16,6 +17,7 @@ namespace Gameplay.World
         public bool value;
     }
     
+    [RequireComponent(typeof(SpaceTimeObject))]
     public class Interactible : NetworkBehaviour, IInteractable, ITimeLinked
     {
         public Vector2Int forward;
@@ -45,11 +47,11 @@ namespace Gameplay.World
 
         private void Start()
         {
-           /* SpaceTimeObject to = GetComponent<SpaceTimeObject>();
+            SpaceTimeObject to = GetComponent<SpaceTimeObject>();
             if (to.GetState(to.timeline) == ObjectState.DOES_NOT_EXIST)
             {
                 gameObject.SetActive(false);
-            }*/
+            }
         }
 
         [ClientRpc]
@@ -100,7 +102,7 @@ namespace Gameplay.World
         
         
         
-        public virtual void Activate()
+        public virtual void Activate(PlayerController player)
         {
         }
 

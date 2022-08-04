@@ -4,6 +4,7 @@ using System.Linq;
 using Gameplay.Conrollers;
 using Gameplay.Controllers.Network;
 using Gameplay.Core;
+using Gameplay.ScriptableObjects;
 using Gameplay.World;
 using Mirror;
 using UnityEngine;
@@ -21,6 +22,12 @@ namespace Gameplay.Controllers
         
         public bool canStartGame = false;
         private int playersLoaded;
+        
+        private int playersInExit;
+        private int currentLevel;
+        public bool CanChangeLevel => playersInExit >= players.Count;
+
+        public int startLevel;
         
         [Scene]
         public string lobbyScene;
@@ -41,8 +48,10 @@ namespace Gameplay.Controllers
             {
                 canStartGame = true;
             }
+
+            currentLevel = startLevel;
         }
-        
+
         public void StartGame()
         {
             if (mode == NetworkManagerMode.ClientOnly)
@@ -54,9 +63,46 @@ namespace Gameplay.Controllers
             if (IsInLobby())
             {
                 if (!Application.isEditor && !canStartGame) return;
-
-                ServerChangeScene(gameScene);
+                
+                LevelData scene = model.levels.GetLevel(currentLevel);
+                playersInExit = 0;
+                ServerChangeScene(scene.scene);
             }
+        }
+
+        [Server]
+        public void IncrementPlayersInExit()
+        {
+            playersInExit++;
+        }
+        
+        [Server]
+        public void DecrementPlayersInExit()
+        {
+            playersInExit--;
+        }
+
+        public void NextLevel()
+        {
+            if (!IsInLobby() && playersInExit >= players.Count)
+            {
+                try
+                {
+                    LevelData scene = model.levels.GetLevel(currentLevel + 1);
+                    currentLevel++;
+                    playersInExit = 0;
+                    ServerChangeScene(scene.scene);
+                }
+                catch (InvalidOperationException e)
+                {
+                    Debug.LogWarning("No more levels!");
+                }
+            }
+        }
+
+        public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
+        {
+            model.loadingUI.Show();
         }
 
         private bool IsInLobby()
@@ -93,6 +139,7 @@ namespace Gameplay.Controllers
             }
         
             MapStarted?.Invoke();
+            NetworkServer.SendToAll(new HideFade());
         }
 
         public override void OnStartServer()
@@ -103,6 +150,17 @@ namespace Gameplay.Controllers
 
             GameObject contr = Instantiate(controllerPrefab, transform);
             NetworkServer.Spawn(contr);
+        }
+
+        public override void OnStartClient()
+        {
+            base.OnStartClient();
+            NetworkClient.RegisterHandler<HideFade>(OnHideFadePacket, false);
+        }
+
+        private void OnHideFadePacket(HideFade obj)
+        {
+            model.loadingUI.Hide();
         }
 
         private void OnClientPressedPlay(NetworkConnectionToClient arg1, ClientPressedPlay arg2)
@@ -137,6 +195,7 @@ namespace Gameplay.Controllers
         {
             base.OnClientSceneChanged();
             NetworkClient.Send(new SceneChangeFinished());
+            model.lobbyUI.HideLobby();
         }
     }
 }

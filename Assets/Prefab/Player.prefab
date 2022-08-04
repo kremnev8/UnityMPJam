@@ -134,7 +134,7 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_AssetsPPU: 16
   m_RefResolutionX: 720
-  m_RefResolutionY: 405
+  m_RefResolutionY: 406
   m_CropFrame: 4
   m_GridSnapping: 1
   m_UpscaleRT: 0
@@ -256,6 +256,7 @@ MonoBehaviour:
   pastSprite: {fileID: -302958708, guid: 6ad2b9d68e62f6e4fb7b5b8e21e03180, type: 3}
   futureSprite: {fileID: 1416109833, guid: 6ad2b9d68e62f6e4fb7b5b8e21e03180, type: 3}
   directionGizmo: {fileID: 5556875719836816221}
+  collider: {fileID: 0}
 --- !u!114 &7387852771093734526
 MonoBehaviour:
   m_ObjectHideFlags: 0

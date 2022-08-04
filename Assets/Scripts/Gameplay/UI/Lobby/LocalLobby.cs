@@ -3,6 +3,7 @@ using Gameplay.Conrollers;
 using Gameplay.Controllers;
 using Gameplay.Core;
 using Mirror;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -14,9 +15,9 @@ namespace Gameplay.UI.Lobby
     {
         private GameNetworkManager networkManager;
         private GameModel model;
-
-        [FormerlySerializedAs("pastButton")] public Button iceButton;
-        [FormerlySerializedAs("futureButton")] public Button fireButton;
+        public GameObject lobbyUI;
+        
+        public TMP_Text roleText;
         
         public void Start()
         {
@@ -24,25 +25,21 @@ namespace Gameplay.UI.Lobby
             networkManager = model.networkManager;
         }
         
-        public void SetIce()
-        {
-            if ( model.roleController != null)
-                model.roleController.SetPlayerRole(PlayerRole.ICE_MAGE);
-        }
-
-        public void SetFire()
-        {
-            if ( model.roleController != null)
-                model.roleController.SetPlayerRole(PlayerRole.FIRE_MAGE);
-        }
-        
         public void UpdateWaitUI()
         {
             if (NetworkClient.localPlayer != null)
             {
                 PlayerController controller = NetworkClient.localPlayer.gameObject.GetComponent<PlayerController>();
-                iceButton.interactable = controller.role != PlayerRole.ICE_MAGE;
-                fireButton.interactable = controller.role != PlayerRole.FIRE_MAGE;
+                roleText.text = controller.role == PlayerRole.ICE_MAGE ? "Ice" : "Fire";
+            }
+        }
+
+        public void ToggleRole()
+        {
+            if (model.roleController != null)
+            {
+                PlayerController controller = NetworkClient.localPlayer.gameObject.GetComponent<PlayerController>();
+                model.roleController.SetPlayerRole(controller.role == PlayerRole.ICE_MAGE ? PlayerRole.FIRE_MAGE : PlayerRole.ICE_MAGE);
             }
         }
         
@@ -68,6 +65,11 @@ namespace Gameplay.UI.Lobby
         public string GetPlayerName()
         {
             return $"Player {Random.Range(0, 25565)}";
+        }
+
+        public void HideLobby()
+        {
+            lobbyUI.SetActive(false);
         }
 
         private void Update()

@@ -8,6 +8,7 @@ using Gameplay.Core;
 using Gameplay.ScriptableObjects;
 using Gameplay.Util;
 using Gameplay.World;
+using Gameplay.World.Spacetime;
 using Mirror;
 using ScriptableObjects;
 using UnityEngine;
@@ -20,6 +21,14 @@ namespace Gameplay.Conrollers
     {
         ICE_MAGE,
         FIRE_MAGE
+    }
+
+    public enum PlayerState
+    {
+        IDLE,
+        MOVING,
+        STUCK_ANIM,
+        FALLING,
     }
 
     public class PlayerController : NetworkBehaviour, IPlayerData, ICanTeleport, IHeavyObject
@@ -47,10 +56,9 @@ namespace Gameplay.Conrollers
         private InputAction firstAbility;
         private InputAction secondAbility;
         private InputAction mousePosition;
-        
+
         private Rigidbody2D body;
-        [HideInInspector]
-        public new Collider2D collider;
+        [HideInInspector] public new Collider2D collider;
 
         private Vector2Int prevPosition;
         private Vector2Int lastMoveDir;
@@ -127,7 +135,7 @@ namespace Gameplay.Conrollers
             if (abilityStack.abilities.Count > 1)
             {
                 Vector2Int dir = GetLookDir().ToVector2Int();
-                
+
                 BaseAbility ability = abilityStack.abilities[1];
                 if (ability != null)
                 {
@@ -201,12 +209,12 @@ namespace Gameplay.Conrollers
                     abilityCooldowns[ability] -= Time.fixedDeltaTime;
                 }
             }
-            
+
             Vector3 dir = GetLookDir();
 
             Quaternion target = Quaternion.LookRotation(Vector3.forward, dir);
-            directionGizmo.rotation = Quaternion.RotateTowards(directionGizmo.rotation, target, 360*Time.fixedDeltaTime);
-           
+            directionGizmo.rotation = Quaternion.RotateTowards(directionGizmo.rotation, target, 360 * Time.fixedDeltaTime);
+
             UpdatePosition();
             UpdateInState(state);
         }
@@ -250,7 +258,7 @@ namespace Gameplay.Conrollers
                                     IInteractable interactable = hit.collider.GetComponent<IInteractable>();
                                     if (interactable != null && interactable.FacingDirection == -dir)
                                     {
-                                        interactable.Activate();
+                                        interactable.Activate(this);
                                     }
                                 }
                                 else
@@ -260,6 +268,7 @@ namespace Gameplay.Conrollers
                                     {
                                         moveAble.Move(lastMoveDir.GetDirection());
                                     }
+
                                     shouldStop = true;
                                 }
                             }
@@ -315,7 +324,7 @@ namespace Gameplay.Conrollers
             {
                 BaseAbility ability = model.abilities.Get(abilityId);
                 bool success = ability.ActivateAbility(this, direction);
-                
+
                 if (success)
                 {
                     StartCooldown(ability);
@@ -440,9 +449,15 @@ namespace Gameplay.Conrollers
         {
             if (isLocalPlayer)
             {
-                //TODO nice popups
-                Debug.Log(message);
+                Feedback(message);
             }
+        }
+
+        [Client]
+        public void Feedback(string message)
+        {
+            //TODO nice popups
+            Debug.Log(message);
         }
 
         #endregion
@@ -516,13 +531,31 @@ namespace Gameplay.Conrollers
             GameObject go = GameObject.Find("Spawn");
             SpawnPoints points = go.GetComponent<SpawnPoints>();
             timeline = (Timeline)(int)role;
-            
-            World.World world = model.spacetime.GetWorld(timeline);
-            Vector2Int pos = world.GetGridPos(points.spawns[(int)role].transform.position);
-            
-            Debug.Log($"Timeline: {timeline}, grid pos: {pos}");
 
-            Teleport(timeline, pos);
+            try
+            {
+                DungeonEntrance entrance =
+                    points.spawns.First(entrance =>
+                    {
+                        SpaceTimeObject timeObject1 = entrance.GetComponent<SpaceTimeObject>();
+                        return timeObject1.GetState() == ObjectState.EXISTS && entrance.GetTargetPlayer(timeObject1.timeline) == role;
+                    });
+                SpaceTimeObject timeObject = entrance.GetComponent<SpaceTimeObject>();    
+                
+                timeline = timeObject.timeline;
+                World.World world = model.spacetime.GetWorld(timeObject.timeline);
+                
+                Vector2Int pos = world.GetGridPos(entrance.startPosition.transform.position);
+                
+                Debug.Log($"Spawning {role} in timeline: {timeline}, grid pos: {pos}");
+
+                Teleport(timeline, pos);
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"Failed to spawn player {role}, because there is no spawn point matching!");
+                return;
+            }
         }
 
         public bool Teleport(Timeline timeline, Vector2Int position)
