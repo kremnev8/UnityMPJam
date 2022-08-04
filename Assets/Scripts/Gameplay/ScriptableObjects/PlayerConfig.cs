@@ -8,13 +8,14 @@ namespace ScriptableObjects
     [CreateAssetMenu(fileName = "Player Config", menuName = "SO/New Player Config", order = 0)]
     public class PlayerConfig : ScriptableObject
     {
-        [Header("Zoom")]
-        public float zoomSpeed;
-        public float minZoom;
-        public float maxZoom;
+        [Header("Appearance")] 
+        public Sprite[] iceMageSprites;
+        public Sprite[] fireMageSprites;
 
-        public float scrollSensitivity;
+        public Vector3[] iceStaffLightPos;
+        public Vector3[] fireStaffLightPos;
         
+
         [Header("Movement")]
         public float moveTime = 1f;
         public float failMoveTime = 1f;

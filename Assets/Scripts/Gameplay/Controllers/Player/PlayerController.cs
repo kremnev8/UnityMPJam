@@ -47,10 +47,7 @@ namespace Gameplay.Conrollers
         public Vector2Int position;
 
         public new SpriteRenderer renderer;
-        public Sprite pastSprite;
-        public Sprite futureSprite;
-
-        public Transform directionGizmo;
+        public Transform lightTransform;
 
         private InputAction movement;
         private InputAction firstAbility;
@@ -62,6 +59,8 @@ namespace Gameplay.Conrollers
 
         private Vector2Int prevPosition;
         private Vector2Int lastMoveDir;
+
+        private Direction lastlookDir;
 
         private PlayerState state;
         private float stateTimeLeft;
@@ -96,11 +95,10 @@ namespace Gameplay.Conrollers
             mousePosition = model.input.actions["mouse"];
 
             body = GetComponent<Rigidbody2D>();
-            renderer = GetComponent<SpriteRenderer>();
             collider = GetComponent<Collider2D>();
 
             EnterState(PlayerState.IDLE);
-            UpdateVisual();
+            UpdateVisual(Direction.BACKWARD);
             DontDestroyOnLoad(gameObject);
             camera.gameObject.SetActive(false);
 
@@ -116,7 +114,7 @@ namespace Gameplay.Conrollers
             AbilityStack abilityStack = model.abilities.GetAbilities(role);
             if (abilityStack.abilities.Count > 0)
             {
-                Vector2Int dir = GetLookDir().ToVector2Int();
+                Vector2Int dir = GetLookVector().ToVector2Int();
 
                 BaseAbility ability = abilityStack.abilities[0];
                 if (ability != null)
@@ -134,7 +132,7 @@ namespace Gameplay.Conrollers
             AbilityStack abilityStack = model.abilities.GetAbilities(role);
             if (abilityStack.abilities.Count > 1)
             {
-                Vector2Int dir = GetLookDir().ToVector2Int();
+                Vector2Int dir = GetLookVector().ToVector2Int();
 
                 BaseAbility ability = abilityStack.abilities[1];
                 if (ability != null)
@@ -144,11 +142,6 @@ namespace Gameplay.Conrollers
             }
         }
 
-        private void UpdateVisual()
-        {
-            renderer.sprite = role == PlayerRole.ICE_MAGE ? pastSprite : futureSprite;
-        }
-
         void SetRoleHook(PlayerRole before, PlayerRole now)
         {
             if (renderer == null)
@@ -156,7 +149,7 @@ namespace Gameplay.Conrollers
                 renderer = GetComponent<SpriteRenderer>();
             }
 
-            UpdateVisual();
+            UpdateVisual(GetLookDirection());
         }
 
         private void SetControlHook(bool before, bool after)
@@ -209,24 +202,66 @@ namespace Gameplay.Conrollers
                     abilityCooldowns[ability] -= Time.fixedDeltaTime;
                 }
             }
-
-            Vector3 dir = GetLookDir();
-
-            Quaternion target = Quaternion.LookRotation(Vector3.forward, dir);
-            directionGizmo.rotation = Quaternion.RotateTowards(directionGizmo.rotation, target, 360 * Time.fixedDeltaTime);
-
+            
             UpdatePosition();
             UpdateInState(state);
         }
 
-        private Vector3 GetLookDir()
+        private void Update()
         {
+            if (isLocalPlayer)
+            {
+                Direction dir = GetLookDirection();
+                if (dir != lastlookDir)
+                {
+                    lastlookDir = dir;
+                    CmdUpdateLookDirection(dir);
+                }
+                UpdateVisual(dir);
+            }
+            else
+            {
+                UpdateVisual(lastlookDir);
+            }
+        }
+        
+        private void UpdateVisual(Direction direction)
+        {
+            Sprite[] sprites = role == PlayerRole.ICE_MAGE ? config.iceMageSprites : config.fireMageSprites;
+            Vector3[] ligthPoses = role == PlayerRole.ICE_MAGE ? config.iceStaffLightPos : config.fireStaffLightPos;
+            
+            
+            renderer.sprite = sprites[(int)direction];
+            lightTransform.localPosition = ligthPoses[(int)direction];
+        }
+
+        [Command]
+        private void CmdUpdateLookDirection(Direction direction)
+        {
+            RpcUpdateLookDirection(direction);
+        }
+
+        [ClientRpc(includeOwner = false)]
+        private void RpcUpdateLookDirection(Direction direction)
+        {
+            lastlookDir = direction;
+        }
+
+        private Vector3 GetLookVector()
+        {
+            if (mousePosition == null) return Vector3.down;
+            
             Vector3 mouse = mousePosition.ReadValue<Vector2>();
             mouse.z = 10;
             Vector3 worldMousePos = camera.ScreenToWorldPoint(mouse);
             worldMousePos.z = 0;
             Vector3 dir = (worldMousePos - transform.position).normalized.AxisRound();
             return dir;
+        }
+
+        private Direction GetLookDirection()
+        {
+            return GetLookVector().ToVector2Int().GetDirection();
         }
 
         private void UpdatePosition()
