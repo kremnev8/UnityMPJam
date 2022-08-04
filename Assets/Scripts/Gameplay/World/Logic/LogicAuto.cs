@@ -20,6 +20,19 @@ namespace Gameplay.Logic
             }
         }
         
+        protected void OnDrawGizmosSelected()
+        {
+            DrawWireGizmo(connections);
+        }
+
+        protected void DrawWireGizmo(List<LogicConnection> connections)
+        {
+            foreach (LogicConnection connection in connections)
+            {
+                Gizmos.DrawLine(transform.position, connection.target.transform.position);
+            }
+        }
+        
         private void Awake()
         {
             GameNetworkManager.MapStarted += OnMapStarted;

@@ -68,6 +68,11 @@ namespace Gameplay.World.Spacetime
                     futureTimeObj.transform.localPosition = timeObject.transform.localPosition;
                     futureTimeObj.gameObject.SetActive(true);
                     futureTimeObj.Set(Timeline.FUTURE, futureTimeObj.GetComponent<ITimeLinked>());
+                    SpriteRenderer[] renderers = futureTimeObj.GetComponentsInChildren<SpriteRenderer>();
+                    foreach (SpriteRenderer spriteRenderer in renderers)
+                    {
+                        spriteRenderer.color = Color.white;
+                    }
                 }
                 
                 if (timeObject.pastState == ObjectState.DOES_NOT_EXIST)
@@ -150,10 +155,13 @@ namespace Gameplay.World.Spacetime
         public void CallTimeEvent(Timeline timeline, string sourceId, int[] data)
         {
             SpaceTimeObject timeObject = futureWorld.GetObject(sourceId);
-            
-            if (timeline == Timeline.PAST || timeObject.underParadox)
+
+            if (timeObject != null)
             {
-                timeObject.target.ReciveTimeEvent(data);
+                if (timeline == Timeline.PAST || timeObject.underParadox)
+                {
+                    timeObject.target.ReciveTimeEvent(data);
+                }
             }
         }
 
@@ -161,10 +169,13 @@ namespace Gameplay.World.Spacetime
         {
             World world = GetWorld(timeline);
             SpaceTimeObject timeObject = world.GetObject(targetId);
-            timeObject.target.ReciveStateChange(value, isPermanent);
+            if (timeObject != null)
+            {
+                timeObject.target.ReciveStateChange(value, isPermanent);
+            }
         }
-        
-        
+
+
 
         #endregion
         

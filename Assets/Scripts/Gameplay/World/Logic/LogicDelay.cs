@@ -19,6 +19,18 @@ namespace Gameplay.Logic
             }
         }
         
+        protected void OnDrawGizmosSelected()
+        {
+            DrawWireGizmo(timeEnded);
+        }
+
+        protected void DrawWireGizmo(List<LogicConnection> connections)
+        {
+            foreach (LogicConnection connection in connections)
+            {
+                Gizmos.DrawLine(transform.position, connection.target.transform.position);
+            }
+        }
 
         public void Trigger()
         {

@@ -852,6 +852,7 @@ SpriteAtlas:
   - {fileID: -6494508124517928069, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
   - {fileID: 6252300327141186995, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
   - {fileID: -4445457053680830696, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
+  - {fileID: 21300000, guid: 8ea417b32fe9ece419f95365b264947b, type: 3}
   - {fileID: 1278089007, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
   - {fileID: 881227398, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
   - {fileID: -712161801, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
@@ -910,6 +911,7 @@ SpriteAtlas:
   - {fileID: -649245816, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
   - {fileID: 1970037828, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
   - {fileID: -1109267613, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
+  - {fileID: -1062751218, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
   - {fileID: 1647741779, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
   - {fileID: 1944451558, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
   - {fileID: -676584112, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
@@ -1780,6 +1782,7 @@ SpriteAtlas:
   - atlas_16x_61
   - atlas_16x_59
   - atlas_16x_461
+  - key
   - IceMage_3
   - IceMage_2
   - IceMage_1
@@ -1838,6 +1841,7 @@ SpriteAtlas:
   - objects_17
   - objects_16
   - objects_15
+  - objects_13
   - objects_12
   - objects_28
   - objects_11

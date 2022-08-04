@@ -17,6 +17,20 @@ namespace Gameplay.Logic
         public bool onlyPlayer = false;
         public bool onlyOnce = false;
         private bool wasTriggered;
+        
+        protected void OnDrawGizmosSelected()
+        {
+            DrawWireGizmo(onEnter);
+            DrawWireGizmo(onExit);
+        }
+
+        protected void DrawWireGizmo(List<LogicConnection> connections)
+        {
+            foreach (LogicConnection connection in connections)
+            {
+                Gizmos.DrawLine(transform.position, connection.target.transform.position);
+            }
+        }
 
         private void Invoke(List<LogicConnection> objects, bool isPermanent = true)
         {

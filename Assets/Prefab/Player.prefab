@@ -152,6 +152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4332269479232276}
   - component: {fileID: 6359073556771293267}
+  - component: {fileID: 5256782105078110090}
   - component: {fileID: 7387852771093734526}
   - component: {fileID: 1618971570}
   - component: {fileID: 1618971569}
@@ -205,6 +206,21 @@ MonoBehaviour:
   lightTransform: {fileID: 3609659891217764205}
   staffLight: {fileID: 4148128209493803645}
   collider: {fileID: 0}
+--- !u!114 &5256782105078110090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536319450925060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be99d14fe6dd4e1380efb1ae70d74341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  maxSize: 4
 --- !u!114 &7387852771093734526
 MonoBehaviour:
   m_ObjectHideFlags: 0

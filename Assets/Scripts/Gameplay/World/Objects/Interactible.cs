@@ -49,21 +49,8 @@ namespace Gameplay.World
         public bool fromTimeEvent;
         
         
-        [HideInInspector]
-        [FormerlySerializedAs("connections")] 
-        public List<SpaceTimeObject> oldConnections;
-        
         public List<ValueConnection> newConnections;
-
-
-        private void OnValidate()
-        {
-            if (oldConnections is { Count: > 0 })
-            {
-                newConnections.AddRange(oldConnections.Select(o => new ValueConnection(){target = o}));
-                oldConnections.Clear();
-            }
-        }
+        
 
         [HideInInspector]
         [SerializeField] 
@@ -77,8 +64,21 @@ namespace Gameplay.World
                 gameObject.SetActive(false);
             }
         }
+
+        protected void OnDrawGizmosSelected()
+        {
+            DrawWireGizmo(newConnections);
+        }
+
+        protected void DrawWireGizmo(List<ValueConnection> connections)
+        {
+            foreach (ValueConnection connection in connections)
+            {
+                Gizmos.DrawLine(transform.position, connection.target.transform.position);
+            }
+        }
         
-        private void Invoke(List<ValueConnection> objects, bool value, bool isPermanent = true)
+        protected void Invoke(List<ValueConnection> objects, bool value, bool isPermanent = true)
         {
             foreach (ValueConnection item in objects)
             {
@@ -113,7 +113,10 @@ namespace Gameplay.World
             if (!interactible) return;
             
             state = newState;
-            spriteRenderer.sprite = state ? activated : idle;
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.sprite = state ? activated : idle;
+            }
             try
             {
                 Invoke(newConnections, newState, isPermanent);
@@ -152,7 +155,8 @@ namespace Gameplay.World
                 case ObjectState.BROKEN:
                     SetState(false);
                     interactible = false;
-                    spriteRenderer.sprite = destroyed;
+                    if (spriteRenderer != null) 
+                        spriteRenderer.sprite = destroyed;
                     break;
                 default:
                     interactible = true;

@@ -165,6 +165,8 @@ namespace Util
             for (int i = 0; i < pathCount; ++i)
             {
                 collider.GetPath(i, pointsInPath);
+                
+                
                 if (i == 0)
                 {
                     firstPathPoints = pointsInPath.ToList();
@@ -198,6 +200,8 @@ namespace Util
                         }
 
                         Vector2 myPoint = pointsInPath[second];
+                        second += 1;
+                        second %= pointsInPath.Count;
                         
                         pointsInPath.InsertRange(second, firstPathPoints.GetRange(first, firstPathPoints.Count - first));
                         pointsInPath.InsertRange(second + firstPathPoints.Count - first, firstPathPoints.GetRange(0, first));

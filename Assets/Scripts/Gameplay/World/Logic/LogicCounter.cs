@@ -16,6 +16,9 @@ namespace Gameplay.Logic
 
         public List<LogicConnection> hitMax;
         public List<LogicConnection> hitMin;
+        
+        public List<LogicConnection> changedFromMax;
+        public List<LogicConnection> changedFromMin;
 
 
         private void Invoke(List<LogicConnection> objects, bool isPermanent = true)
@@ -23,6 +26,22 @@ namespace Gameplay.Logic
             foreach (LogicConnection item in objects)
             {
                 timeObject.SendLogicState(item.target.UniqueId, item.value, isPermanent);
+            }
+        }
+        
+        protected void OnDrawGizmosSelected()
+        {
+            DrawWireGizmo(hitMax);
+            DrawWireGizmo(hitMin);
+            DrawWireGizmo(changedFromMax);
+            DrawWireGizmo(changedFromMin);
+        }
+
+        protected void DrawWireGizmo(List<LogicConnection> connections)
+        {
+            foreach (LogicConnection connection in connections)
+            {
+                Gizmos.DrawLine(transform.position, connection.target.transform.position);
             }
         }
         
@@ -40,6 +59,11 @@ namespace Gameplay.Logic
                 current = maxCount;
                 Invoke(hitMax);
             }
+            
+            if (current - 1 == minCount)
+            {
+                Invoke(changedFromMin);
+            }
         }
 
         public void Decrement()
@@ -49,6 +73,11 @@ namespace Gameplay.Logic
             {
                 current = minCount;
                 Invoke(hitMin);
+            }
+
+            if (current + 1 == maxCount)
+            {
+                Invoke(changedFromMax);
             }
         }
 

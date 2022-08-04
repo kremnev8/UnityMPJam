@@ -50,5 +50,6 @@ namespace Gameplay
         public AbilityDB abilities;
         public ProjectileDB projectiles;
         public LevelsDB levels;
+        public ItemDB items;
     }
 }
