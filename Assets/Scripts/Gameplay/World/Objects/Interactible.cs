@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Gameplay.Conrollers;
 using Gameplay.Core;
 using Gameplay.Util;
@@ -7,6 +8,7 @@ using Gameplay.World.Spacetime;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Gameplay.World
 {
@@ -15,6 +17,13 @@ namespace Gameplay.World
     {
         public SpaceTimeObject target;
         public bool value;
+    }
+
+    [Serializable]
+    public class ValueConnection
+    {
+        public SpaceTimeObject target;
+        public bool invert;
     }
     
     [RequireComponent(typeof(SpaceTimeObject))]
@@ -36,21 +45,45 @@ namespace Gameplay.World
         
         protected bool state;
         public bool initialState;
+        [HideInInspector]
         public bool fromTimeEvent;
         
         
-        public List<SpaceTimeObject> connections;
+        [HideInInspector]
+        [FormerlySerializedAs("connections")] 
+        public List<SpaceTimeObject> oldConnections;
         
+        public List<ValueConnection> newConnections;
+
+
+        private void OnValidate()
+        {
+            if (oldConnections is { Count: > 0 })
+            {
+                newConnections.AddRange(oldConnections.Select(o => new ValueConnection(){target = o}));
+                oldConnections.Clear();
+            }
+        }
+
         [HideInInspector]
         [SerializeField] 
         private SpaceTimeObject m_timeObject;
-
+        
         private void Start()
         {
             SpaceTimeObject to = GetComponent<SpaceTimeObject>();
             if (to.GetState(to.timeline) == ObjectState.DOES_NOT_EXIST)
             {
                 gameObject.SetActive(false);
+            }
+        }
+        
+        private void Invoke(List<ValueConnection> objects, bool value, bool isPermanent = true)
+        {
+            foreach (ValueConnection item in objects)
+            {
+                bool setValue = item.invert ? !value : value;
+                timeObject.SendLogicState(item.target.UniqueId, setValue, isPermanent);
             }
         }
 
@@ -83,10 +116,7 @@ namespace Gameplay.World
             spriteRenderer.sprite = state ? activated : idle;
             try
             {
-                foreach (SpaceTimeObject spaceTimeObject in connections)
-                {
-                    timeObject.SendLogicState(spaceTimeObject.UniqueId, newState, isPermanent);
-                }
+                Invoke(newConnections, newState, isPermanent);
 
                 if (!fromTimeEvent)
                 {
