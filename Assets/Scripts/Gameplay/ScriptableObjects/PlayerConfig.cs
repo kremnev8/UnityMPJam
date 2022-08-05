@@ -24,12 +24,15 @@ namespace ScriptableObjects
 
         public PlayerAnim[] iceMageWalk;
         public PlayerAnim[] iceMageIdle;
+        public PlayerAnim iceMageDeath;
         
         public PlayerAnim[] fireMageWalk;
         public PlayerAnim[] fireMageIdle;
+        public PlayerAnim fireMageDeath;
         
         public int idleFrameTime;
         public int walkFrameTime;
+        public int deathFrameTime;
 
         [Header("Movement")]
         public float moveTime = 1f;

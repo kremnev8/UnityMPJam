@@ -858,6 +858,10 @@ SpriteAtlas:
   - {fileID: -4445457053680830696, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
   - {fileID: 21300000, guid: 6396fc43802ee8f43b9885c9e91ea750, type: 3}
   - {fileID: 21300000, guid: 8ea417b32fe9ece419f95365b264947b, type: 3}
+  - {fileID: -2002930234, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
+  - {fileID: 1540352797, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
+  - {fileID: -1714486074, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
+  - {fileID: -1975926791, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
   - {fileID: 21300000, guid: 22f841f735a45734896e32f581ef6b6f, type: 3}
   - {fileID: 21300000, guid: cd89e818cbbbfda4e96ed1225c9cafe5, type: 3}
   - {fileID: 1692033246, guid: a94ac06841af6784489369fb15f7d5f0, type: 3}
@@ -998,6 +1002,10 @@ SpriteAtlas:
   - {fileID: -1508087015, guid: 4dcc7fea56df91a4398cdc80a8db1b98, type: 3}
   - {fileID: 21300000, guid: 8335825b902c54b4984862ab774e8aea, type: 3}
   - {fileID: 21300000, guid: b70983abc1eac964fb9b97cf27e0d435, type: 3}
+  - {fileID: 78370335, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
+  - {fileID: -1325867072, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
+  - {fileID: -2064557541, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
+  - {fileID: -1358425582, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
   - {fileID: 604232694, guid: e145e34e6a7a72e43ac71e80e16e99e5, type: 3}
   - {fileID: 21300000, guid: bb5d8cce81221634c82fc87bd7b0a00a, type: 3}
   - {fileID: 1823019292, guid: 094add4f325d19a4fba5608a9f49d2c5, type: 3}
@@ -1813,6 +1821,10 @@ SpriteAtlas:
   - atlas_16x_461
   - scroll-fireball
   - key
+  - icemagedeath_1
+  - icemagedeath_0
+  - icemagedeath_3
+  - icemagedeath_2
   - fire-flake
   - scroll-back
   - portal-ball_7
@@ -1953,6 +1965,10 @@ SpriteAtlas:
   - item-border_2
   - scroll-cube
   - square
+  - firemagedeath_0
+  - firemagedeath_1
+  - firemagedeath_2
+  - firemagedeath_3
   - Image21_0
   - scroll-dash
   - time-particle-sheet_0

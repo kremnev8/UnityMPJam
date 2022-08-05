@@ -200,6 +200,8 @@ namespace Gameplay.Conrollers
                 stateTimeLeft = time;
             }
 
+            currentFrame = 0;
+            animationTime = 0;
             this.state = state;
         }
 
@@ -349,6 +351,22 @@ namespace Gameplay.Conrollers
                     animationTime = 0;
                     currentFrame++;
                 }
+            }
+            else if (state == PlayerState.DEAD)
+            {
+                PlayerAnim sprite = role == PlayerRole.ICE_MAGE ? config.iceMageDeath : config.fireMageDeath;
+                if (animationTime >= config.deathFrameTime)
+                {
+                    animationTime = 0;
+                    currentFrame++;
+                }  
+                
+                if (currentFrame < sprite.frames.Length)
+                {
+                    renderer.sprite = sprite.frames[currentFrame];
+                    lightTransform.localPosition = sprite.staffLight[currentFrame];
+                }
+                return;
             }
             else
             {

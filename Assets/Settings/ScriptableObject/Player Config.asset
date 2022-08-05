@@ -80,6 +80,17 @@ MonoBehaviour:
     staffLight:
     - {x: -0.69, y: 0.83, z: 0}
     - {x: -0.622, y: 0.83, z: 0}
+  iceMageDeath:
+    frames:
+    - {fileID: 1540352797, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
+    - {fileID: -2002930234, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
+    - {fileID: -1975926791, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
+    - {fileID: -1714486074, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
+    staffLight:
+    - {x: -0.691, y: 0.839, z: 0}
+    - {x: -0.689, y: 0.457, z: 0}
+    - {x: -0.687, y: 0.204, z: 0}
+    - {x: -0.682, y: 0.076, z: -50}
   fireMageWalk:
   - frames:
     - {fileID: -1236766454, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
@@ -146,8 +157,20 @@ MonoBehaviour:
     staffLight:
     - {x: -0.69, y: 0.83, z: 0}
     - {x: -0.622, y: 0.83, z: 0}
+  fireMageDeath:
+    frames:
+    - {fileID: 78370335, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
+    - {fileID: -1325867072, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
+    - {fileID: -2064557541, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
+    - {fileID: -1358425582, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
+    staffLight:
+    - {x: -0.691, y: 0.839, z: 0}
+    - {x: -0.689, y: 0.457, z: 0}
+    - {x: -0.687, y: 0.204, z: 0}
+    - {x: -0.682, y: 0.076, z: -50}
   idleFrameTime: 15
   walkFrameTime: 10
+  deathFrameTime: 0
   moveTime: 0.5
   failMoveTime: 0.2
   dashTime: 0.5
