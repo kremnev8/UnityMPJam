@@ -404,7 +404,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tmp_camera: {fileID: 1565352268}
   listener: {fileID: 1565352266}
-  director: {fileID: 5077788292522003070}
   fadeUI: {fileID: 5077788292522003068}
   elements: {fileID: 5752125105569740142}
   background: {fileID: 5077788291481026620}

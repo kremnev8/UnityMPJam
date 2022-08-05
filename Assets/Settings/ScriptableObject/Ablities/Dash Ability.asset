@@ -13,4 +13,11 @@ MonoBehaviour:
   m_Name: Dash Ability
   m_EditorClassIdentifier: 
   abilityName: PlayerDash
-  abilityCooldown: 1
+  abilityCooldown: 5
+  dashDistance: 2
+  dashMask:
+    serializedVersion: 2
+    m_Bits: 960
+  waterTestMask:
+    serializedVersion: 2
+    m_Bits: 1856

@@ -434,6 +434,9 @@ MonoBehaviour:
     networkManager: {fileID: 437631058}
     roleController: {fileID: 0}
     levelElement: {fileID: 0}
+    globalInventory: {fileID: 0}
+    globalInventoryUI: {fileID: 0}
+    playerInventoryUI: {fileID: 0}
     eosLobby: {fileID: 0}
     localLobby: {fileID: 1480652948266717010}
     loadingUI: {fileID: 1480652948266717011}
@@ -516,6 +519,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1680338504342400200, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1680338504342400200, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1680338504342400200, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1680338504342400200, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2115235720802121129, guid: d3893923bc1897a4b92e71138be3c88e,
         type: 3}

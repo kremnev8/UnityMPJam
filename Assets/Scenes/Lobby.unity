@@ -465,7 +465,10 @@ MonoBehaviour:
     mainCamera: {fileID: 1565352268}
     networkManager: {fileID: 437631058}
     roleController: {fileID: 0}
-    spacetime: {fileID: 0}
+    levelElement: {fileID: 0}
+    globalInventory: {fileID: 0}
+    globalInventoryUI: {fileID: 5077788291786938699}
+    playerInventoryUI: {fileID: 0}
     eosLobby: {fileID: 1005627851}
     localLobby: {fileID: 0}
     loadingUI: {fileID: 5077788291786938698}
@@ -677,5 +680,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3907cc9f83af40c599978647bcbba1da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5077788291786938699 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6353601009900186605, guid: a7d8a83d410972c45b73f4f52bd3fef1,
+    type: 3}
+  m_PrefabInstance: {fileID: 5077788291786938697}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 195b9114fd94494fabc3d2fb5b4d3760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

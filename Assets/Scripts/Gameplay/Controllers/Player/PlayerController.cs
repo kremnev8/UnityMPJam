@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gameplay.Controllers;
 using Gameplay.Controllers.Player;
 using Gameplay.Controllers.Player.Ability;
 using Gameplay.Core;
 using Gameplay.ScriptableObjects;
+using Gameplay.UI;
 using Gameplay.Util;
 using Gameplay.World;
-using Gameplay.World.Spacetime;
 using Mirror;
 using ScriptableObjects;
 using UnityEngine;
@@ -30,6 +29,8 @@ namespace Gameplay.Conrollers
         MOVING,
         STUCK_ANIM,
         FALLING,
+        DASHING,
+        DEAD
     }
 
     public class PlayerController : NetworkBehaviour, IPlayerData, ICanTeleport, IHeavyObject
@@ -49,7 +50,13 @@ namespace Gameplay.Conrollers
         public Transform lightTransform;
         public Light2D staffLight;
         public Inventory inventory;
+        public Health health;
 
+        public Animator animator;
+        
+        public bool isGhost;
+        public float ghostTimeLeft;
+        
         private InputAction movement;
         private InputAction firstAbility;
         private InputAction secondAbility;
@@ -65,9 +72,6 @@ namespace Gameplay.Conrollers
 
         private PlayerState state;
         private float stateTimeLeft;
-        
-        public bool isGhost;
-        public float ghostTimeLeft;
 
         private int animationTime;
         private int currentFrame;
@@ -78,6 +82,8 @@ namespace Gameplay.Conrollers
         private GameModel model;
 
         private static RaycastHit2D[] hits = new RaycastHit2D[6];
+        private static readonly int fadeIn = Animator.StringToHash("FadeIn");
+        private static readonly int fadeOut = Animator.StringToHash("FadeOut");
 
         public string PlayerName
         {
@@ -93,6 +99,8 @@ namespace Gameplay.Conrollers
 
         public int Mass => 50;
 
+        #region Init
+
         public void Start()
         {
             model = Simulation.GetModel<GameModel>();
@@ -103,6 +111,7 @@ namespace Gameplay.Conrollers
             body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
             inventory = GetComponent<Inventory>();
+            health = GetComponent<Health>();
 
             EnterState(PlayerState.IDLE);
             UpdateVisual(Direction.BACKWARD);
@@ -111,23 +120,37 @@ namespace Gameplay.Conrollers
 
             firstAbility.performed += OnCastAbility;
         }
-
-        private void OnCastAbility(InputAction.CallbackContext obj)
+        
+        public void StartMap()
         {
-            if (!controlEnabled) return;
-            if (!isLocalPlayer) return;
+            SpawnPlayer();
+        }
 
-            ItemDesc itemDesc = inventory.SelectedItem();
-            if (itemDesc.itemSpell != null)
+        private void SpawnPlayer()
+        {
+            controlEnabled = true;
+            health.Increment(10);
+            
+            GameObject go = GameObject.Find("Spawn");
+            SpawnPoints points = go.GetComponent<SpawnPoints>();
+
+            try
             {
-                Vector2Int dir = GetLookVector().ToVector2Int();
+                DungeonEntrance entrance = points.spawns.First(entrance => entrance.targetPlayer == role);
+                World.World world = model.levelElement.GetWorld();
+                Vector2Int pos = world.GetGridPos(entrance.startPosition.transform.position);
 
-                if (itemDesc.itemSpell != null)
-                {
-                    CmdActivateAbility(itemDesc.itemSpell.ItemId, dir.GetDirection());
-                }
+                Teleport(pos);
+            }
+            catch (Exception)
+            {
+                Debug.Log($"Failed to spawn player {role}, because there is no spawn point matching!");
             }
         }
+
+        #endregion
+
+        #region Hooks
 
         void SetRoleHook(PlayerRole before, PlayerRole now)
         {
@@ -144,6 +167,10 @@ namespace Gameplay.Conrollers
             camera.gameObject.SetActive(isLocalPlayer && after);
         }
 
+        #endregion
+
+        #region State
+
         public float GetTimeIn(PlayerState state)
         {
             switch (state)
@@ -156,6 +183,10 @@ namespace Gameplay.Conrollers
                     return config.failMoveTime;
                 case PlayerState.FALLING:
                     return config.moveTime;
+                case PlayerState.DASHING:
+                    return config.dashTime;
+                case PlayerState.DEAD:
+                    return config.respawnTime;
                 default:
                     return -1;
             }
@@ -193,7 +224,86 @@ namespace Gameplay.Conrollers
             UpdatePosition();
             UpdateInState(state);
         }
+        
+        public void UpdateInState(PlayerState state)
+        {
+            float stateTime = GetTimeIn(state);
+            float t = (stateTime - stateTimeLeft) / stateTimeLeft;
 
+            switch (state)
+            {
+                case PlayerState.IDLE:
+                    break;
+                case PlayerState.MOVING:
+                case PlayerState.DASHING:
+
+                    if (stateTimeLeft > 0)
+                    {
+                        body.MovePosition(Vector2.Lerp(prevPosition.ToWorldPos(), position.ToWorldPos(), t));
+                    }
+                    else
+                    {
+                        body.MovePosition(position.ToWorldPos());
+                        EnterState(PlayerState.IDLE);
+                    }
+
+                    break;
+                case PlayerState.STUCK_ANIM:
+
+                    if (stateTimeLeft > 0)
+                    {
+                        float nt = config.stuckAnim.Evaluate(t);
+                        Vector2 pos = position.ToWorldPos();
+                        body.MovePosition(Vector2.Lerp(pos, pos + lastMoveDir, nt));
+                    }
+                    else
+                    {
+                        body.MovePosition(position.ToWorldPos());
+                        EnterState(PlayerState.IDLE);
+                    }
+
+                    break;
+                case PlayerState.FALLING:
+                    break;
+                case PlayerState.DEAD:
+                    if (isServer)
+                    {
+                        if (stateTimeLeft < 0.1f)
+                        {
+                            SpawnPlayer();
+                            RpcRespawned();
+                        }
+                    }
+
+                    break;
+            }
+        }
+
+        [Server]
+        public void OnDead()
+        {
+            EnterState(PlayerState.DEAD);
+            RpcDead();
+        }
+
+        [ClientRpc]
+        private void RpcDead()
+        {
+            animator.SetTrigger(fadeIn);
+            animator.ResetTrigger(fadeOut);
+            EnterState(PlayerState.DEAD);
+        }
+
+        [ClientRpc]
+        private void RpcRespawned()
+        {
+            animator.SetTrigger(fadeOut);
+        }
+
+        #endregion
+
+        #region Animation
+        
         private void Update()
         {
             if (isLocalPlayer)
@@ -217,6 +327,7 @@ namespace Gameplay.Conrollers
                 ghostTimeLeft -= Time.deltaTime;
                 if (ghostTimeLeft <= 0)
                 {
+                    gameObject.layer = LayerMask.NameToLayer("Player");
                     isGhost = false;
                     renderer.color = Color.white;
                 }
@@ -255,7 +366,7 @@ namespace Gameplay.Conrollers
             {
                 currentFrame = 0;
             }
-            
+
             renderer.sprite = sprites[(int)displayDir].frames[currentFrame];
             lightTransform.localPosition = sprites[(int)displayDir].staffLight[currentFrame];
             staffLight.color = lightColor;
@@ -272,113 +383,43 @@ namespace Gameplay.Conrollers
         {
             lastlookDir = direction;
         }
+        #endregion
 
-        private Vector3 GetLookVector()
+        #region Ability
+        
+        private void OnCastAbility(InputAction.CallbackContext obj)
         {
-            if (mousePosition == null) return Vector3.down;
-
-            Vector3 mouse = mousePosition.ReadValue<Vector2>();
-            mouse.z = 10;
-            Vector3 worldMousePos = camera.ScreenToWorldPoint(mouse);
-            worldMousePos.z = 0;
-            Vector3 dir = (worldMousePos - transform.position).normalized.AxisRound();
-            return dir;
-        }
-
-        private Direction GetLookDirection()
-        {
-            return GetLookVector().ToVector2Int().GetDirection();
-        }
-
-        private void UpdatePosition()
-        {
+            if (!controlEnabled) return;
             if (!isLocalPlayer) return;
-            if (state != PlayerState.IDLE) return;
 
-            Vector2Int dir = movement.ReadValue<Vector2>().Apply(Mathf.RoundToInt);
-            LayerMask mask = isGhost ? config.ghostMask : config.wallMask;
-            if (dir != Vector2Int.zero && stateTimeLeft < 0.1f)
+            ItemDesc itemDesc = inventory.SelectedItem();
+            if (itemDesc != null && itemDesc.itemSpell != null)
             {
-                int xAbs = Mathf.Abs(dir.x);
-                int yAbs = Mathf.Abs(dir.y);
-                if (xAbs + yAbs == 1)
+                Vector2Int dir = GetLookVector().ToVector2Int();
+
+                if (itemDesc.itemSpell != null)
                 {
-                    lastMoveDir = dir;
-                    Vector2 pos = position.ToWorldPos();
-                    
-
-                    int hitCount = Physics2D.CircleCastNonAlloc(pos, 0.9f, dir, hits, 2f, mask);
-                    if (hitCount > 0)
-                    {
-                        bool shouldStop = false;
-                        for (int i = 0; i < hitCount; i++)
-                        {
-                            RaycastHit2D hit = hits[i];
-                            if (hit.collider != null && hit.collider != collider)
-                            {
-                                if (hit.collider.isTrigger)
-                                {
-                                    IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-                                    if (interactable != null && interactable.FacingDirection == -dir)
-                                    {
-                                        interactable.Activate(this);
-                                    }
-                                }
-                                else
-                                {
-                                    IMoveAble moveAble = hit.collider.GetComponent<IMoveAble>();
-                                    if (moveAble != null)
-                                    {
-                                        moveAble.Move(lastMoveDir.GetDirection());
-                                    }
-
-                                    shouldStop = true;
-                                }
-                            }
-                        }
-
-                        if (shouldStop)
-                        {
-                            EnterState(PlayerState.STUCK_ANIM);
-                            CmdStuckAnim(lastMoveDir.GetDirection());
-                            return;
-                        }
-                    }
-
-                    prevPosition = position;
-                    position += dir;
-                    EnterState(PlayerState.MOVING);
-                    CmdMove(prevPosition, dir.GetDirection());
+                    CmdActivateAbility(itemDesc.itemSpell.ItemId, dir.GetDirection());
                 }
+            }
+            else
+            {
+                Feedback("You don't have any spell selected!");
             }
         }
 
-        [Command]
-        public void CmdStuckAnim(Direction direction)
+        [Command(requiresAuthority = false)]
+        public void CmdTransferItem(bool toGlobal, string itemId)
         {
-            lastMoveDir = direction.GetVector();
-            EnterState(PlayerState.STUCK_ANIM);
-            RpcStuckAnim(direction);
+            if (toGlobal)
+            {
+                model.globalInventory.Transfer(inventory, itemId);
+            }
+            else
+            {
+                inventory.Transfer(model.globalInventory, itemId);
+            }
         }
-
-        [ClientRpc(includeOwner = false)]
-        public void RpcStuckAnim(Direction direction)
-        {
-            lastMoveDir = direction.GetVector();
-            EnterState(PlayerState.STUCK_ANIM);
-        }
-
-        [Command]
-        public void CmdMove(Vector2Int pos, Direction direction)
-        {
-            lastMoveDir = direction.GetVector();
-            prevPosition = pos;
-            position = pos + lastMoveDir;
-            EnterState(PlayerState.MOVING);
-            RpcMove(pos, direction);
-        }
-
-        #region Ability
 
         [Command]
         public void CmdActivateAbility(string abilityId, Direction direction)
@@ -482,7 +523,6 @@ namespace Gameplay.Conrollers
                 feedback = "You don't have such ability!";
                 return false;
             }
-            
         }
 
         [ClientRpc]
@@ -500,9 +540,108 @@ namespace Gameplay.Conrollers
             //TODO nice popups
             Debug.Log(message);
         }
+        
+        [ClientRpc]
+        public void RpcActivateGhostMode(float time)
+        {
+            gameObject.layer = LayerMask.NameToLayer("Ghost");
+            ghostTimeLeft = time;
+            isGhost = true;
+            renderer.color = new Color(1, 1, 1, 0.5f);
+        }
 
         #endregion
 
+        #region Movement
+        
+         private void UpdatePosition()
+        {
+            if (!isLocalPlayer) return;
+            if (state != PlayerState.IDLE) return;
+
+            Vector2Int dir = movement.ReadValue<Vector2>().Apply(Mathf.RoundToInt);
+            LayerMask mask = isGhost ? config.ghostMask : config.wallMask;
+            if (dir != Vector2Int.zero && stateTimeLeft < 0.1f)
+            {
+                int xAbs = Mathf.Abs(dir.x);
+                int yAbs = Mathf.Abs(dir.y);
+                if (xAbs + yAbs == 1)
+                {
+                    lastMoveDir = dir;
+                    Vector2 pos = position.ToWorldPos();
+
+
+                    int hitCount = Physics2D.CircleCastNonAlloc(pos, 0.9f, dir, hits, 2f, mask);
+                    if (hitCount > 0)
+                    {
+                        bool shouldStop = false;
+                        for (int i = 0; i < hitCount; i++)
+                        {
+                            RaycastHit2D hit = hits[i];
+                            if (hit.collider != null && hit.collider != collider)
+                            {
+                                if (hit.collider.isTrigger)
+                                {
+                                    IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+                                    if (interactable != null && interactable.FacingDirection == -dir)
+                                    {
+                                        interactable.Activate(this);
+                                    }
+                                }
+                                else
+                                {
+                                    IMoveAble moveAble = hit.collider.GetComponent<IMoveAble>();
+                                    if (moveAble != null)
+                                    {
+                                        moveAble.Move(lastMoveDir.GetDirection(), state == PlayerState.DASHING);
+                                    }
+
+                                    shouldStop = true;
+                                }
+                            }
+                        }
+
+                        if (shouldStop)
+                        {
+                            EnterState(PlayerState.STUCK_ANIM);
+                            CmdStuckAnim(lastMoveDir.GetDirection());
+                            return;
+                        }
+                    }
+
+                    prevPosition = position;
+                    position += dir;
+                    EnterState(PlayerState.MOVING);
+                    CmdMove(prevPosition, dir.GetDirection());
+                }
+            }
+        }
+        
+        [Command]
+        public void CmdStuckAnim(Direction direction)
+        {
+            lastMoveDir = direction.GetVector();
+            EnterState(PlayerState.STUCK_ANIM);
+            RpcStuckAnim(direction);
+        }
+
+        [ClientRpc(includeOwner = false)]
+        public void RpcStuckAnim(Direction direction)
+        {
+            lastMoveDir = direction.GetVector();
+            EnterState(PlayerState.STUCK_ANIM);
+        }
+
+        [Command]
+        public void CmdMove(Vector2Int pos, Direction direction)
+        {
+            lastMoveDir = direction.GetVector();
+            prevPosition = pos;
+            position = pos + lastMoveDir;
+            EnterState(PlayerState.MOVING);
+            RpcMove(pos, direction);
+        }
+        
         [ClientRpc(includeOwner = false)]
         public void RpcMove(Vector2Int pos, Direction direction)
         {
@@ -510,6 +649,14 @@ namespace Gameplay.Conrollers
             prevPosition = pos;
             position = pos + lastMoveDir;
             EnterState(PlayerState.MOVING);
+        }
+
+        public void RpcDash(Vector2Int pos, Direction direction, int distance)
+        {
+            lastMoveDir = direction.GetVector();
+            prevPosition = pos;
+            position = pos + lastMoveDir * distance;
+            EnterState(PlayerState.DASHING);
         }
 
         [ClientRpc]
@@ -520,87 +667,7 @@ namespace Gameplay.Conrollers
                 Teleport(target);
             }
         }
-
-        [ClientRpc]
-        public void RpcActivateGhostMode(float time)
-        {
-            ghostTimeLeft = time;
-            isGhost = true;
-            renderer.color = new Color(1, 1, 1, 0.5f);
-        }
-
-
-        public void UpdateInState(PlayerState state)
-        {
-            float stateTime = GetTimeIn(state);
-            float t = (stateTime - stateTimeLeft) / stateTimeLeft;
-
-            switch (state)
-            {
-                case PlayerState.IDLE:
-                    break;
-                case PlayerState.MOVING:
-
-                    if (stateTimeLeft > 0)
-                    {
-                        body.MovePosition(Vector2.Lerp(prevPosition.ToWorldPos(), position.ToWorldPos(), t));
-                    }
-                    else
-                    {
-                        body.MovePosition(position.ToWorldPos());
-                        EnterState(PlayerState.IDLE);
-                    }
-
-                    break;
-                case PlayerState.STUCK_ANIM:
-
-                    if (stateTimeLeft > 0)
-                    {
-                        float nt = config.stuckAnim.Evaluate(t);
-                        Vector2 pos = position.ToWorldPos();
-                        body.MovePosition(Vector2.Lerp(pos, pos + lastMoveDir, nt));
-                    }
-                    else
-                    {
-                        body.MovePosition(position.ToWorldPos());
-                        EnterState(PlayerState.IDLE);
-                    }
-
-                    break;
-                case PlayerState.FALLING:
-                    break;
-            }
-        }
-
-        public void StartMap()
-        {
-            Debug.Log($"Start Map is called on {(isServer ? "Server" : "Client")}");
-
-            controlEnabled = true;
-            GameObject go = GameObject.Find("Spawn");
-            SpawnPoints points = go.GetComponent<SpawnPoints>();
-
-            try
-            {
-                DungeonEntrance entrance =
-                    points.spawns.First(entrance =>
-                    {
-                        return entrance.targetPlayer == role;
-                    });
-
-                World.World world = model.levelElement.GetWorld();
-
-                Vector2Int pos = world.GetGridPos(entrance.startPosition.transform.position);
-
-                Teleport(pos);
-            }
-            catch (Exception e)
-            {
-                Debug.Log($"Failed to spawn player {role}, because there is no spawn point matching!");
-                return;
-            }
-        }
-
+        
         public bool Teleport(Vector2Int position)
         {
             if (body == null)
@@ -620,5 +687,28 @@ namespace Gameplay.Conrollers
 
             return true;
         }
+        
+        #endregion
+
+        #region Utils
+
+        private Vector3 GetLookVector()
+        {
+            if (mousePosition == null) return Vector3.down;
+
+            Vector3 mouse = mousePosition.ReadValue<Vector2>();
+            mouse.z = 10;
+            Vector3 worldMousePos = camera.ScreenToWorldPoint(mouse);
+            worldMousePos.z = 0;
+            Vector3 dir = (worldMousePos - transform.position).normalized.AxisRound();
+            return dir;
+        }
+
+        private Direction GetLookDirection()
+        {
+            return GetLookVector().ToVector2Int().GetDirection();
+        }
+
+        #endregion
     }
 }

@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1593202355466616516}
   - component: {fileID: 1593202355466616519}
+  - component: {fileID: 7770572436998993241}
   - component: {fileID: 1593202355466616518}
   - component: {fileID: 1593202355466616537}
   - component: {fileID: 87564869244264275}
@@ -140,6 +141,43 @@ MonoBehaviour:
   trailSystem: {fileID: 3191196990528652830}
   renderer: {fileID: 1593202354889130127}
   projectileID: 2
+  shouldRotate: 0
+--- !u!114 &7770572436998993241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593202355466616539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627ba4a43f12559498e84d68a0298611, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  maxHp: 1
+  hurt:
+    m_PersistentCalls:
+      m_Calls: []
+  healed:
+    m_PersistentCalls:
+      m_Calls: []
+  isZero:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1593202355466616519}
+        m_TargetAssemblyTypeName: Gameplay.World.Spawnable, Assembly-CSharp
+        m_MethodName: Destroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1593202355466616518
 MonoBehaviour:
   m_ObjectHideFlags: 0

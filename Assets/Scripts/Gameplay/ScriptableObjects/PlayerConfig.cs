@@ -34,17 +34,13 @@ namespace ScriptableObjects
         [Header("Movement")]
         public float moveTime = 1f;
         public float failMoveTime = 1f;
+        public float dashTime = 0.5f;
         public LayerMask wallMask;
         public LayerMask ghostMask;
 
         public AnimationCurve stuckAnim;
 
-        [InspectorButton]
-        public void CopyToFire()
-        {
-            fireMageWalk = iceMageWalk.ToArray();
-            fireMageIdle = iceMageIdle.ToArray();
-
-        }
+        [Header("Other")] 
+        public float respawnTime = 4;
     }
 }

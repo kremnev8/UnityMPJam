@@ -157,6 +157,8 @@ namespace Gameplay.World
                 Vector2 pos = body.position;
 
                 int hitCount = Physics2D.CircleCastNonAlloc(pos, 0.33f, moveDir.GetVector(), hits, 0.5f, projectile.wallMask);
+                bool hitSomething = false;
+                
                 if (hitCount > 0)
                 {
                     for (int i = 0; i < hitCount; i++)
@@ -168,21 +170,33 @@ namespace Gameplay.World
 
                             if (!hit.collider.isTrigger)
                             {
-                                Debug.Log("hit!");
                                 Health health = hit.collider.GetComponent<Health>();
-                                if (health != null && projectile.damage > 0 && owner == null)
+                                if (health != null && projectile.damage > 0)
                                 {
                                     health.Decrement(projectile.damage);
                                 }
 
                                 velocity = 0;
-                                OnHit();
-                                EnterState(ProjectileState.STUCK);
-                                RpcStuck();
-                                return;
+                                hitSomething = true;
+                            }
+                            else if (owner != null)
+                            {
+                                IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+                                if (interactable != null)
+                                {
+                                    interactable.Activate(owner);
+                                }
                             }
                         }
                     }
+                }
+
+                if (hitSomething)
+                {
+                    OnHit();
+                    EnterState(ProjectileState.STUCK);
+                    RpcStuck();
+                    return;
                 }
             }
 
@@ -237,11 +251,22 @@ namespace Gameplay.World
         }
 
         [Client]
-        public void Move(Direction direction)
+        public void Move(Direction direction, bool isDashing)
         {
-            if (projectile.pushMoveSpeed > 0)
+            if (isDashing)
             {
-                CmdStartMove(direction, projectile.pushMoveSpeed);
+                float speed = Mathf.Max(projectile.pushMoveSpeed, projectile.pushWithDashSpeed);
+                if (speed > 0)
+                {
+                    CmdStartMove(direction, speed);
+                }
+            }
+            else
+            {
+                if (projectile.pushMoveSpeed > 0)
+                {
+                    CmdStartMove(direction, projectile.pushMoveSpeed);
+                }
             }
         }
     }

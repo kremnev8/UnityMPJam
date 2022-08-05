@@ -4,6 +4,7 @@ using Gameplay.Controllers.Player;
 using Gameplay.Core;
 using Gameplay.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace Gameplay.UI
@@ -20,7 +21,8 @@ namespace Gameplay.UI
         private GameModel model;
         private InputAction mouseScroll;
         
-        private List<InventorySlotUI> slots = new List<InventorySlotUI>();
+        public List<InventorySlotUI> slots = new List<InventorySlotUI>();
+        
 
         private void Start()
         {
@@ -32,14 +34,14 @@ namespace Gameplay.UI
             }
         }
 
-        private void Init()
+        public void Init()
         {
             ItemDesc[] items = inventory.GetItems();
             for (int i = 0; i < inventory.maxSize; i++)
             {
                 InventorySlotUI slotUI = Instantiate(slotPrefab, slotTransform);
                 ItemDesc item = i < items.Length ? items[i] : null;
-                slotUI.Set(item);
+                slotUI.Set(item, i);
                 slots.Add(slotUI);
                 slots[i].SetSelected(i == inventory.selectedIndex);
             }
@@ -49,18 +51,23 @@ namespace Gameplay.UI
 
         private void OnDestroy()
         {
-            inventory.inventoryChanged -= RefreshUI;
+            if (inventory != null)
+                inventory.inventoryChanged -= RefreshUI;
         }
 
         private void OnEnable()
         {
-            inventory.inventoryChanged -= RefreshUI;
-            inventory.inventoryChanged += RefreshUI;
+            if (inventory != null)
+            {
+                inventory.inventoryChanged -= RefreshUI;
+                inventory.inventoryChanged += RefreshUI;
+            }
         }
 
         private void OnDisable()
         {
-            inventory.inventoryChanged -= RefreshUI;
+            if (inventory != null)
+                inventory.inventoryChanged -= RefreshUI;
         }
 
         private void RefreshUI()
@@ -71,7 +78,7 @@ namespace Gameplay.UI
                 for (int i = 0; i < slots.Count; i++)
                 {
                     ItemDesc item = i < items.Length ? items[i] : null;
-                    slots[i].Set(item);
+                    slots[i].Set(item, i);
                     slots[i].SetSelected(i == inventory.selectedIndex);
                 }
             }
@@ -79,6 +86,8 @@ namespace Gameplay.UI
 
         private void Update()
         {
+            if (!canScroll) return;
+            
             Vector2 scroll = mouseScroll.ReadValue<Vector2>();
             if (scroll.y == 0) return;
             

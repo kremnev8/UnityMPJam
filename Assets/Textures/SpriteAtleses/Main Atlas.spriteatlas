@@ -996,6 +996,7 @@ SpriteAtlas:
   - {fileID: -1060533054, guid: 1226175adb84e6f4b9a66abd4c5de7ec, type: 3}
   - {fileID: 1515439278, guid: 4dcc7fea56df91a4398cdc80a8db1b98, type: 3}
   - {fileID: 1941468122, guid: 4dcc7fea56df91a4398cdc80a8db1b98, type: 3}
+  - {fileID: -1508087015, guid: 4dcc7fea56df91a4398cdc80a8db1b98, type: 3}
   - {fileID: 21300000, guid: 8335825b902c54b4984862ab774e8aea, type: 3}
   - {fileID: 21300000, guid: b70983abc1eac964fb9b97cf27e0d435, type: 3}
   - {fileID: 604232694, guid: e145e34e6a7a72e43ac71e80e16e99e5, type: 3}
@@ -1951,6 +1952,7 @@ SpriteAtlas:
   - ice-ball_0
   - item-border_0
   - item-border_1
+  - item-border_2
   - scroll-cube
   - square
   - Image21_0

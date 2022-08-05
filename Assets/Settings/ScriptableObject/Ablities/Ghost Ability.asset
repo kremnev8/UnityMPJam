@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Ghost Ability
   m_EditorClassIdentifier: 
   abilityName: TurnIntoGhost
-  abilityCooldown: 1
+  abilityCooldown: 30
+  timeInGhost: 5

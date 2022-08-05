@@ -148,34 +148,15 @@ MonoBehaviour:
     - {x: -0.622, y: 0.83, z: 0}
   idleFrameTime: 15
   walkFrameTime: 10
-  iceMageSprites:
-  - {fileID: 1109702328, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
-  - {fileID: -712161801, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
-  - {fileID: 881227398, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
-  - {fileID: 1278089007, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
-  fireMageSprites:
-  - {fileID: 1002711409, guid: d547d9a0d5baaa044bd0ee5433cccfc0, type: 3}
-  - {fileID: -720965665, guid: d547d9a0d5baaa044bd0ee5433cccfc0, type: 3}
-  - {fileID: 330977827, guid: d547d9a0d5baaa044bd0ee5433cccfc0, type: 3}
-  - {fileID: -1311887454, guid: d547d9a0d5baaa044bd0ee5433cccfc0, type: 3}
-  iceStaffLightPos:
-  - {x: 0.65, y: 0.81, z: 0}
-  - {x: -0.65, y: 0.81, z: 0}
-  - {x: -0.73, y: 0.81, z: 0}
-  - {x: -0.65, y: 0.81, z: 0}
-  fireStaffLightPos:
-  - {x: 0.65, y: 0.81, z: 0}
-  - {x: -0.65, y: 0.81, z: 0}
-  - {x: -0.73, y: 0.81, z: 0}
-  - {x: -0.65, y: 0.81, z: 0}
   moveTime: 0.5
   failMoveTime: 0.2
+  dashTime: 0.5
   wallMask:
     serializedVersion: 2
     m_Bits: 1984
   ghostMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1600
   stuckAnim:
     serializedVersion: 2
     m_Curve:
@@ -245,3 +226,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  respawnTime: 3

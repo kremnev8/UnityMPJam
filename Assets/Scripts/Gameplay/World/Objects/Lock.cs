@@ -17,14 +17,28 @@ namespace Gameplay.World
 
         public override void Activate(PlayerController player)
         {
-            CmdActivate(player);
+            if (isClient)
+            {
+                CmdActivate(player);
+            }
+            else
+            {
+                ServerActivate(player);
+            }
+            
         }
 
         [Command(requiresAuthority = false)]
         private void CmdActivate(PlayerController player)
         {
+            ServerActivate(player);
+        }
+
+        [Server]
+        private void ServerActivate(PlayerController player)
+        {
             if (state) return;
-            
+
             Inventory inventory = player.GetComponent<Inventory>();
             if (inventory != null)
             {

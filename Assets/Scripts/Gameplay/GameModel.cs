@@ -1,5 +1,6 @@
 ﻿using Gameplay.Conrollers;
 using Gameplay.Controllers;
+using Gameplay.Controllers.Player;
 using Gameplay.ScriptableObjects;
 using Gameplay.UI;
 using Gameplay.UI.Lobby;
@@ -25,6 +26,10 @@ namespace Gameplay
         public GameNetworkManager networkManager;
         public RoleController roleController;
         [FormerlySerializedAs("spacetime")] public LevelElementController levelElement;
+
+        public Inventory globalInventory;
+        public InventoryUI globalInventoryUI;
+        public InventoryUI playerInventoryUI;
         
         public LobbyUI eosLobby;
         public LocalLobby localLobby;
