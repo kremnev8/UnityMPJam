@@ -20,7 +20,7 @@ namespace Gameplay.World
             CmdActivate(player);
         }
 
-        [Command]
+        [Command(requiresAuthority = false)]
         private void CmdActivate(PlayerController player)
         {
             if (state) return;

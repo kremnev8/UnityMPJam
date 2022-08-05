@@ -967,6 +967,8 @@ SpriteAtlas:
   - {fileID: -2039981208, guid: 1226175adb84e6f4b9a66abd4c5de7ec, type: 3}
   - {fileID: 1574840285, guid: 1226175adb84e6f4b9a66abd4c5de7ec, type: 3}
   - {fileID: -1060533054, guid: 1226175adb84e6f4b9a66abd4c5de7ec, type: 3}
+  - {fileID: 1515439278, guid: 4dcc7fea56df91a4398cdc80a8db1b98, type: 3}
+  - {fileID: 1941468122, guid: 4dcc7fea56df91a4398cdc80a8db1b98, type: 3}
   - {fileID: 604232694, guid: 8f518cdb8a126164299c1ac22dbc5ced, type: 3}
   - {fileID: -1782585658, guid: 8f518cdb8a126164299c1ac22dbc5ced, type: 3}
   - {fileID: 1613097801, guid: 8f518cdb8a126164299c1ac22dbc5ced, type: 3}
@@ -1895,6 +1897,8 @@ SpriteAtlas:
   - ice-ball_2
   - ice-ball_1
   - ice-ball_0
+  - item-border_0
+  - item-border_1
   - Image21_0
   - Image21_1
   - Image21_2

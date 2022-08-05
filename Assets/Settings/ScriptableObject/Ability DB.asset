@@ -16,15 +16,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1889884d956402e4e8943816acfa6040, type: 2}
   - {fileID: 11400000, guid: ebfd78486ac54a4499504aa610176441, type: 2}
   - {fileID: 11400000, guid: 87d754967fad4314cab7645d8544e5a1, type: 2}
-  - {fileID: 11400000, guid: bd3fc8bd92dfb1d49b2f561ed0f856ad, type: 2}
+  - {fileID: 11400000, guid: a8cc795d10066884694099faf484feec, type: 2}
   - {fileID: 11400000, guid: e3e40cfc4b52b5e4bb54fa3445e761dc, type: 2}
   - {fileID: 11400000, guid: 8b67739a8bf56634d87b8015f96127c6, type: 2}
-  abilityStacks:
-  - role: 0
-    abilities:
-    - {fileID: 11400000, guid: 1889884d956402e4e8943816acfa6040, type: 2}
-    - {fileID: 0}
-  - role: 1
-    abilities:
-    - {fileID: 11400000, guid: 8b67739a8bf56634d87b8015f96127c6, type: 2}
-    - {fileID: 0}
+  - {fileID: 11400000, guid: c133be2603bf9074099e69143559aedd, type: 2}

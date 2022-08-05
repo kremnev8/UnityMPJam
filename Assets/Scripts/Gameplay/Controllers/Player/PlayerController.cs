@@ -50,6 +50,7 @@ namespace Gameplay.Conrollers
         public new SpriteRenderer renderer;
         public Transform lightTransform;
         public Light2D staffLight;
+        public Inventory inventory;
 
         private InputAction movement;
         private InputAction firstAbility;
@@ -69,7 +70,7 @@ namespace Gameplay.Conrollers
 
         private Dictionary<BaseAbility, float> abilityCooldowns = new Dictionary<BaseAbility, float>();
         private Dictionary<ProjectileID, List<GameObject>> playerObjects = new Dictionary<ProjectileID, List<GameObject>>();
-        
+
         private GameModel model;
 
         private static RaycastHit2D[] hits = new RaycastHit2D[6];
@@ -93,53 +94,33 @@ namespace Gameplay.Conrollers
             model = Simulation.GetModel<GameModel>();
             movement = model.input.actions["move"];
             firstAbility = model.input.actions["first"];
-            secondAbility = model.input.actions["second"];
             mousePosition = model.input.actions["mouse"];
 
             body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
+            inventory = GetComponent<Inventory>();
 
             EnterState(PlayerState.IDLE);
             UpdateVisual(Direction.BACKWARD);
             DontDestroyOnLoad(gameObject);
             camera.gameObject.SetActive(false);
 
-            firstAbility.performed += OnCastFirstAbility;
-            secondAbility.performed += OnCastSecondAbility;
+            firstAbility.performed += OnCastAbility;
         }
 
-        private void OnCastSecondAbility(InputAction.CallbackContext obj)
+        private void OnCastAbility(InputAction.CallbackContext obj)
         {
             if (!controlEnabled) return;
             if (!isLocalPlayer) return;
 
-            AbilityStack abilityStack = model.abilities.GetAbilities(role);
-            if (abilityStack.abilities.Count > 0)
+            ItemDesc itemDesc = inventory.SelectedItem();
+            if (itemDesc.itemSpell != null)
             {
                 Vector2Int dir = GetLookVector().ToVector2Int();
 
-                BaseAbility ability = abilityStack.abilities[0];
-                if (ability != null)
+                if (itemDesc.itemSpell != null)
                 {
-                    CmdActivateAbility(ability.ItemId, dir.GetDirection());
-                }
-            }
-        }
-
-        private void OnCastFirstAbility(InputAction.CallbackContext obj)
-        {
-            if (!controlEnabled) return;
-            if (!isLocalPlayer) return;
-
-            AbilityStack abilityStack = model.abilities.GetAbilities(role);
-            if (abilityStack.abilities.Count > 1)
-            {
-                Vector2Int dir = GetLookVector().ToVector2Int();
-
-                BaseAbility ability = abilityStack.abilities[1];
-                if (ability != null)
-                {
-                    CmdActivateAbility(ability.ItemId, dir.GetDirection());
+                    CmdActivateAbility(itemDesc.itemSpell.ItemId, dir.GetDirection());
                 }
             }
         }
@@ -204,7 +185,7 @@ namespace Gameplay.Conrollers
                     abilityCooldowns[ability] -= Time.fixedDeltaTime;
                 }
             }
-            
+
             UpdatePosition();
             UpdateInState(state);
         }
@@ -219,6 +200,7 @@ namespace Gameplay.Conrollers
                     lastlookDir = dir;
                     CmdUpdateLookDirection(dir);
                 }
+
                 UpdateVisual(dir);
             }
             else
@@ -226,14 +208,14 @@ namespace Gameplay.Conrollers
                 UpdateVisual(lastlookDir);
             }
         }
-        
+
         private void UpdateVisual(Direction direction)
         {
             Sprite[] sprites = role == PlayerRole.ICE_MAGE ? config.iceMageSprites : config.fireMageSprites;
             Vector3[] ligthPoses = role == PlayerRole.ICE_MAGE ? config.iceStaffLightPos : config.fireStaffLightPos;
             Color lightColor = role == PlayerRole.ICE_MAGE ? config.iceMageLightColor : config.fireMageLightColor;
-            
-            
+
+
             renderer.sprite = sprites[(int)direction];
             lightTransform.localPosition = ligthPoses[(int)direction];
             staffLight.color = lightColor;
@@ -254,7 +236,7 @@ namespace Gameplay.Conrollers
         private Vector3 GetLookVector()
         {
             if (mousePosition == null) return Vector3.down;
-            
+
             Vector3 mouse = mousePosition.ReadValue<Vector2>();
             mouse.z = 10;
             Vector3 worldMousePos = camera.ScreenToWorldPoint(mouse);
@@ -374,7 +356,7 @@ namespace Gameplay.Conrollers
                 RpcFeedback(feedback);
             }
         }
-        
+
         [Server]
         public List<GameObject> GetActiveProjectiles(ProjectileID projectileID)
         {
@@ -440,10 +422,10 @@ namespace Gameplay.Conrollers
 
         public bool CanCast(string abilityId, out string feedback)
         {
-            AbilityStack abilityStack = model.abilities.GetAbilities(role);
-            if (abilityStack.abilities.Any(ability => ability != null && ability.ItemId == abilityId))
+            try
             {
-                BaseAbility ability = model.abilities.Get(abilityId);
+                BaseAbility ability = inventory.GetItems().First(item => item.itemSpell != null && item.itemSpell.ItemId == abilityId).itemSpell;
+
                 if (abilityCooldowns.ContainsKey(ability))
                 {
                     feedback = "Ability is on cooldown!";
@@ -453,9 +435,12 @@ namespace Gameplay.Conrollers
                 feedback = "OK!";
                 return true;
             }
-
-            feedback = "You don't have such ability!";
-            return false;
+            catch (Exception)
+            {
+                feedback = "You don't have such ability!";
+                return false;
+            }
+            
         }
 
         [ClientRpc]
@@ -554,13 +539,13 @@ namespace Gameplay.Conrollers
                         SpaceTimeObject timeObject1 = entrance.GetComponent<SpaceTimeObject>();
                         return timeObject1.GetState() == ObjectState.EXISTS && entrance.GetTargetPlayer(timeObject1.timeline) == role;
                     });
-                SpaceTimeObject timeObject = entrance.GetComponent<SpaceTimeObject>();    
-                
+                SpaceTimeObject timeObject = entrance.GetComponent<SpaceTimeObject>();
+
                 timeline = timeObject.timeline;
                 World.World world = model.spacetime.GetWorld(timeObject.timeline);
-                
+
                 Vector2Int pos = world.GetGridPos(entrance.startPosition.transform.position);
-                
+
                 Debug.Log($"Spawning {role} in timeline: {timeline}, grid pos: {pos}");
 
                 Teleport(timeline, pos);

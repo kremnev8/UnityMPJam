@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3807e1c12c574a27bf4ef30530d57e4c, type: 3}
-  m_Name: Paradox Ability
+  m_Script: {fileID: 11500000, guid: 350556999e264d00b7082ac950fc89b1, type: 3}
+  m_Name: Dash Ability
   m_EditorClassIdentifier: 
-  abilityName: ParadoxAbility
-  abilityCooldown: 3
-  paradoxPrefab: {fileID: 4321768997356975327, guid: 7767ff294712063409446812a8602b57,
-    type: 3}
+  abilityName: PlayerDash
+  abilityCooldown: 1

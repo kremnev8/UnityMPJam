@@ -14,8 +14,27 @@ namespace Gameplay.Controllers.Player
         private readonly SyncList<ItemDesc> items = new SyncList<ItemDesc>();
         private GameModel model;
 
-        public static Action inventoryChanged;
-        
+        public Action inventoryChanged;
+        public int selectedIndex;
+
+        public void SelectNext()
+        {
+            selectedIndex++;
+            if (selectedIndex >= items.Count)
+            {
+                selectedIndex = 0;
+            }
+        }
+
+        public void SelectPrevious()
+        {
+            selectedIndex--;
+            if (selectedIndex < 0)
+            {
+                selectedIndex = items.Count - 1;
+            }
+        }
+
         private void Start()
         {
             model = Simulation.GetModel<GameModel>();
@@ -81,6 +100,11 @@ namespace Gameplay.Controllers.Player
         public ItemDesc[] GetItems()
         {
             return items.ToArray();
+        }
+
+        public ItemDesc SelectedItem()
+        {
+            return items[selectedIndex];
         }
 
 

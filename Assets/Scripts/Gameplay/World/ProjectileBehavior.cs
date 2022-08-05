@@ -24,7 +24,7 @@ namespace Gameplay.World
         public ParticleSystem trailSystem;
         public new SpriteRenderer renderer;
         private new Collider2D collider;
-        
+
         private Rigidbody2D body;
 
         public ProjectileID projectileID;
@@ -62,9 +62,9 @@ namespace Gameplay.World
         {
             body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
-            
+
             base.Spawn(player, timeline, position, direction);
-            
+
             ProjectileDB projectileDB = model.projectiles;
             projectile = projectileDB.Get(projectileID);
             trailSystem.Play();
@@ -80,12 +80,12 @@ namespace Gameplay.World
         {
             body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
-            
+
             base.RpcSpawn(timeline, position, direction);
-            
+
             ProjectileDB projectileDB = model.projectiles;
             projectile = projectileDB.Get(projectileID);
-            
+
             moveDir = direction;
             trailSystem.Play();
         }
@@ -100,7 +100,7 @@ namespace Gameplay.World
         {
             moveDir = direction;
             this.velocity = velocity;
-            
+
             EnterState(ProjectileState.MOVING);
             RpcStartMove(direction, velocity);
         }
@@ -110,11 +110,11 @@ namespace Gameplay.World
         {
             moveDir = direction;
             this.velocity = velocity;
-            
+
             EnterState(ProjectileState.MOVING);
             RpcStartMove(direction, velocity);
         }
-        
+
 
         [ClientRpc]
         public void RpcStartMove(Direction direction, float velocity)
@@ -147,8 +147,9 @@ namespace Gameplay.World
 
         private void UpdatePosition()
         {
-            transform.rotation = Quaternion.LookRotation(Vector3.forward, moveDir.GetVector().ToVector3());
-            
+            if (shouldRotate)
+                transform.rotation = Quaternion.LookRotation(Vector3.forward, moveDir.GetVector().ToVector3());
+
             if (state != ProjectileState.MOVING) return;
 
             if (isServer)
@@ -173,7 +174,7 @@ namespace Gameplay.World
                                 {
                                     health.Decrement(projectile.damage);
                                 }
-                                
+
                                 velocity = 0;
                                 OnHit();
                                 EnterState(ProjectileState.STUCK);
@@ -194,7 +195,8 @@ namespace Gameplay.World
         {
             if (projectile.spawnOnHit != null && owner != null)
             {
-                SpawnController.SpawnWithReplace(owner, projectileID, timeline, transform.position.ToGridPos(timeline), moveDir.GetOpposite(), gameObject, projectile.spawnOnHit);
+                SpawnController.SpawnWithReplace(owner, projectileID, timeline, transform.position.ToGridPos(timeline), moveDir.GetOpposite(), gameObject,
+                    projectile.spawnOnHit);
             }
             else if (projectile.destroySelfOnHit)
             {
@@ -209,12 +211,12 @@ namespace Gameplay.World
                 EnterState(ProjectileState.IDLE);
             }
         }
-        
+
 
         public bool Teleport(Timeline timeline, Vector2Int position)
         {
             if (destroyTimer > 0) return false;
-            
+
             this.timeline = timeline;
             this.position = position;
             moveDir = moveDir.GetOpposite();

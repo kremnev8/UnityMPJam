@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  forward: {x: 0, y: 0}
+  forward: {x: 0, y: -1}
   spriteRenderer: {fileID: 0}
   idle: {fileID: 0}
   activated: {fileID: 0}
@@ -62,7 +62,6 @@ MonoBehaviour:
   timeGlitchEffect: {fileID: 5341229497032644130}
   initialState: 0
   fromTimeEvent: 0
-  oldConnections: []
   newConnections: []
   m_timeObject: {fileID: 0}
   itemId: goldenkey

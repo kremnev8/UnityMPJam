@@ -1,4 +1,5 @@
 ﻿using System;
+using Gameplay.Controllers.Player.Ability;
 using Gameplay.Core;
 using Mirror;
 using ScriptableObjects;
@@ -13,6 +14,7 @@ namespace Gameplay.ScriptableObjects
         public string itemId;
 
         public Sprite itemIcon;
+        public BaseAbility itemSpell;
 
         public string ItemId => itemId;
     }
