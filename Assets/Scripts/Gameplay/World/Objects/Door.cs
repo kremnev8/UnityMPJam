@@ -39,7 +39,6 @@ namespace Gameplay.World
 
         public void ReciveStateChange(bool state)
         {
-          
             SetState(state);
         }
 
@@ -50,11 +49,6 @@ namespace Gameplay.World
                 this.state = state;
                 reachedEnd = false;
 
-                if (isServer && state)
-                {
-                    CheckForPlayer();
-                }
-                
                 if (timeElapsed > moveTime)
                 {
                     timeElapsed = 0;
@@ -68,8 +62,10 @@ namespace Gameplay.World
 
         private void CheckForPlayer()
         {
-            int hits = Physics2D.OverlapBox(transform.position, Vector2.one, 0, playerFilter, colliders);
+            int hits = Physics2D.OverlapBox(transform.position, new Vector2(1.4f,1.4f), 0, playerFilter, colliders);
 
+            Debug.DrawLine(transform.position, transform.position + new Vector3(0.7f,0.7f,0), hits > 0 ? Color.red : Color.green);
+            
             if (hits > 0)
             {
                 for (int i = 0; i < hits; i++)
@@ -99,6 +95,11 @@ namespace Gameplay.World
                 doorTransform.localPosition = Vector3.Lerp(openPos, closedPos, t);
                 float dist = (doorTransform.localPosition - openPos).magnitude;
                 collider.enabled = dist > minPassDistance;
+
+                if (isServer && dist > minPassDistance && !state)
+                {
+                    CheckForPlayer();
+                }
             }
             else if (!reachedEnd)
             {
