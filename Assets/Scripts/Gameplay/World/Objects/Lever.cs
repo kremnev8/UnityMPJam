@@ -7,10 +7,18 @@ namespace Gameplay.World
 {
     public class Lever : Interactible
     {
-        
+
         public override void Activate(PlayerController player)
         {
-            CmdSetState(!state);
+            if (isClient)
+            {
+                CmdSetState(!state);
+            }
+            else
+            {
+                SetState(!state);
+                RpcSetState(!state);
+            }
         }
     }
 }

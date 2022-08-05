@@ -9,13 +9,27 @@ namespace Gameplay.Logic
     public class LogicDelay : MonoBehaviour, ILinked
     {
         public List<LogicConnection> timeEnded;
+        public List<ValueConnection> timeEndedValue;
         public float timeout = 60f;
+
+        public bool triggerOnAny;
+        
+        private bool lastValue;
 
         private void Invoke(List<LogicConnection> objects)
         {
             foreach (LogicConnection item in objects)
             {
                 element.SendLogicState(item.target.UniqueId, item.value);
+            }
+        }
+        
+        protected void Invoke(List<ValueConnection> objects, bool value)
+        {
+            foreach (ValueConnection item in objects)
+            {
+                bool setValue = item.invert ? !value : value;
+                element.SendLogicState(item.target.UniqueId, setValue);
             }
         }
         
@@ -47,7 +61,8 @@ namespace Gameplay.Logic
 
         public void ReciveStateChange(bool value)
         {
-            if (value)
+            lastValue = value;
+            if (value || triggerOnAny)
             {
                 Trigger();
             }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 495039572685864095}
   - component: {fileID: 285558481139674876}
   - component: {fileID: 3422964159266831008}
+  - component: {fileID: 2082276734785403955}
   m_Layer: 0
   m_Name: NetBehavior
   m_TagString: Untagged
@@ -64,5 +65,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  pastPlayer: {fileID: 0}
-  futurePlayer: {fileID: 0}
+  iceMagePlayer: {fileID: 0}
+  fireMagePlayer: {fileID: 0}
+  defaultItems:
+  - cubespell
+  - fireballspell
+  - dashspell
+  - ghostspell
+--- !u!114 &2082276734785403955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495039572685864092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be99d14fe6dd4e1380efb1ae70d74341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  maxSize: 6
+  selectedIndex: 0

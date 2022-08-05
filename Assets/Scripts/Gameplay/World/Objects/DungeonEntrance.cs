@@ -19,9 +19,12 @@ namespace Gameplay.World
 
         public void Activate(PlayerController player)
         {
-            player.Feedback("You don't want to go this way!");
+            if (NetworkClient.active)
+            {
+                player.Feedback("You don't want to go this way!");
+            }
         }
-        
+
         public void ReciveStateChange(bool value) { }
     }
 }

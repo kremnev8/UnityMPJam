@@ -20,7 +20,7 @@ namespace Gameplay.Controllers.Player
         public void SelectNext()
         {
             if (items.Count == 0) return;
-            
+
             selectedIndex++;
             if (selectedIndex >= items.Count)
             {
@@ -31,7 +31,7 @@ namespace Gameplay.Controllers.Player
         public void SelectPrevious()
         {
             if (items.Count == 0) return;
-            
+
             selectedIndex--;
             if (selectedIndex < 0)
             {
@@ -47,7 +47,7 @@ namespace Gameplay.Controllers.Player
         public override void OnStartClient()
         {
             items.Callback += OnInventoryUpdated;
-        
+
             OnInventoryUpdated(SyncList<ItemDesc>.Operation.OP_ADD, 0, null, null);
         }
 
@@ -59,6 +59,11 @@ namespace Gameplay.Controllers.Player
         [Server]
         public bool TryConsume(string itemId)
         {
+            if (model == null)
+            {
+                model = Simulation.GetModel<GameModel>();
+            }
+
             int index = items.FindIndex(item => item.itemId.Equals(itemId));
             if (index != -1)
             {
@@ -72,10 +77,15 @@ namespace Gameplay.Controllers.Player
         [Server]
         public bool AddItem(string itemId)
         {
+            if (model == null)
+            {
+                model = Simulation.GetModel<GameModel>();
+            }
+
             try
             {
                 if (items.Count + 1 >= maxSize) return false;
-                
+
                 ItemDesc item = model.items.Get(itemId);
                 items.Add(item);
                 return true;
@@ -108,9 +118,12 @@ namespace Gameplay.Controllers.Player
 
         public ItemDesc SelectedItem()
         {
-            return items[selectedIndex];
+            if (selectedIndex <= items.Count)
+            {
+                return items[selectedIndex];
+            }
+
+            return null;
         }
-
-
     }
 }

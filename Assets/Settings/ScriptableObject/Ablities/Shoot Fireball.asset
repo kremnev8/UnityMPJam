@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Shoot Fireball
   m_EditorClassIdentifier: 
   abilityName: ShootFireball
-  abilityCooldown: 1
+  abilityCooldown: 5
   projectileID: 1

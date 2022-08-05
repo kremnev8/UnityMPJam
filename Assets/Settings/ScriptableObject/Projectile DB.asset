@@ -19,6 +19,7 @@ MonoBehaviour:
     canReplace: 0
     startMoveSpeed: 3
     pushMoveSpeed: 0
+    pushWithDashSpeed: 0
     wallMask:
       serializedVersion: 2
       m_Bits: 448
@@ -34,6 +35,7 @@ MonoBehaviour:
     canReplace: 1
     startMoveSpeed: 0
     pushMoveSpeed: 2
+    pushWithDashSpeed: 4
     wallMask:
       serializedVersion: 2
       m_Bits: 1984
@@ -49,6 +51,7 @@ MonoBehaviour:
     canReplace: 1
     startMoveSpeed: 5
     pushMoveSpeed: 0
+    pushWithDashSpeed: 0
     wallMask:
       serializedVersion: 2
       m_Bits: 320
@@ -65,6 +68,7 @@ MonoBehaviour:
     canReplace: 1
     startMoveSpeed: 5
     pushMoveSpeed: 0
+    pushWithDashSpeed: 0
     wallMask:
       serializedVersion: 2
       m_Bits: 320
@@ -81,6 +85,7 @@ MonoBehaviour:
     canReplace: 1
     startMoveSpeed: 5
     pushMoveSpeed: 0
+    pushWithDashSpeed: 0
     wallMask:
       serializedVersion: 2
       m_Bits: 320

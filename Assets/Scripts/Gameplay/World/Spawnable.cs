@@ -44,7 +44,6 @@ namespace Gameplay.World
 
         public virtual void Destroy()
         {
-            Debug.Log("Destroy!");
             destroyTimer = destoryTime;
             pendingDestroy = true;
         }

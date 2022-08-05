@@ -30,6 +30,7 @@ namespace Gameplay.Conrollers
         MOVING,
         STUCK_ANIM,
         FALLING,
+        DASHING
     }
 
     public class PlayerController : NetworkBehaviour, IPlayerData, ICanTeleport, IHeavyObject
@@ -65,7 +66,7 @@ namespace Gameplay.Conrollers
 
         private PlayerState state;
         private float stateTimeLeft;
-        
+
         public bool isGhost;
         public float ghostTimeLeft;
 
@@ -118,7 +119,7 @@ namespace Gameplay.Conrollers
             if (!isLocalPlayer) return;
 
             ItemDesc itemDesc = inventory.SelectedItem();
-            if (itemDesc.itemSpell != null)
+            if (itemDesc != null && itemDesc.itemSpell != null)
             {
                 Vector2Int dir = GetLookVector().ToVector2Int();
 
@@ -126,6 +127,10 @@ namespace Gameplay.Conrollers
                 {
                     CmdActivateAbility(itemDesc.itemSpell.ItemId, dir.GetDirection());
                 }
+            }
+            else
+            {
+                Feedback("You don't have any spell selected!");
             }
         }
 
@@ -156,6 +161,8 @@ namespace Gameplay.Conrollers
                     return config.failMoveTime;
                 case PlayerState.FALLING:
                     return config.moveTime;
+                case PlayerState.DASHING:
+                    return config.dashTime;
                 default:
                     return -1;
             }
@@ -217,6 +224,7 @@ namespace Gameplay.Conrollers
                 ghostTimeLeft -= Time.deltaTime;
                 if (ghostTimeLeft <= 0)
                 {
+                    gameObject.layer = LayerMask.NameToLayer("Player");
                     isGhost = false;
                     renderer.color = Color.white;
                 }
@@ -255,7 +263,7 @@ namespace Gameplay.Conrollers
             {
                 currentFrame = 0;
             }
-            
+
             renderer.sprite = sprites[(int)displayDir].frames[currentFrame];
             lightTransform.localPosition = sprites[(int)displayDir].staffLight[currentFrame];
             staffLight.color = lightColor;
@@ -305,7 +313,7 @@ namespace Gameplay.Conrollers
                 {
                     lastMoveDir = dir;
                     Vector2 pos = position.ToWorldPos();
-                    
+
 
                     int hitCount = Physics2D.CircleCastNonAlloc(pos, 0.9f, dir, hits, 2f, mask);
                     if (hitCount > 0)
@@ -329,7 +337,7 @@ namespace Gameplay.Conrollers
                                     IMoveAble moveAble = hit.collider.GetComponent<IMoveAble>();
                                     if (moveAble != null)
                                     {
-                                        moveAble.Move(lastMoveDir.GetDirection());
+                                        moveAble.Move(lastMoveDir.GetDirection(), state == PlayerState.DASHING);
                                     }
 
                                     shouldStop = true;
@@ -379,6 +387,19 @@ namespace Gameplay.Conrollers
         }
 
         #region Ability
+
+        [Command(requiresAuthority = false)]
+        public void CmdTransferItem(bool toGlobal, string itemId)
+        {
+            if (toGlobal)
+            {
+                model.globalInventory.Transfer(inventory, itemId);
+            }
+            else
+            {
+                inventory.Transfer(model.globalInventory, itemId);
+            }
+        }
 
         [Command]
         public void CmdActivateAbility(string abilityId, Direction direction)
@@ -482,7 +503,6 @@ namespace Gameplay.Conrollers
                 feedback = "You don't have such ability!";
                 return false;
             }
-            
         }
 
         [ClientRpc]
@@ -512,6 +532,14 @@ namespace Gameplay.Conrollers
             EnterState(PlayerState.MOVING);
         }
 
+        public void RpcDash(Vector2Int pos, Direction direction, int distance)
+        {
+            lastMoveDir = direction.GetVector();
+            prevPosition = pos;
+            position = pos + lastMoveDir * distance;
+            EnterState(PlayerState.DASHING);
+        }
+
         [ClientRpc]
         public void RpcTeleport(Vector2Int target)
         {
@@ -524,6 +552,7 @@ namespace Gameplay.Conrollers
         [ClientRpc]
         public void RpcActivateGhostMode(float time)
         {
+            gameObject.layer = LayerMask.NameToLayer("Ghost");
             ghostTimeLeft = time;
             isGhost = true;
             renderer.color = new Color(1, 1, 1, 0.5f);
@@ -540,6 +569,7 @@ namespace Gameplay.Conrollers
                 case PlayerState.IDLE:
                     break;
                 case PlayerState.MOVING:
+                case PlayerState.DASHING:
 
                     if (stateTimeLeft > 0)
                     {
@@ -583,10 +613,7 @@ namespace Gameplay.Conrollers
             try
             {
                 DungeonEntrance entrance =
-                    points.spawns.First(entrance =>
-                    {
-                        return entrance.targetPlayer == role;
-                    });
+                    points.spawns.First(entrance => { return entrance.targetPlayer == role; });
 
                 World.World world = model.levelElement.GetWorld();
 

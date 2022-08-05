@@ -4,6 +4,6 @@ namespace Gameplay.World
 {
     public interface IMoveAble
     {
-        void Move(Direction direction);
+        void Move(Direction direction, bool isDashing);
     }
 }

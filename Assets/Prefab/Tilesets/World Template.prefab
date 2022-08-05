@@ -428,7 +428,7 @@ SpriteRenderer:
   m_Size: {x: 25, y: 25}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &8717323149117354393
@@ -1812,7 +1812,7 @@ CompositeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
@@ -1925,7 +1925,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28787c3e91244a7ea5f4ebb1e26817bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldTimeline: 0
   tileSet: {fileID: 2180631835916518214}
   objectTransform: {fileID: 8856148938586911044}
 --- !u!114 &2180631835916518214

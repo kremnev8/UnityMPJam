@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Gameplay.Conrollers;
+using Gameplay.Controllers.Player;
 using Gameplay.Core;
 using Mirror;
 using UnityEngine;
@@ -16,11 +18,11 @@ namespace Gameplay.Controllers
         [SyncVar]
         public PlayerController fireMagePlayer;
 
-        
         public void Start()
         {
             model = Simulation.GetModel<GameModel>();
             model.roleController = this;
+            model.globalInventory = GetComponent<Inventory>();
             DontDestroyOnLoad(gameObject);
         }
 

@@ -24,7 +24,10 @@ namespace Gameplay.World
 
         public void Activate(PlayerController player)
         {
-            CmdNextLevel(player);
+            if (isClient)
+            {
+                CmdNextLevel(player);
+            }
         }
 
         [Command(requiresAuthority = false)]

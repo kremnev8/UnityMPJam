@@ -17,6 +17,8 @@ namespace Gameplay.ScriptableObjects
         public bool canReplace;
         public float startMoveSpeed;
         public float pushMoveSpeed;
+        public float pushWithDashSpeed;
+        
         public LayerMask wallMask;
         public int damage;
         public bool destroySelfOnHit;
