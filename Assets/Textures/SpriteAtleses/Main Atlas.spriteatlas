@@ -51,6 +51,7 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 766296a119dd68b419a5e8746322b603, type: 3}
   - {fileID: -134185034, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
   - {fileID: -324474095, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
   - {fileID: -196995890, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
@@ -997,11 +998,6 @@ SpriteAtlas:
   - {fileID: 1941468122, guid: 4dcc7fea56df91a4398cdc80a8db1b98, type: 3}
   - {fileID: 21300000, guid: 8335825b902c54b4984862ab774e8aea, type: 3}
   - {fileID: 21300000, guid: b70983abc1eac964fb9b97cf27e0d435, type: 3}
-  - {fileID: 604232694, guid: 8f518cdb8a126164299c1ac22dbc5ced, type: 3}
-  - {fileID: -1782585658, guid: 8f518cdb8a126164299c1ac22dbc5ced, type: 3}
-  - {fileID: 1613097801, guid: 8f518cdb8a126164299c1ac22dbc5ced, type: 3}
-  - {fileID: 1569092208, guid: 8f518cdb8a126164299c1ac22dbc5ced, type: 3}
-  - {fileID: -1998938041, guid: 09065aac2e62bd746bde185b662636e1, type: 3}
   - {fileID: 604232694, guid: e145e34e6a7a72e43ac71e80e16e99e5, type: 3}
   - {fileID: 21300000, guid: bb5d8cce81221634c82fc87bd7b0a00a, type: 3}
   - {fileID: 1823019292, guid: 094add4f325d19a4fba5608a9f49d2c5, type: 3}
@@ -1009,11 +1005,8 @@ SpriteAtlas:
   - {fileID: -1224927355, guid: 094add4f325d19a4fba5608a9f49d2c5, type: 3}
   - {fileID: 1064787831, guid: b87efd4faeaab82468f2f8fa2326bf3b, type: 3}
   - {fileID: 1156883401, guid: b87efd4faeaab82468f2f8fa2326bf3b, type: 3}
-  - {fileID: 1810537422, guid: 9c4e5b7f04ec1504a829b4d16548cd3a, type: 3}
-  - {fileID: -988379512, guid: 9c4e5b7f04ec1504a829b4d16548cd3a, type: 3}
-  - {fileID: -965854940, guid: 9c4e5b7f04ec1504a829b4d16548cd3a, type: 3}
-  - {fileID: -854257552, guid: 9c4e5b7f04ec1504a829b4d16548cd3a, type: 3}
   m_PackedSpriteNamesToIndex:
+  - water-sheet
   - firemagesheet_23
   - firemagesheet_22
   - firemagesheet_21
@@ -1961,21 +1954,12 @@ SpriteAtlas:
   - scroll-cube
   - square
   - Image21_0
-  - Image21_1
-  - Image21_2
-  - Image21_3
-  - Ice_0
-  - Image21_0
   - scroll-dash
   - time-particle-sheet_0
   - time-particle-sheet_1
   - time-particle-sheet_2
   - shadow_0
   - shadow_1
-  - Sprite-0021_3
-  - Sprite-0021_2
-  - Sprite-0021_1
-  - Sprite-0021_0
   m_RenderDataMap: {}
   m_Tag: Main Atlas
   m_IsVariant: 0

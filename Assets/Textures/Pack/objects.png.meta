@@ -246,9 +246,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 160
+        y: 144
         width: 32
-        height: 32
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1117,9 +1117,9 @@ TextureImporter:
       objects_46: -1452150809
       objects_12: 1647741779
       objects_6: -245097137
+      objects_38: -1271140276
       objects_40: 1529637268
       objects_11: -676584112
-      objects_38: -1271140276
       objects_1: -762826427
       objects_35: -1075154732
       objects_9: 1542109592
