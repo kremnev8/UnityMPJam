@@ -150,6 +150,7 @@ MonoBehaviour:
   walkFrameTime: 10
   moveTime: 0.5
   failMoveTime: 0.2
+  dashTime: 0.5
   wallMask:
     serializedVersion: 2
     m_Bits: 1984
@@ -225,3 +226,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  respawnTime: 3

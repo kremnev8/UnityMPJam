@@ -5,6 +5,7 @@ using Gameplay.Controllers.Player;
 using Gameplay.Controllers.Player.Ability;
 using Gameplay.Core;
 using Gameplay.ScriptableObjects;
+using Gameplay.UI;
 using Gameplay.Util;
 using Gameplay.World;
 using Mirror;
@@ -28,7 +29,8 @@ namespace Gameplay.Conrollers
         MOVING,
         STUCK_ANIM,
         FALLING,
-        DASHING
+        DASHING,
+        DEAD
     }
 
     public class PlayerController : NetworkBehaviour, IPlayerData, ICanTeleport, IHeavyObject
@@ -48,7 +50,13 @@ namespace Gameplay.Conrollers
         public Transform lightTransform;
         public Light2D staffLight;
         public Inventory inventory;
+        public Health health;
 
+        public Animator animator;
+        
+        public bool isGhost;
+        public float ghostTimeLeft;
+        
         private InputAction movement;
         private InputAction firstAbility;
         private InputAction secondAbility;
@@ -65,9 +73,6 @@ namespace Gameplay.Conrollers
         private PlayerState state;
         private float stateTimeLeft;
 
-        public bool isGhost;
-        public float ghostTimeLeft;
-
         private int animationTime;
         private int currentFrame;
 
@@ -77,6 +82,8 @@ namespace Gameplay.Conrollers
         private GameModel model;
 
         private static RaycastHit2D[] hits = new RaycastHit2D[6];
+        private static readonly int fadeIn = Animator.StringToHash("FadeIn");
+        private static readonly int fadeOut = Animator.StringToHash("FadeOut");
 
         public string PlayerName
         {
@@ -104,6 +111,7 @@ namespace Gameplay.Conrollers
             body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
             inventory = GetComponent<Inventory>();
+            health = GetComponent<Health>();
 
             EnterState(PlayerState.IDLE);
             UpdateVisual(Direction.BACKWARD);
@@ -115,30 +123,31 @@ namespace Gameplay.Conrollers
         
         public void StartMap()
         {
-            Debug.Log($"Start Map is called on {(isServer ? "Server" : "Client")}");
+            SpawnPlayer();
+        }
 
+        private void SpawnPlayer()
+        {
             controlEnabled = true;
+            health.Increment(10);
+            
             GameObject go = GameObject.Find("Spawn");
             SpawnPoints points = go.GetComponent<SpawnPoints>();
 
             try
             {
-                DungeonEntrance entrance =
-                    points.spawns.First(entrance => { return entrance.targetPlayer == role; });
-
+                DungeonEntrance entrance = points.spawns.First(entrance => entrance.targetPlayer == role);
                 World.World world = model.levelElement.GetWorld();
-
                 Vector2Int pos = world.GetGridPos(entrance.startPosition.transform.position);
 
                 Teleport(pos);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Debug.Log($"Failed to spawn player {role}, because there is no spawn point matching!");
-                return;
             }
         }
-        
+
         #endregion
 
         #region Hooks
@@ -176,6 +185,8 @@ namespace Gameplay.Conrollers
                     return config.moveTime;
                 case PlayerState.DASHING:
                     return config.dashTime;
+                case PlayerState.DEAD:
+                    return config.respawnTime;
                 default:
                     return -1;
             }
@@ -254,9 +265,41 @@ namespace Gameplay.Conrollers
                     break;
                 case PlayerState.FALLING:
                     break;
+                case PlayerState.DEAD:
+                    if (isServer)
+                    {
+                        if (stateTimeLeft < 0.1f)
+                        {
+                            SpawnPlayer();
+                            RpcRespawned();
+                        }
+                    }
+
+                    break;
             }
         }
-        
+
+        [Server]
+        public void OnDead()
+        {
+            EnterState(PlayerState.DEAD);
+            RpcDead();
+        }
+
+        [ClientRpc]
+        private void RpcDead()
+        {
+            animator.SetTrigger(fadeIn);
+            animator.ResetTrigger(fadeOut);
+            EnterState(PlayerState.DEAD);
+        }
+
+        [ClientRpc]
+        private void RpcRespawned()
+        {
+            animator.SetTrigger(fadeOut);
+        }
+
         #endregion
 
         #region Animation

@@ -435,7 +435,7 @@ MonoBehaviour:
     roleController: {fileID: 0}
     levelElement: {fileID: 0}
     globalInventory: {fileID: 0}
-    globalInventoryUI: {fileID: 1480652948266717012}
+    globalInventoryUI: {fileID: 0}
     playerInventoryUI: {fileID: 0}
     eosLobby: {fileID: 0}
     localLobby: {fileID: 1480652948266717010}
@@ -749,17 +749,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3907cc9f83af40c599978647bcbba1da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1480652948266717012 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 216656938767750200, guid: d3893923bc1897a4b92e71138be3c88e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1480652948266717009}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 195b9114fd94494fabc3d2fb5b4d3760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

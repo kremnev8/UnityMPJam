@@ -39,5 +39,8 @@ namespace ScriptableObjects
         public LayerMask ghostMask;
 
         public AnimationCurve stuckAnim;
+
+        [Header("Other")] 
+        public float respawnTime = 4;
     }
 }
