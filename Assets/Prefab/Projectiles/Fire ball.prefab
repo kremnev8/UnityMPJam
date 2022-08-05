@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5299107277830660576}
   - component: {fileID: 8984919041827110928}
   - component: {fileID: 3963860210795746685}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4825,7 +4825,7 @@ GameObject:
   - component: {fileID: 4997097714237469513}
   - component: {fileID: 4997097714237469526}
   - component: {fileID: 4997097714237469527}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Fire ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4934,7 +4934,7 @@ GameObject:
   - component: {fileID: 5727152128060770635}
   - component: {fileID: 2518369672579979233}
   - component: {fileID: 5416086307089752307}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

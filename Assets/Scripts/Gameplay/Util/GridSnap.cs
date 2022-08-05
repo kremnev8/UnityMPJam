@@ -48,10 +48,10 @@ namespace Gameplay.Util
                 bool isPrefabInstance = PrefabStageUtility.GetCurrentPrefabStage() != null;
                 if (isPrefabInstance) return;
                 if (transform.parent != null) return;
-                SpacetimeController spacetime = FindObjectOfType<SpacetimeController>();
-                if (spacetime != null)
+                LevelElementController levelElement = FindObjectOfType<LevelElementController>();
+                if (levelElement != null)
                 {
-                    transform.parent = spacetime.pastWorld.objectTransform;
+                    transform.parent = levelElement.theWorld.objectTransform;
                 }
             }
  #endif

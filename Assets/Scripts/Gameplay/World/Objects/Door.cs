@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Gameplay.World
 {
-    [RequireComponent(typeof(SpaceTimeObject))]
-    public class Door : MonoBehaviour, ITimeLinked
+    [RequireComponent(typeof(WorldElement))]
+    public class Door : MonoBehaviour, ILinked
     {
         public Transform doorTransform;
         public new Collider2D collider;
@@ -31,13 +31,13 @@ namespace Gameplay.World
             timeElapsed = moveTime;
         }
 
-        public void ReciveStateChange(bool state, bool isPermanent)
+        public void ReciveStateChange(bool state)
         {
           
-            SetState(state, isPermanent);
+            SetState(state);
         }
 
-        private void SetState(bool state, bool isPermanent)
+        private void SetState(bool state)
         {
             if (this.state != state)
             {
@@ -50,11 +50,6 @@ namespace Gameplay.World
                 else
                 {
                     timeElapsed = moveTime - timeElapsed;
-                }
-
-                if (isPermanent)
-                {
-                    timeObject.SendTimeEvent(new[] { state ? 1 : 0 });
                 }
             }
         }
@@ -91,14 +86,6 @@ namespace Gameplay.World
             }
         }
 
-        public SpaceTimeObject timeObject { get; set; }
-        public void Configure(ObjectState state)
-        {
-        }
-
-        public void ReciveTimeEvent(int[] args)
-        {
-            SetStateImmidiate(args[0] == 1);
-        }
+        public WorldElement element { get; set; }
     }
 }

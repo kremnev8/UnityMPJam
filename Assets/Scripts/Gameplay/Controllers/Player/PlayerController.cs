@@ -37,8 +37,6 @@ namespace Gameplay.Conrollers
         [SyncVar] private string playerName;
         [SyncVar(hook = nameof(SetRoleHook))] private PlayerRole m_role;
 
-        [SyncVar] public Timeline timeline;
-
         [SyncVar(hook = nameof(SetControlHook))]
         public bool controlEnabled;
 
@@ -67,6 +65,9 @@ namespace Gameplay.Conrollers
 
         private PlayerState state;
         private float stateTimeLeft;
+        
+        public bool isGhost;
+        public float ghostTimeLeft;
 
         private Dictionary<BaseAbility, float> abilityCooldowns = new Dictionary<BaseAbility, float>();
         private Dictionary<ProjectileID, List<GameObject>> playerObjects = new Dictionary<ProjectileID, List<GameObject>>();
@@ -207,6 +208,16 @@ namespace Gameplay.Conrollers
             {
                 UpdateVisual(lastlookDir);
             }
+
+            if (ghostTimeLeft > 0)
+            {
+                ghostTimeLeft -= Time.deltaTime;
+                if (ghostTimeLeft <= 0)
+                {
+                    isGhost = false;
+                    renderer.color = Color.white;
+                }
+            }
         }
 
         private void UpdateVisual(Direction direction)
@@ -256,6 +267,7 @@ namespace Gameplay.Conrollers
             if (state != PlayerState.IDLE) return;
 
             Vector2Int dir = movement.ReadValue<Vector2>().Apply(Mathf.RoundToInt);
+            LayerMask mask = isGhost ? config.ghostMask : config.wallMask;
             if (dir != Vector2Int.zero && stateTimeLeft < 0.1f)
             {
                 int xAbs = Mathf.Abs(dir.x);
@@ -263,9 +275,10 @@ namespace Gameplay.Conrollers
                 if (xAbs + yAbs == 1)
                 {
                     lastMoveDir = dir;
-                    Vector2 pos = position.ToWorldPos(timeline);
+                    Vector2 pos = position.ToWorldPos();
+                    
 
-                    int hitCount = Physics2D.CircleCastNonAlloc(pos, 0.9f, dir, hits, 2f, config.wallMask);
+                    int hitCount = Physics2D.CircleCastNonAlloc(pos, 0.9f, dir, hits, 2f, mask);
                     if (hitCount > 0)
                     {
                         bool shouldStop = false;
@@ -471,12 +484,20 @@ namespace Gameplay.Conrollers
         }
 
         [ClientRpc]
-        public void RpcTeleport(Timeline timeline, Vector2Int target)
+        public void RpcTeleport(Vector2Int target)
         {
             if (isClientOnly)
             {
-                Teleport(timeline, target);
+                Teleport(target);
             }
+        }
+
+        [ClientRpc]
+        public void RpcActivateGhostMode(float time)
+        {
+            ghostTimeLeft = time;
+            isGhost = true;
+            renderer.color = new Color(1, 1, 1, 0.5f);
         }
 
 
@@ -493,11 +514,11 @@ namespace Gameplay.Conrollers
 
                     if (stateTimeLeft > 0)
                     {
-                        body.MovePosition(Vector2.Lerp(prevPosition.ToWorldPos(timeline), position.ToWorldPos(timeline), t));
+                        body.MovePosition(Vector2.Lerp(prevPosition.ToWorldPos(), position.ToWorldPos(), t));
                     }
                     else
                     {
-                        body.MovePosition(position.ToWorldPos(timeline));
+                        body.MovePosition(position.ToWorldPos());
                         EnterState(PlayerState.IDLE);
                     }
 
@@ -507,12 +528,12 @@ namespace Gameplay.Conrollers
                     if (stateTimeLeft > 0)
                     {
                         float nt = config.stuckAnim.Evaluate(t);
-                        Vector2 pos = position.ToWorldPos(timeline);
+                        Vector2 pos = position.ToWorldPos();
                         body.MovePosition(Vector2.Lerp(pos, pos + lastMoveDir, nt));
                     }
                     else
                     {
-                        body.MovePosition(position.ToWorldPos(timeline));
+                        body.MovePosition(position.ToWorldPos());
                         EnterState(PlayerState.IDLE);
                     }
 
@@ -529,26 +550,20 @@ namespace Gameplay.Conrollers
             controlEnabled = true;
             GameObject go = GameObject.Find("Spawn");
             SpawnPoints points = go.GetComponent<SpawnPoints>();
-            timeline = (Timeline)(int)role;
 
             try
             {
                 DungeonEntrance entrance =
                     points.spawns.First(entrance =>
                     {
-                        SpaceTimeObject timeObject1 = entrance.GetComponent<SpaceTimeObject>();
-                        return timeObject1.GetState() == ObjectState.EXISTS && entrance.GetTargetPlayer(timeObject1.timeline) == role;
+                        return entrance.targetPlayer == role;
                     });
-                SpaceTimeObject timeObject = entrance.GetComponent<SpaceTimeObject>();
 
-                timeline = timeObject.timeline;
-                World.World world = model.spacetime.GetWorld(timeObject.timeline);
+                World.World world = model.levelElement.GetWorld();
 
                 Vector2Int pos = world.GetGridPos(entrance.startPosition.transform.position);
 
-                Debug.Log($"Spawning {role} in timeline: {timeline}, grid pos: {pos}");
-
-                Teleport(timeline, pos);
+                Teleport(pos);
             }
             catch (Exception e)
             {
@@ -557,23 +572,21 @@ namespace Gameplay.Conrollers
             }
         }
 
-        public bool Teleport(Timeline timeline, Vector2Int position)
+        public bool Teleport(Vector2Int position)
         {
             if (body == null)
             {
                 body = GetComponent<Rigidbody2D>();
             }
 
-            World.World world = model.spacetime.GetWorld(timeline);
-
-            this.timeline = timeline;
+            World.World world = model.levelElement.GetWorld();
             prevPosition = position;
             this.position = position;
             transform.position = world.GetWorldSpacePos(position);
             EnterState(PlayerState.IDLE);
             if (isServer)
             {
-                RpcTeleport(timeline, position);
+                RpcTeleport(position);
             }
 
             return true;

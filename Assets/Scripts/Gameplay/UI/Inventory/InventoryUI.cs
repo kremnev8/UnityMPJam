@@ -18,16 +18,14 @@ namespace Gameplay.UI
         public bool canScroll;
         
         private GameModel model;
-        private InputAction mouseScrollUp;
-        private InputAction mouseScrollDown;
+        private InputAction mouseScroll;
         
         private List<InventorySlotUI> slots = new List<InventorySlotUI>();
 
         private void Start()
         {
             model = Simulation.GetModel<GameModel>();
-            mouseScrollUp = model.input.actions["scrollUp"];
-            mouseScrollDown = model.input.actions["scrollDown"];
+            mouseScroll = model.input.actions["mouseScroll"];
             if (inventory != null)
             {
                 Init();
@@ -47,23 +45,6 @@ namespace Gameplay.UI
             }
 
             inventory.inventoryChanged += RefreshUI;
-            if (canScroll)
-            {
-                mouseScrollUp.performed += OnMouseScrollUp;
-                mouseScrollDown.performed += OnMouseScrollDown;
-            }
-        }
-
-        private void OnMouseScrollUp(InputAction.CallbackContext obj)
-        {
-            inventory.SelectNext();
-            RefreshUI();
-        }
-        
-        private void OnMouseScrollDown(InputAction.CallbackContext obj)
-        {
-            inventory.SelectPrevious();
-            RefreshUI();
         }
 
         private void OnDestroy()
@@ -94,6 +75,23 @@ namespace Gameplay.UI
                     slots[i].SetSelected(i == inventory.selectedIndex);
                 }
             }
+        }
+
+        private void Update()
+        {
+            Vector2 scroll = mouseScroll.ReadValue<Vector2>();
+            if (scroll.y == 0) return;
+            
+            if (scroll.y > 0)
+            {
+                inventory.SelectNext();
+            }
+            else
+            {
+                inventory.SelectPrevious();
+            }
+
+            RefreshUI();
         }
     }
 }

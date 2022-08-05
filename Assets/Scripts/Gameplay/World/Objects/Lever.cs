@@ -10,7 +10,7 @@ namespace Gameplay.World
         
         public override void Activate(PlayerController player)
         {
-            CmdSetState(!state, true);
+            CmdSetState(!state);
         }
     }
 }

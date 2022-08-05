@@ -31,7 +31,7 @@ namespace Gameplay.World
                 if (inventory.TryConsume(itemId))
                 {
                     SetState(true);
-                    RpcSetState(true, true);
+                    RpcSetState(true);
                     RpcUseKey();
                 }
             }
@@ -41,21 +41,6 @@ namespace Gameplay.World
         public void RpcUseKey()
         {
             animator.SetTrigger(open);
-        }
-
-        public override void Configure(ObjectState state)
-        {
-            base.Configure(state);
-            if (state is ObjectState.BROKEN or ObjectState.DOES_NOT_EXIST)
-            {
-                topRenderer.enabled = false;
-                bottomRenderer.enabled = false;
-            }
-            else
-            {
-                topRenderer.enabled = true;
-                bottomRenderer.enabled = true;
-            }
         }
     }
 }

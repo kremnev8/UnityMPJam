@@ -7,9 +7,11 @@ namespace Gameplay.Controllers.Player.Ability
     [CreateAssetMenu(fileName = "Ghost Ability", menuName = "SO/New Ghost Ability", order = 0)]
     public class GhostAbility : BaseAbility
     {
+        public float timeInGhost;
+        
         public override bool ActivateAbility(PlayerController player, Direction direction)
         {
-            Debug.Log("Not Implemented!");
+            player.RpcActivateGhostMode(timeInGhost);
             return true;
         }
     }

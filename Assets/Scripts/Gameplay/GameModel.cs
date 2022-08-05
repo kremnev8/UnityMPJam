@@ -9,6 +9,7 @@ using Mirror;
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 
 namespace Gameplay
@@ -23,7 +24,7 @@ namespace Gameplay
         public Camera mainCamera;
         public GameNetworkManager networkManager;
         public RoleController roleController;
-        public SpacetimeController spacetime;
+        [FormerlySerializedAs("spacetime")] public LevelElementController levelElement;
         
         public LobbyUI eosLobby;
         public LocalLobby localLobby;

@@ -8,14 +8,7 @@ namespace Gameplay.World
 {
     public class Spawnable : NetworkBehaviour, ISpawnable
     {
-        [SyncVar] private Timeline m_timeline;
-
-        public Timeline timeline
-        {
-            get => m_timeline;
-            set => m_timeline = value;
-        }
-
+        
         protected Vector2Int m_position;
 
         public virtual Vector2Int position
@@ -30,25 +23,23 @@ namespace Gameplay.World
         protected GameModel model;
         public bool pendingDestroy;
 
-        public virtual void Spawn(PlayerController player, Timeline timeline, Vector2Int position, Direction direction)
+        public virtual void Spawn(PlayerController player, Vector2Int position, Direction direction)
         {
             model = Simulation.GetModel<GameModel>();
-            World world = model.spacetime.GetWorld(timeline);
+            World world = model.levelElement.GetWorld();
             transform.position = world.GetWorldSpacePos(position);
             this.position = position;
-            m_timeline = timeline;
             owner = player;
-            RpcSpawn(timeline, position, direction);
+            RpcSpawn(position, direction);
         }
 
         [ClientRpc]
-        public virtual void RpcSpawn(Timeline timeline, Vector2Int position, Direction direction)
+        public virtual void RpcSpawn(Vector2Int position, Direction direction)
         {
             model = Simulation.GetModel<GameModel>();
-            World world = model.spacetime.GetWorld(timeline);
+            World world = model.levelElement.GetWorld();
             transform.position = world.GetWorldSpacePos(position);
             this.position = position;
-            m_timeline = timeline;
         }
 
         public virtual void Destroy()

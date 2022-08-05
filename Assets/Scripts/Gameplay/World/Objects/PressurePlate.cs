@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mirror;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,32 +10,72 @@ namespace Gameplay.World
     {
         public List<Collider2D> inside = new List<Collider2D>();
         public float disableDelay;
+        public float reactivateDelay;
         public int minMass = 10;
+
+        private float sinceLastActive;
+
+        protected override void Start()
+        {
+            base.Start();
+            sinceLastActive = reactivateDelay;
+        }
+
 
         [Server]
         private void UpdateState(bool newState)
         {
             if (state != newState)
             {
+                if (sinceLastActive < reactivateDelay && newState)
+                {
+                    Invoke(nameof(EnableLater), reactivateDelay - sinceLastActive);
+                    return;
+                } 
+                
                 if (!newState && disableDelay > 0.1f)
                 {
                     Invoke(nameof(DisableLater), disableDelay);
                 }
                 else
                 {
-                    SetState(newState, false);
-                    RpcSetState(newState, false);
+                    SetState(newState);
+                    RpcSetState(newState);
+                }
+
+                if (newState)
+                {
+                    sinceLastActive = 0;
                 }
             }
         }
-        
+
+        private void Update()
+        {
+            if (isServer)
+            {
+                sinceLastActive += Time.deltaTime;
+            }
+        }
+
         [Server]
         private void DisableLater()
         {
             if (inside.Count == 0)
             {
-                SetState(false, false);
-                RpcSetState(false, false);
+                SetState(false);
+                RpcSetState(false);
+            }
+        }
+        
+        
+        [Server]
+        private void EnableLater()
+        {
+            if (inside.Count != 0)
+            {
+                SetState(true);
+                RpcSetState(true);
             }
         }
         
@@ -43,6 +84,7 @@ namespace Gameplay.World
             if (isServer)
             {
                 if (!interactible) return;
+
                 IHeavyObject heavyObject = col.GetComponent<IHeavyObject>();
                 if (heavyObject == null || heavyObject.Mass < minMass)
                 {
@@ -63,6 +105,7 @@ namespace Gameplay.World
             if (isServer)
             {
                 if (!interactible) return;
+                
                 IHeavyObject heavyObject = col.GetComponent<IHeavyObject>();
                 if (heavyObject == null || heavyObject.Mass < minMass)
                 {
@@ -76,10 +119,6 @@ namespace Gameplay.World
 
                 UpdateState(inside.Count > 0);
             }
-        }
-
-        public override void ReciveTimeEvent(int[] args)
-        {
         }
     }
 }

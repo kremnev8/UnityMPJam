@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Gameplay.Logic
 {
-    public class TriggerAddItem : NetworkBehaviour, ITimeLinked
+    public class TriggerAddItem : NetworkBehaviour, ILinked
     {
         public SpriteRenderer itemRenderer;
         
@@ -38,27 +38,9 @@ namespace Gameplay.Logic
             itemRenderer.enabled = false;
         }
 
-        public SpaceTimeObject timeObject { get; set; }
-        public void Configure(ObjectState state)
-        {
-            if (state == ObjectState.EXISTS)
-            {
-                isUsed = false;
-                itemRenderer.enabled = true;
-            }
-            else
-            {
-                isUsed = true;
-                itemRenderer.enabled = false;
-            }
-            
-        }
+        public WorldElement element { get; set; }
 
-        public void ReciveTimeEvent(int[] args)
-        {
-        }
-
-        public void ReciveStateChange(bool value, bool isPermanent)
+        public void ReciveStateChange(bool value)
         {
         }
     }

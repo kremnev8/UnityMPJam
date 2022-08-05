@@ -7,14 +7,14 @@ using UnityEngine.Events;
 
 namespace Gameplay.Logic
 {
-    public class LogicCounter : MonoBehaviour, ITimeLinked
+    public class LogicCounter : MonoBehaviour, ILinked
     {
         public int minCount = 0;
         public int maxCount = 2;
+        public int threshold = 1;
         public int initialCount = 0;
         
         private int current;
-        public bool isPermanent;
 
         public List<LogicConnection> hitMax;
         public List<LogicConnection> hitMin;
@@ -22,12 +22,14 @@ namespace Gameplay.Logic
         public List<LogicConnection> changedFromMax;
         public List<LogicConnection> changedFromMin;
 
+        public List<ValueConnection> greaterThanThreshold;
 
-        private void Invoke(List<LogicConnection> objects, bool isPermanent = true)
+
+        private void Invoke(List<LogicConnection> objects)
         {
             foreach (LogicConnection item in objects)
             {
-                timeObject.SendLogicState(item.target.UniqueId, item.value, isPermanent);
+                element.SendLogicState(item.target.UniqueId, item.value);
             }
         }
         
@@ -37,13 +39,32 @@ namespace Gameplay.Logic
             DrawWireGizmo(hitMin);
             DrawWireGizmo(changedFromMax);
             DrawWireGizmo(changedFromMin);
+            DrawWireGizmo(greaterThanThreshold);
+        }
+        
+        protected void DrawWireGizmo(List<ValueConnection> connections)
+        {
+            foreach (ValueConnection connection in connections)
+            {
+                if (connection != null && connection.target != null)
+                    Gizmos.DrawLine(transform.position, connection.target.transform.position);
+            }
+        }
+        
+        protected void Invoke(List<ValueConnection> objects, bool value)
+        {
+            foreach (ValueConnection item in objects)
+            {
+                bool setValue = item.invert ? !value : value;
+                element.SendLogicState(item.target.UniqueId, setValue);
+            }
         }
 
         protected void DrawWireGizmo(List<LogicConnection> connections)
         {
             foreach (LogicConnection connection in connections)
             {
-                if (connection != null)
+                if (connection != null && connection.target != null)
                     Gizmos.DrawLine(transform.position, connection.target.transform.position);
             }
         }
@@ -67,6 +88,7 @@ namespace Gameplay.Logic
             {
                 Invoke(changedFromMin);
             }
+            Invoke(greaterThanThreshold, current >= threshold);
         }
 
         public void Decrement()
@@ -82,6 +104,8 @@ namespace Gameplay.Logic
             {
                 Invoke(changedFromMax);
             }
+            
+            Invoke(greaterThanThreshold, current >= threshold);
         }
 
         public void Reset()
@@ -89,20 +113,9 @@ namespace Gameplay.Logic
             current = initialCount;
         }
 
-        public SpaceTimeObject timeObject { get; set; }
-        public void Configure(ObjectState state)
-        {
-            if (state == ObjectState.DOES_NOT_EXIST)
-            {
-                gameObject.SetActive(false);
-            }
-        }
+        public WorldElement element { get; set; }
 
-        public void ReciveTimeEvent(int[] args)
-        {
-        }
-
-        public void ReciveStateChange(bool value, bool isPermanent)
+        public void ReciveStateChange(bool value)
         {
             if (value)
             {

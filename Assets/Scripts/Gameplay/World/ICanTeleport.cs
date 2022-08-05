@@ -7,7 +7,7 @@ namespace Gameplay.World
     public interface ICanTeleport
     {
         [Server]
-        bool Teleport(Timeline timeline, Vector2Int position);
+        bool Teleport(Vector2Int position);
         
     }
 }

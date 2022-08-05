@@ -24,7 +24,7 @@ namespace Gameplay.Controllers.Player.Ability
                 Projectile projectile = model.projectiles.Get(projectileID);
                 
                 List<GameObject> active = player.GetActiveProjectiles(projectileID);
-                World.World world = model.spacetime.GetWorld(player.timeline);
+                World.World world = model.levelElement.GetWorld();
                 
                 Vector2Int pos = player.position + direction.GetVector();
                 Vector2 worldPos = world.GetWorldSpacePos(player.position);
@@ -54,14 +54,14 @@ namespace Gameplay.Controllers.Player.Ability
 
                 if (active.Count < projectile.maxActive)
                 {
-                    SpawnController.SpawnWithLink(player, projectile.itemId, player.timeline, pos, direction, projectile.prefab);
+                    SpawnController.SpawnWithLink(player, projectile.itemId, pos, direction, projectile.prefab);
                     return true;
                 }
 
                 if (projectile.canReplace)
                 {
                     GameObject oldObj = active.Last();
-                    SpawnController.SpawnWithReplace(player, projectile.itemId, player.timeline, pos, direction, oldObj, projectile.prefab);
+                    SpawnController.SpawnWithReplace(player, projectile.itemId, pos, direction, oldObj, projectile.prefab);
                     return true;
                 }
 

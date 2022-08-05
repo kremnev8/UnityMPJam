@@ -6,16 +6,16 @@ using UnityEngine.Events;
 
 namespace Gameplay.Logic
 {
-    public class LogicDelay : MonoBehaviour, ITimeLinked
+    public class LogicDelay : MonoBehaviour, ILinked
     {
         public List<LogicConnection> timeEnded;
         public float timeout = 60f;
 
-        private void Invoke(List<LogicConnection> objects, bool isPermanent = true)
+        private void Invoke(List<LogicConnection> objects)
         {
             foreach (LogicConnection item in objects)
             {
-                timeObject.SendLogicState(item.target.UniqueId, item.value, isPermanent);
+                element.SendLogicState(item.target.UniqueId, item.value);
             }
         }
         
@@ -28,7 +28,7 @@ namespace Gameplay.Logic
         {
             foreach (LogicConnection connection in connections)
             {
-                if (connection != null)
+                if (connection != null && connection.target != null)
                     Gizmos.DrawLine(transform.position, connection.target.transform.position);
             }
         }
@@ -43,20 +43,9 @@ namespace Gameplay.Logic
             Invoke(timeEnded);
         }
 
-        public SpaceTimeObject timeObject { get; set; }
-        public void Configure(ObjectState state)
-        {
-            if (state == ObjectState.DOES_NOT_EXIST)
-            {
-                gameObject.SetActive(false);
-            }
-        }
+        public WorldElement element { get; set; }
 
-        public void ReciveTimeEvent(int[] args)
-        {
-        }
-
-        public void ReciveStateChange(bool value, bool isPermanent)
+        public void ReciveStateChange(bool value)
         {
             if (value)
             {

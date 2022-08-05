@@ -15,19 +15,19 @@ namespace Gameplay.World
     [Serializable]
     public class LogicConnection
     {
-        public SpaceTimeObject target;
+        public WorldElement target;
         public bool value;
     }
 
     [Serializable]
     public class ValueConnection
     {
-        public SpaceTimeObject target;
+        public WorldElement target;
         public bool invert;
     }
     
-    [RequireComponent(typeof(SpaceTimeObject))]
-    public class Interactible : NetworkBehaviour, IInteractable, ITimeLinked
+    [RequireComponent(typeof(WorldElement))]
+    public class Interactible : NetworkBehaviour, IInteractable, ILinked
     {
         public Vector2Int forward;
         public Vector2Int FacingDirection => forward;
@@ -37,16 +37,11 @@ namespace Gameplay.World
 
         public Sprite idle;
         public Sprite activated;
-        public Sprite destroyed;
-        
-        public ParticleLight timeGlitchEffect;
 
         protected bool interactible = true; 
         
         protected bool state;
         public bool initialState;
-        [HideInInspector]
-        public bool fromTimeEvent;
         
         
         public List<ValueConnection> newConnections;
@@ -54,15 +49,12 @@ namespace Gameplay.World
 
         [HideInInspector]
         [SerializeField] 
-        private SpaceTimeObject m_timeObject;
+        private WorldElement m_timeObject;
         
-        private void Start()
+        protected virtual void Start()
         {
-            SpaceTimeObject to = GetComponent<SpaceTimeObject>();
-            if (to.GetState(to.timeline) == ObjectState.DOES_NOT_EXIST)
-            {
-                gameObject.SetActive(false);
-            }
+            WorldElement to = GetComponent<WorldElement>();
+            SetState(initialState);
         }
 
         protected void OnDrawGizmosSelected()
@@ -74,42 +66,42 @@ namespace Gameplay.World
         {
             foreach (ValueConnection connection in connections)
             {
-                if (connection != null)
+                if (connection != null && connection.target != null)
                     Gizmos.DrawLine(transform.position, connection.target.transform.position);
             }
         }
         
-        protected void Invoke(List<ValueConnection> objects, bool value, bool isPermanent = true)
+        protected void Invoke(List<ValueConnection> objects, bool value)
         {
             foreach (ValueConnection item in objects)
             {
                 bool setValue = item.invert ? !value : value;
-                timeObject.SendLogicState(item.target.UniqueId, setValue, isPermanent);
+                element.SendLogicState(item.target.UniqueId, setValue);
             }
         }
 
         [ClientRpc]
-        public void RpcSetState(bool newState, bool isPermanent)
+        public void RpcSetState(bool newState)
         {
             if (isClientOnly)
             {
                 if (!interactible) return;
                 
-                SetState(newState, isPermanent);
+                SetState(newState);
             }
         }
 
         [Command(requiresAuthority = false)]
-        public void CmdSetState(bool newState, bool isPermanent)
+        public void CmdSetState(bool newState)
         {
             if (!interactible) return;
             
-            SetState(newState, isPermanent);
-            RpcSetState(newState, isPermanent);
+            SetState(newState);
+            RpcSetState(newState);
         }
         
         
-        protected virtual void SetState(bool newState, bool isPermanent = true)
+        protected virtual void SetState(bool newState)
         {
             if (!interactible) return;
             
@@ -120,12 +112,7 @@ namespace Gameplay.World
             }
             try
             {
-                Invoke(newConnections, newState, isPermanent);
-
-                if (!fromTimeEvent)
-                {
-                    timeObject.SendTimeEvent(new[] { newState ? 1 : 0 });
-                }
+                Invoke(newConnections, newState);
             }
             catch (Exception e)
             {
@@ -140,43 +127,13 @@ namespace Gameplay.World
         {
         }
 
-        public SpaceTimeObject timeObject
+        public WorldElement element
         {
             get => m_timeObject;
             set => m_timeObject = value;
         }
-
-        public virtual void Configure(ObjectState state)
-        {
-            switch (state)
-            {
-                case ObjectState.DOES_NOT_EXIST:
-                    gameObject.SetActive(false);
-                    return;
-                case ObjectState.BROKEN:
-                    SetState(false);
-                    interactible = false;
-                    if (spriteRenderer != null) 
-                        spriteRenderer.sprite = destroyed;
-                    break;
-                default:
-                    interactible = true;
-                    SetState(initialState);
-                    break;
-            }
-        }
-
-        public virtual void ReciveTimeEvent(int[] args)
-        {
-            fromTimeEvent = true;
-            SetState(args[0] == 1);
-            fromTimeEvent = false;
-            
-            if (timeGlitchEffect != null)
-                timeGlitchEffect.Play();
-        }
-
-        public virtual void ReciveStateChange(bool value, bool isPermanent)
+        
+        public virtual void ReciveStateChange(bool value)
         {
             
         }

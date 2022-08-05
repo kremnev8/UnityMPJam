@@ -9,33 +9,22 @@ namespace Gameplay.World
 {
     public class World : MonoBehaviour
     {
-        public Timeline worldTimeline;
         public TileSetController tileSet;
         public Transform objectTransform;
 
-        public Dictionary<string, SpaceTimeObject> objects = new Dictionary<string, SpaceTimeObject>();
+        public Dictionary<string, WorldElement> objects = new Dictionary<string, WorldElement>();
 
         public void Init()
         {
-            SpaceTimeObject[] objArr = objectTransform.GetComponentsInChildren<SpaceTimeObject>(true);
+            WorldElement[] objArr = objectTransform.GetComponentsInChildren<WorldElement>(true);
             objects.Clear();
             objects.EnsureCapacity(objArr.Length);
 
-            foreach (SpaceTimeObject timeObject in objArr)
+            foreach (WorldElement timeObject in objArr)
             {
-                if (timeObject.GetState(worldTimeline) == ObjectState.DOES_NOT_EXIST)
-                {
-                    if (Application.isPlaying)
-                    {
-                        timeObject.gameObject.SetActive(false);
-                    }
-
-                    continue;
-                }
-                
                 objects.Add(timeObject.UniqueId, timeObject);
                 
-                ITimeLinked linked = timeObject.GetComponent<ITimeLinked>();
+                ILinked linked = timeObject.GetComponent<ILinked>();
                 if (timeObject == null || linked == null)
                 {
                     Debug.Log(
@@ -43,7 +32,7 @@ namespace Gameplay.World
                     continue;
                 }
 
-                timeObject.Set(worldTimeline, linked);
+                timeObject.Set(linked);
                 if (Application.isPlaying)
                 {
                     SpriteRenderer[] renderers = timeObject.GetComponentsInChildren<SpriteRenderer>();
@@ -55,7 +44,7 @@ namespace Gameplay.World
             }
         }
 
-        public SpaceTimeObject GetObject(string id)
+        public WorldElement GetObject(string id)
         {
             if (objects.ContainsKey(id))
             {

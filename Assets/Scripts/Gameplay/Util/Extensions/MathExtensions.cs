@@ -396,6 +396,7 @@ namespace Util
             Debug.DrawLine(new Vector3(rect.x + rect.width, rect.y + rect.height), new Vector3(rect.x + rect.width, rect.y), color);
             Debug.DrawLine(new Vector3(rect.x + rect.width, rect.y + rect.height), new Vector3(rect.x, rect.y + rect.height), color);
         }
+
         
         public static Vector2 ToWorldPos(this Vector2Int gridPos)
         {
@@ -406,19 +407,7 @@ namespace Util
         {
             return ((worldPos - Vector3.one) / 2).ToVector2Int();
         }
-        
-        public static Vector2 ToWorldPos(this Vector2Int pos, Timeline timeline)
-        {
-            World world = Simulation.GetModel<GameModel>().spacetime.GetWorld(timeline);
-            return world.GetWorldSpacePos(pos);
-        }
 
-        public static Vector2Int ToGridPos(this Vector3 worldPos, Timeline timeline)
-        {
-            World world = Simulation.GetModel<GameModel>().spacetime.GetWorld(timeline);
-            return world.GetGridPos(worldPos);
-        }
-        
         /// <summary>
         /// Rounds a Vector3 to world axis or relative to another transform
         /// </summary>

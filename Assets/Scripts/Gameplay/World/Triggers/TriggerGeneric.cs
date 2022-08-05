@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 namespace Gameplay.Logic
 {
-    public class TriggerGeneric : NetworkBehaviour, ITimeLinked
+    public class TriggerGeneric : NetworkBehaviour, ILinked
     {
         public List<LogicConnection> onEnter;
         public List<LogicConnection> onExit;
@@ -32,11 +32,11 @@ namespace Gameplay.Logic
             }
         }
 
-        private void Invoke(List<LogicConnection> objects, bool isPermanent = true)
+        private void Invoke(List<LogicConnection> objects)
         {
             foreach (LogicConnection item in objects)
             {
-                timeObject.SendLogicState(item.target.UniqueId, item.value, isPermanent);
+                element.SendLogicState(item.target.UniqueId, item.value);
             }
         }
 
@@ -81,20 +81,9 @@ namespace Gameplay.Logic
             wasTriggered = true;
         }
 
-        public SpaceTimeObject timeObject { get; set; }
-        public void Configure(ObjectState state)
-        {
-            if (state == ObjectState.DOES_NOT_EXIST)
-            {
-                gameObject.SetActive(false);
-            }
-        }
+        public WorldElement element { get; set; }
 
-        public void ReciveTimeEvent(int[] args)
-        {
-        }
-
-        public void ReciveStateChange(bool value, bool isPermanent)
+        public void ReciveStateChange(bool value)
         {
         }
     }

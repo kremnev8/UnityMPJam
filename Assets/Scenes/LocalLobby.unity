@@ -433,7 +433,7 @@ MonoBehaviour:
     mainCamera: {fileID: 0}
     networkManager: {fileID: 437631058}
     roleController: {fileID: 0}
-    spacetime: {fileID: 0}
+    levelElement: {fileID: 0}
     eosLobby: {fileID: 0}
     localLobby: {fileID: 1480652948266717010}
     loadingUI: {fileID: 1480652948266717011}
@@ -539,6 +539,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2115235720999777589, guid: d3893923bc1897a4b92e71138be3c88e,
         type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115235720999777589, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
@@ -577,6 +582,17 @@ PrefabInstance:
       propertyPath: framesPerSprite
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2115235720999777591, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f37734924b1d3b34c90dbbd1d15e233e,
+        type: 3}
+    - target: {fileID: 2115235720999777591, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: 76f78c2776fd2ca488a6e06b61a1a374, type: 2}
     - target: {fileID: 2115235721243553127, guid: d3893923bc1897a4b92e71138be3c88e,
         type: 3}
       propertyPath: m_Pivot.x

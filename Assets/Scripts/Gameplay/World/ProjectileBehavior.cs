@@ -35,12 +35,12 @@ namespace Gameplay.World
         {
             get
             {
-                World world = model.spacetime.GetWorld(timeline);
+                World world = model.levelElement.GetWorld();
                 return ((Vector3)body.position - world.transform.position).ToGridPos();
             }
             set
             {
-                World world = model.spacetime.GetWorld(timeline);
+                World world = model.levelElement.GetWorld();
                 body.position = world.GetWorldSpacePos(value);
             }
         }
@@ -58,12 +58,12 @@ namespace Gameplay.World
         public int Mass => projectile.projectileMass;
 
         [Server]
-        public override void Spawn(PlayerController player, Timeline timeline, Vector2Int position, Direction direction)
+        public override void Spawn(PlayerController player, Vector2Int position, Direction direction)
         {
             body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
 
-            base.Spawn(player, timeline, position, direction);
+            base.Spawn(player, position, direction);
 
             ProjectileDB projectileDB = model.projectiles;
             projectile = projectileDB.Get(projectileID);
@@ -76,12 +76,12 @@ namespace Gameplay.World
         }
 
         [ClientRpc]
-        public override void RpcSpawn(Timeline timeline, Vector2Int position, Direction direction)
+        public override void RpcSpawn( Vector2Int position, Direction direction)
         {
             body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
 
-            base.RpcSpawn(timeline, position, direction);
+            base.RpcSpawn(position, direction);
 
             ProjectileDB projectileDB = model.projectiles;
             projectile = projectileDB.Get(projectileID);
@@ -195,7 +195,7 @@ namespace Gameplay.World
         {
             if (projectile.spawnOnHit != null && owner != null)
             {
-                SpawnController.SpawnWithReplace(owner, projectileID, timeline, transform.position.ToGridPos(timeline), moveDir.GetOpposite(), gameObject,
+                SpawnController.SpawnWithReplace(owner, projectileID, transform.position.ToGridPos(), moveDir.GetOpposite(), gameObject,
                     projectile.spawnOnHit);
             }
             else if (projectile.destroySelfOnHit)
@@ -213,27 +213,26 @@ namespace Gameplay.World
         }
 
 
-        public bool Teleport(Timeline timeline, Vector2Int position)
+        public bool Teleport(Vector2Int position)
         {
             if (destroyTimer > 0) return false;
 
-            this.timeline = timeline;
             this.position = position;
             moveDir = moveDir.GetOpposite();
             if (isServer)
             {
-                RpcTeleport(timeline, position);
+                RpcTeleport(position);
             }
 
             return true;
         }
 
         [ClientRpc(includeOwner = false)]
-        public void RpcTeleport(Timeline timeline, Vector2Int position)
+        public void RpcTeleport( Vector2Int position)
         {
             if (isClientOnly)
             {
-                Teleport(timeline, position);
+                Teleport( position);
             }
         }
 

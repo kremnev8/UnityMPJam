@@ -23,6 +23,7 @@ namespace ScriptableObjects
         public float moveTime = 1f;
         public float failMoveTime = 1f;
         public LayerMask wallMask;
+        public LayerMask ghostMask;
 
         public AnimationCurve stuckAnim;
     }

@@ -7,16 +7,15 @@ using UnityEngine;
 
 namespace Gameplay.World
 {
-    [RequireComponent(typeof(SpaceTimeObject))]
-    public class DungeonExit : NetworkBehaviour, IInteractable, ITimeLinked
+    [RequireComponent(typeof(WorldElement))]
+    public class DungeonExit : NetworkBehaviour, IInteractable, ILinked
     {
         public Vector2Int forward;
         public Vector2Int FacingDirection => forward;
 
         private GameModel model;
-        public SpriteRenderer rubbleRenderer;
 
-        public SpaceTimeObject timeObject { get; set; }
+        public WorldElement element { get; set; }
 
         private void Start()
         {
@@ -25,10 +24,7 @@ namespace Gameplay.World
 
         public void Activate(PlayerController player)
         {
-            if (timeObject.GetState(timeObject.timeline) != ObjectState.BROKEN)
-            {
-                CmdNextLevel(player);
-            }
+            CmdNextLevel(player);
         }
 
         [Command(requiresAuthority = false)]
@@ -69,22 +65,6 @@ namespace Gameplay.World
             }
         }
 
-
-        public void Configure(ObjectState state)
-        {
-            rubbleRenderer.enabled = false;
-            if (state == ObjectState.DOES_NOT_EXIST)
-            {
-                gameObject.SetActive(false);
-            }
-            else if (state == ObjectState.BROKEN)
-            {
-                rubbleRenderer.enabled = true;
-            }
-        }
-
-        public void ReciveTimeEvent(int[] args) { }
-
-        public void ReciveStateChange(bool value, bool isPermanent) { }
+        public void ReciveStateChange(bool value) { }
     }
 }
