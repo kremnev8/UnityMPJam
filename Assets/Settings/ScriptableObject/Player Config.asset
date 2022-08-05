@@ -170,7 +170,7 @@ MonoBehaviour:
     - {x: -0.682, y: 0.076, z: -50}
   idleFrameTime: 15
   walkFrameTime: 10
-  deathFrameTime: 0
+  deathFrameTime: 6
   moveTime: 0.5
   failMoveTime: 0.2
   dashTime: 0.5

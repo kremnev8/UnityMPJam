@@ -1,5 +1,6 @@
 ﻿using Gameplay.Conrollers;
 using Gameplay.Controllers.Player;
+using Gameplay.Core;
 using Gameplay.World.Spacetime;
 using Mirror;
 using UnityEngine;
@@ -14,6 +15,13 @@ namespace Gameplay.World
         public SpriteRenderer bottomRenderer;
 
         private static readonly int open = Animator.StringToHash("Open");
+        private GameModel model;
+        
+        protected override void Start()
+        {
+            base.Start();
+            model = Simulation.GetModel<GameModel>();
+        }
 
         public override void Activate(PlayerController player)
         {
@@ -39,10 +47,9 @@ namespace Gameplay.World
         {
             if (state) return;
 
-            Inventory inventory = player.GetComponent<Inventory>();
-            if (inventory != null)
+            if (player != null && model.globalInventory != null)
             {
-                if (inventory.TryConsume(itemId))
+                if (model.globalInventory.TryConsume(itemId))
                 {
                     SetState(true);
                     RpcSetState(true);

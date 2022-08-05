@@ -51,7 +51,6 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: 766296a119dd68b419a5e8746322b603, type: 3}
   - {fileID: -134185034, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
   - {fileID: -324474095, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
   - {fileID: -196995890, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
@@ -859,6 +858,17 @@ SpriteAtlas:
   - {fileID: -4445457053680830696, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
   - {fileID: 21300000, guid: 6396fc43802ee8f43b9885c9e91ea750, type: 3}
   - {fileID: 21300000, guid: 8ea417b32fe9ece419f95365b264947b, type: 3}
+  - {fileID: -185896334, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
+  - {fileID: 765877299, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
+  - {fileID: 50358496, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
+  - {fileID: 847858292, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
+  - {fileID: -1866710810, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
+  - {fileID: 1674327890, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
+  - {fileID: 964307588, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
+  - {fileID: -2091828707, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
+  - {fileID: 989278603, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
+  - {fileID: 1112266519, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
+  - {fileID: -1101380248, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
   - {fileID: -2002930234, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
   - {fileID: 1540352797, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
   - {fileID: -1714486074, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
@@ -1015,7 +1025,6 @@ SpriteAtlas:
   - {fileID: 1064787831, guid: b87efd4faeaab82468f2f8fa2326bf3b, type: 3}
   - {fileID: 1156883401, guid: b87efd4faeaab82468f2f8fa2326bf3b, type: 3}
   m_PackedSpriteNamesToIndex:
-  - water-sheet
   - firemagesheet_23
   - firemagesheet_22
   - firemagesheet_21
@@ -1823,6 +1832,17 @@ SpriteAtlas:
   - atlas_16x_461
   - scroll-fireball
   - key
+  - flame_9
+  - flame_8
+  - flame_5
+  - flame_4
+  - flame_7
+  - flame_6
+  - flame_1
+  - flame_0
+  - flame_3
+  - flame_2
+  - flame_10
   - icemagedeath_1
   - icemagedeath_0
   - icemagedeath_3

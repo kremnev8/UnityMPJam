@@ -84,7 +84,7 @@ namespace Gameplay.Controllers.Player
 
             try
             {
-                if (items.Count + 1 >= maxSize) return false;
+                if (items.Count + 1 > maxSize) return false;
 
                 ItemDesc item = model.items.Get(itemId);
                 items.Add(item);
@@ -100,7 +100,7 @@ namespace Gameplay.Controllers.Player
 
         public bool Transfer(Inventory from, string itemId)
         {
-            if (items.Count + 1 >= maxSize) return false;
+            if (items.Count + 1 > maxSize) return false;
 
             if (from.TryConsume(itemId))
             {
@@ -118,7 +118,7 @@ namespace Gameplay.Controllers.Player
 
         public ItemDesc SelectedItem()
         {
-            if (selectedIndex <= items.Count)
+            if (selectedIndex < items.Count)
             {
                 return items[selectedIndex];
             }

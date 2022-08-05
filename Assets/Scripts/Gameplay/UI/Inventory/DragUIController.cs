@@ -103,7 +103,7 @@ namespace Gameplay.UI
                 try
                 {
                     InventorySlotUI slotUI = globalInventoryUI.slots.First(slot => slot.IsPointerInside);
-                    if (slotUI.item != null)
+                    if (slotUI.item != null && slotUI.item.canBeDragged)
                     {
                         dragSlot.Set(slotUI.item, slotUI.itemIndex);
                         fromPlayer = false;
@@ -120,7 +120,7 @@ namespace Gameplay.UI
                 try
                 {
                     InventorySlotUI slotUI = playerInventory.slots.First(slot => slot.IsPointerInside);
-                    if (slotUI.item != null)
+                    if (slotUI.item != null && slotUI.item.canBeDragged)
                     {
                         dragSlot.Set(slotUI.item, slotUI.itemIndex);
                         fromPlayer = true;

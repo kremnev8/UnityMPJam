@@ -225,7 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  maxSize: 4
+  maxSize: 2
   selectedIndex: 0
 --- !u!114 &686841614958085027
 MonoBehaviour:
@@ -1133,6 +1133,7 @@ MonoBehaviour:
     itemId: 
     itemIcon: {fileID: 0}
     itemSpell: {fileID: 0}
+    canBeDragged: 0
   border: {fileID: 7927020599292901575}
   icon: {fileID: 5237661398602608114}
   normalBorder: {fileID: -1508087015, guid: 4dcc7fea56df91a4398cdc80a8db1b98, type: 3}
