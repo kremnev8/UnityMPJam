@@ -74,7 +74,8 @@ namespace Gameplay.World
         {
             foreach (ValueConnection connection in connections)
             {
-                Gizmos.DrawLine(transform.position, connection.target.transform.position);
+                if (connection != null)
+                    Gizmos.DrawLine(transform.position, connection.target.transform.position);
             }
         }
         

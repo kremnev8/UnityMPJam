@@ -11,6 +11,8 @@ namespace Gameplay.Logic
     {
         public int minCount = 0;
         public int maxCount = 2;
+        public int initialCount = 0;
+        
         private int current;
         public bool isPermanent;
 
@@ -41,7 +43,8 @@ namespace Gameplay.Logic
         {
             foreach (LogicConnection connection in connections)
             {
-                Gizmos.DrawLine(transform.position, connection.target.transform.position);
+                if (connection != null)
+                    Gizmos.DrawLine(transform.position, connection.target.transform.position);
             }
         }
         
@@ -83,7 +86,7 @@ namespace Gameplay.Logic
 
         public void Reset()
         {
-            current = minCount;
+            current = initialCount;
         }
 
         public SpaceTimeObject timeObject { get; set; }

@@ -28,7 +28,8 @@ namespace Gameplay.Logic
         {
             foreach (LogicConnection connection in connections)
             {
-                Gizmos.DrawLine(transform.position, connection.target.transform.position);
+                if (connection != null)
+                    Gizmos.DrawLine(transform.position, connection.target.transform.position);
             }
         }
 

@@ -66,8 +66,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeline: 0
-  pastState: 0
-  futureState: 0
+  pastState: 1
+  futureState: 1
   m_uniqueId: 
   underParadox: 0
 --- !u!61 &6901916281823151312
@@ -125,7 +125,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: 9e7f09ae65822114f99267b4917e6f6f
   hasSpawned: 0
 --- !u!1 &9139471143126180717
 GameObject:

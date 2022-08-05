@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Levels DB
   m_EditorClassIdentifier: 
   items:
-  - levelName: Demo
-    levelId: demo
+  - levelName: Death trap
+    levelId: deathtrap
+    scene: Assets/Scenes/Game4.unity
+  - levelName: Key Demo
+    levelId: keydemo
     scene: Assets/Scenes/Game.unity
   - levelName: Not the intro
     levelId: level1
@@ -22,6 +25,3 @@ MonoBehaviour:
   - levelName: Maze where i got lost
     levelId: themaze
     scene: Assets/Scenes/Game3.unity
-  - levelName: Maze where i got lost
-    levelId: idon'tknow
-    scene: Assets/Scenes/Game4.unity

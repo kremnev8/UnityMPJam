@@ -16,15 +16,3 @@ MonoBehaviour:
   - itemName: Golden Key
     itemId: goldenkey
     itemIcon: {fileID: 21300000, guid: 8ea417b32fe9ece419f95365b264947b, type: 3}
-  - itemName: 
-    itemId: 
-    itemIcon: {fileID: 0}
-  - itemName: 
-    itemId: 
-    itemIcon: {fileID: 0}
-  - itemName: 
-    itemId: 
-    itemIcon: {fileID: 0}
-  - itemName: 
-    itemId: 
-    itemIcon: {fileID: 0}

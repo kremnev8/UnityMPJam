@@ -5,6 +5,7 @@ using Gameplay.Conrollers;
 using Gameplay.Core;
 using Gameplay.ScriptableObjects;
 using Gameplay.Util;
+using Gameplay.World;
 using UnityEngine;
 
 namespace Gameplay.Controllers.Player.Ability
@@ -53,14 +54,14 @@ namespace Gameplay.Controllers.Player.Ability
 
                 if (active.Count < projectile.maxActive)
                 {
-                    player.SpawnWithLink(projectile.itemId, player.timeline, pos, direction, projectile.prefab);
+                    SpawnController.SpawnWithLink(player, projectile.itemId, player.timeline, pos, direction, projectile.prefab);
                     return true;
                 }
 
                 if (projectile.canReplace)
                 {
                     GameObject oldObj = active.Last();
-                    player.SpawnWithReplace(projectile.itemId, player.timeline, pos, direction, oldObj, projectile.prefab);
+                    SpawnController.SpawnWithReplace(player, projectile.itemId, player.timeline, pos, direction, oldObj, projectile.prefab);
                     return true;
                 }
 

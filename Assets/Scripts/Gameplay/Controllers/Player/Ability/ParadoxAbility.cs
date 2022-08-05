@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Gameplay.Conrollers;
+using Gameplay.Core;
 using Gameplay.Util;
+using Gameplay.World;
 using UnityEngine;
 
 namespace Gameplay.Controllers.Player.Ability
@@ -19,12 +21,12 @@ namespace Gameplay.Controllers.Player.Ability
 
             if (active.Count < 1)
             {
-                player.SpawnWithLink(ProjectileID.PARADOX, player.timeline, pos, direction, paradoxPrefab);
+                SpawnController.SpawnWithLink(player, ProjectileID.PARADOX, player.timeline, pos, direction, paradoxPrefab);
                 return true;
             }
 
             GameObject oldObj = active.Last();
-            player.SpawnWithReplace(ProjectileID.PARADOX, player.timeline, pos, direction, oldObj, paradoxPrefab);
+            SpawnController.SpawnWithReplace(player, ProjectileID.PARADOX, player.timeline, pos, direction, oldObj, paradoxPrefab);
             return true;
         }
     }

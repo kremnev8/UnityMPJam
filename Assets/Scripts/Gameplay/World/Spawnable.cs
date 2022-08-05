@@ -53,19 +53,23 @@ namespace Gameplay.World
 
         public virtual void Destroy()
         {
+            Debug.Log("Destroy!");
             destroyTimer = destoryTime;
             pendingDestroy = true;
         }
         
         protected virtual void FixedUpdate()
         {
+            if (!pendingDestroy) return;
+            
             if (destroyTimer > 0)
             {
                 destroyTimer -= Time.fixedDeltaTime;
-                if (destroyTimer < 0)
-                {
-                    Destroy(gameObject);
-                }
+            }
+            
+            if (destroyTimer <= 0)
+            {
+                Destroy(gameObject);
             }
         }
     }

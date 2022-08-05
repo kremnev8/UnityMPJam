@@ -444,6 +444,7 @@ MonoBehaviour:
     abilities: {fileID: 11400000, guid: 90f538d225f7711498fe02a9ac9cb640, type: 2}
     projectiles: {fileID: 11400000, guid: c48eeb89caaa5514682e16f745293605, type: 2}
     levels: {fileID: 11400000, guid: 85818196ecb645b428cfaa19c7cdeea3, type: 2}
+    items: {fileID: 11400000, guid: 5cc15796f555d364c8838482c272c3fa, type: 2}
 --- !u!4 &1211281762
 Transform:
   m_ObjectHideFlags: 0

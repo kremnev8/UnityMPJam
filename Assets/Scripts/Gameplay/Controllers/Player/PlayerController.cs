@@ -69,7 +69,7 @@ namespace Gameplay.Conrollers
 
         private Dictionary<BaseAbility, float> abilityCooldowns = new Dictionary<BaseAbility, float>();
         private Dictionary<ProjectileID, List<GameObject>> playerObjects = new Dictionary<ProjectileID, List<GameObject>>();
-
+        
         private GameModel model;
 
         private static RaycastHit2D[] hits = new RaycastHit2D[6];
@@ -374,6 +374,57 @@ namespace Gameplay.Conrollers
                 RpcFeedback(feedback);
             }
         }
+        
+        [Server]
+        public List<GameObject> GetActiveProjectiles(ProjectileID projectileID)
+        {
+            if (playerObjects.ContainsKey(projectileID))
+            {
+                return playerObjects[projectileID];
+            }
+
+            playerObjects.Add(projectileID, new List<GameObject>());
+            return playerObjects[projectileID];
+        }
+
+        [Server]
+        public void AddProjectile(ProjectileID projectileID, GameObject o)
+        {
+            if (playerObjects.ContainsKey(projectileID))
+            {
+                playerObjects[projectileID].Add(o);
+            }
+            else
+            {
+                playerObjects.Add(projectileID, new List<GameObject>());
+                playerObjects[projectileID].Add(o);
+            }
+        }
+
+        [Server]
+        public void ReplaceObject(ProjectileID projectileID, GameObject oldObj, GameObject newObj)
+        {
+            RemoveObject(projectileID, oldObj);
+            AddProjectile(projectileID, newObj);
+
+            if (oldObj != null)
+            {
+                ISpawnable behavior = oldObj.GetComponent<ISpawnable>();
+                behavior.Destroy();
+            }
+            else
+            {
+                Debug.Log("Old object is destroyed!");
+            }
+        }
+
+        public void RemoveObject(ProjectileID projectileID, GameObject o)
+        {
+            if (playerObjects.ContainsKey(projectileID))
+            {
+                playerObjects[projectileID].Remove(o);
+            }
+        }
 
         public void StartCooldown(BaseAbility ability)
         {
@@ -405,82 +456,6 @@ namespace Gameplay.Conrollers
 
             feedback = "You don't have such ability!";
             return false;
-        }
-
-        [Server]
-        public List<GameObject> GetActiveProjectiles(ProjectileID projectileID)
-        {
-            if (playerObjects.ContainsKey(projectileID))
-            {
-                return playerObjects[projectileID];
-            }
-
-            playerObjects.Add(projectileID, new List<GameObject>());
-            return playerObjects[projectileID];
-        }
-
-        [Server]
-        private void AddProjectile(ProjectileID projectileID, GameObject o)
-        {
-            if (playerObjects.ContainsKey(projectileID))
-            {
-                playerObjects[projectileID].Add(o);
-            }
-            else
-            {
-                playerObjects.Add(projectileID, new List<GameObject>());
-                playerObjects[projectileID].Add(o);
-            }
-        }
-
-        [Server]
-        private void ReplaceObject(ProjectileID projectileID, GameObject oldObj, GameObject newObj)
-        {
-            RemoveObject(projectileID, oldObj);
-            AddProjectile(projectileID, newObj);
-
-            if (oldObj != null)
-            {
-                ISpawnable behavior = oldObj.GetComponent<ISpawnable>();
-                behavior.Destroy();
-            }
-            else
-            {
-                Debug.Log("Old object is destroyed!");
-            }
-        }
-
-        public void RemoveObject(ProjectileID projectileID, GameObject o)
-        {
-            if (playerObjects.ContainsKey(projectileID))
-            {
-                playerObjects[projectileID].Remove(o);
-            }
-        }
-
-        [Server]
-        public GameObject Spawn(Timeline s_timeline, Vector2Int pos, Direction direction, GameObject prefab)
-        {
-            GameObject projectileObj = Instantiate(prefab);
-            NetworkServer.Spawn(projectileObj);
-            ISpawnable behavior = projectileObj.GetComponent<ISpawnable>();
-            behavior.Spawn(this, s_timeline, pos, direction);
-
-            return projectileObj;
-        }
-
-        [Server]
-        public void SpawnWithLink(ProjectileID projectile, Timeline s_timeline, Vector2Int pos, Direction direction, GameObject prefab)
-        {
-            GameObject projectileObj = Spawn(s_timeline, pos, direction, prefab);
-            AddProjectile(projectile, projectileObj);
-        }
-
-        [Server]
-        public void SpawnWithReplace(ProjectileID projectileID, Timeline s_timeline, Vector2Int pos, Direction direction, GameObject oldGO, GameObject prefab)
-        {
-            GameObject projectileObj = Spawn(s_timeline, pos, direction, prefab);
-            ReplaceObject(projectileID, oldGO, projectileObj);
         }
 
         [ClientRpc]

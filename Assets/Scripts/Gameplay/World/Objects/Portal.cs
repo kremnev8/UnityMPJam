@@ -50,7 +50,7 @@ namespace Gameplay.World
                 Timeline other = timeline == Timeline.PAST ? Timeline.FUTURE : Timeline.PAST;
                 GameObject portalPrefab = model.projectiles.Get(ProjectileID.PORTAL).spawnOnHit;
 
-                GameObject otherPortalObj = owner.Spawn(other, position, direction, portalPrefab);
+                GameObject otherPortalObj = SpawnController.Spawn(player, other, position, direction, portalPrefab);
                 otherPortal = otherPortalObj.GetComponent<Portal>();
                 otherPortal.otherPortal = this;
             }

@@ -29,6 +29,8 @@ namespace Gameplay.World
 
         public ProjectileID projectileID;
 
+        public bool shouldRotate;
+
         public override Vector2Int position
         {
             get
@@ -98,6 +100,7 @@ namespace Gameplay.World
         {
             moveDir = direction;
             this.velocity = velocity;
+            
             EnterState(ProjectileState.MOVING);
             RpcStartMove(direction, velocity);
         }
@@ -107,6 +110,7 @@ namespace Gameplay.World
         {
             moveDir = direction;
             this.velocity = velocity;
+            
             EnterState(ProjectileState.MOVING);
             RpcStartMove(direction, velocity);
         }
@@ -138,12 +142,13 @@ namespace Gameplay.World
             if (!pendingDestroy)
             {
                 UpdatePosition();
-                UpdateInState(state);
             }
         }
 
         private void UpdatePosition()
         {
+            transform.rotation = Quaternion.LookRotation(Vector3.forward, moveDir.GetVector().ToVector3());
+            
             if (state != ProjectileState.MOVING) return;
 
             if (isServer)
@@ -162,7 +167,15 @@ namespace Gameplay.World
 
                             if (!hit.collider.isTrigger)
                             {
+                                Debug.Log("hit!");
+                                Health health = hit.collider.GetComponent<Health>();
+                                if (health != null && projectile.damage > 0 && owner == null)
+                                {
+                                    health.Decrement(projectile.damage);
+                                }
+                                
                                 velocity = 0;
+                                OnHit();
                                 EnterState(ProjectileState.STUCK);
                                 RpcStuck();
                                 return;
@@ -179,39 +192,24 @@ namespace Gameplay.World
         [Server]
         public void OnHit()
         {
-            if (projectile.spawnOnHit != null)
+            if (projectile.spawnOnHit != null && owner != null)
             {
-                owner.SpawnWithReplace(projectileID, timeline, transform.position.ToGridPos(timeline), moveDir.GetOpposite(), gameObject, projectile.spawnOnHit);
+                SpawnController.SpawnWithReplace(owner, projectileID, timeline, transform.position.ToGridPos(timeline), moveDir.GetOpposite(), gameObject, projectile.spawnOnHit);
             }
             else if (projectile.destroySelfOnHit)
             {
                 Destroy();
-                owner.RemoveObject(projectileID, gameObject);
+                if (owner != null)
+                {
+                    owner.RemoveObject(projectileID, gameObject);
+                }
             }
             else
             {
                 EnterState(ProjectileState.IDLE);
             }
         }
-
-
-        public void UpdateInState(ProjectileState state)
-        {
-            switch (state)
-            {
-                case ProjectileState.IDLE:
-                    break;
-                case ProjectileState.STUCK:
-                    if (isServer)
-                    {
-                        OnHit();
-                    }
-                    break;
-                case ProjectileState.MOVING:
-
-                    break;
-            }
-        }
+        
 
         public bool Teleport(Timeline timeline, Vector2Int position)
         {
