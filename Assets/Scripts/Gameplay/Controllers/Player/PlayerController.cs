@@ -69,6 +69,9 @@ namespace Gameplay.Conrollers
         public bool isGhost;
         public float ghostTimeLeft;
 
+        private int animationTime;
+        private int currentFrame;
+
         private Dictionary<BaseAbility, float> abilityCooldowns = new Dictionary<BaseAbility, float>();
         private Dictionary<ProjectileID, List<GameObject>> playerObjects = new Dictionary<ProjectileID, List<GameObject>>();
 
@@ -222,13 +225,39 @@ namespace Gameplay.Conrollers
 
         private void UpdateVisual(Direction direction)
         {
-            Sprite[] sprites = role == PlayerRole.ICE_MAGE ? config.iceMageSprites : config.fireMageSprites;
-            Vector3[] ligthPoses = role == PlayerRole.ICE_MAGE ? config.iceStaffLightPos : config.fireStaffLightPos;
             Color lightColor = role == PlayerRole.ICE_MAGE ? config.iceMageLightColor : config.fireMageLightColor;
+            PlayerAnim[] sprites;
+            animationTime++;
+            Direction displayDir = direction;
 
+            if (state == PlayerState.IDLE)
+            {
+                sprites = role == PlayerRole.ICE_MAGE ? config.iceMageIdle : config.fireMageIdle;
+                if (animationTime >= config.idleFrameTime)
+                {
+                    animationTime = 0;
+                    currentFrame++;
+                }
+            }
+            else
+            {
+                sprites = role == PlayerRole.ICE_MAGE ? config.iceMageWalk : config.fireMageWalk;
+                if (animationTime >= config.walkFrameTime)
+                {
+                    animationTime = 0;
+                    currentFrame++;
+                }
 
-            renderer.sprite = sprites[(int)direction];
-            lightTransform.localPosition = ligthPoses[(int)direction];
+                displayDir = lastMoveDir.GetDirection();
+            }
+
+            if (currentFrame >= sprites[(int)displayDir].frames.Length)
+            {
+                currentFrame = 0;
+            }
+            
+            renderer.sprite = sprites[(int)displayDir].frames[currentFrame];
+            lightTransform.localPosition = sprites[(int)displayDir].staffLight[currentFrame];
             staffLight.color = lightColor;
         }
 

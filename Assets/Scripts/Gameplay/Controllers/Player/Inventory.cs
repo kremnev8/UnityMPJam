@@ -19,6 +19,8 @@ namespace Gameplay.Controllers.Player
 
         public void SelectNext()
         {
+            if (items.Count == 0) return;
+            
             selectedIndex++;
             if (selectedIndex >= items.Count)
             {
@@ -28,6 +30,8 @@ namespace Gameplay.Controllers.Player
 
         public void SelectPrevious()
         {
+            if (items.Count == 0) return;
+            
             selectedIndex--;
             if (selectedIndex < 0)
             {

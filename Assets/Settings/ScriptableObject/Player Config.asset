@@ -12,8 +12,142 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a7ba555f2df4ed5961353d2803e74b6, type: 3}
   m_Name: Player Config
   m_EditorClassIdentifier: 
-  iceMageLightColor: {r: 0.16470589, g: 0.65882355, b: 0.90588236, a: 1}
+  iceMageLightColor: {r: 0.10568706, g: 0.55441964, b: 0.8962264, a: 1}
   fireMageLightColor: {r: 1, g: 0.61960787, b: 0, a: 1}
+  iceMageWalk:
+  - frames:
+    - {fileID: -371349220, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: -644894262, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: -1226162562, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: -1252137094, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    staffLight:
+    - {x: 0.6, y: 0.83, z: 0}
+    - {x: 0.62, y: 0.9, z: 0}
+    - {x: 0.62, y: 0.83, z: 0}
+    - {x: 0.62, y: 0.83, z: 0}
+  - frames:
+    - {fileID: -1072650912, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: -499306352, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: -1191876712, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: -685467559, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    staffLight:
+    - {x: -0.63, y: 0.83, z: 0}
+    - {x: -0.63, y: 0.9, z: 0}
+    - {x: -0.56, y: 0.83, z: 0}
+    - {x: -0.63, y: 0.83, z: 0}
+  - frames:
+    - {fileID: -312923702, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: 317956948, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: -1405072743, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: -457624143, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    staffLight:
+    - {x: -0.69, y: 0.83, z: 0}
+    - {x: -0.69, y: 0.9, z: 0}
+    - {x: -0.69, y: 0.83, z: 0}
+    - {x: -0.69, y: 0.83, z: 0}
+  - frames:
+    - {fileID: 1431172730, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: 932447494, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: -1191397704, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: -1891546655, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    staffLight:
+    - {x: -0.69, y: 0.83, z: 0}
+    - {x: -0.69, y: 0.9, z: 0}
+    - {x: -0.63, y: 0.83, z: 0}
+    - {x: -0.69, y: 0.83, z: 0}
+  iceMageIdle:
+  - frames:
+    - {fileID: -506266152, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: 1985893960, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    staffLight:
+    - {x: 0.625, y: 0.83, z: 0}
+    - {x: 0.69, y: 0.83, z: 0}
+  - frames:
+    - {fileID: 792859892, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: 694688128, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    staffLight:
+    - {x: -0.625, y: 0.83, z: 0}
+    - {x: -0.56, y: 0.83, z: 0}
+  - frames:
+    - {fileID: 577623433, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: -274234017, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    staffLight:
+    - {x: -0.69, y: 0.83, z: 0}
+    - {x: -0.622, y: 0.83, z: 0}
+  - frames:
+    - {fileID: -952948722, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    - {fileID: 891410449, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
+    staffLight:
+    - {x: -0.69, y: 0.83, z: 0}
+    - {x: -0.622, y: 0.83, z: 0}
+  fireMageWalk:
+  - frames:
+    - {fileID: -1236766454, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: -707342029, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: -1946970203, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: 1651957804, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    staffLight:
+    - {x: 0.6, y: 0.83, z: 0}
+    - {x: 0.62, y: 0.9, z: 0}
+    - {x: 0.62, y: 0.83, z: 0}
+    - {x: 0.62, y: 0.83, z: 0}
+  - frames:
+    - {fileID: -13345706, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: -1113391744, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: 2018914318, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: 1416975796, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    staffLight:
+    - {x: -0.63, y: 0.83, z: 0}
+    - {x: -0.63, y: 0.9, z: 0}
+    - {x: -0.56, y: 0.83, z: 0}
+    - {x: -0.63, y: 0.83, z: 0}
+  - frames:
+    - {fileID: -765716057, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: -1588310397, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: 626016298, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: -2035066461, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    staffLight:
+    - {x: -0.69, y: 0.83, z: 0}
+    - {x: -0.69, y: 0.9, z: 0}
+    - {x: -0.69, y: 0.83, z: 0}
+    - {x: -0.69, y: 0.83, z: 0}
+  - frames:
+    - {fileID: -2071612928, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: -2024401328, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: -1019675442, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: -280294409, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    staffLight:
+    - {x: -0.69, y: 0.83, z: 0}
+    - {x: -0.69, y: 0.9, z: 0}
+    - {x: -0.63, y: 0.83, z: 0}
+    - {x: -0.69, y: 0.83, z: 0}
+  fireMageIdle:
+  - frames:
+    - {fileID: -904366103, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: -524977192, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    staffLight:
+    - {x: 0.625, y: 0.83, z: 0}
+    - {x: 0.69, y: 0.83, z: 0}
+  - frames:
+    - {fileID: -1294370198, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: -1616598773, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    staffLight:
+    - {x: -0.625, y: 0.83, z: 0}
+    - {x: -0.56, y: 0.83, z: 0}
+  - frames:
+    - {fileID: 217438184, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: -196995890, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    staffLight:
+    - {x: -0.69, y: 0.83, z: 0}
+    - {x: -0.622, y: 0.83, z: 0}
+  - frames:
+    - {fileID: -324474095, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    - {fileID: -134185034, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
+    staffLight:
+    - {x: -0.69, y: 0.83, z: 0}
+    - {x: -0.622, y: 0.83, z: 0}
+  idleFrameTime: 15
+  walkFrameTime: 10
   iceMageSprites:
   - {fileID: 1109702328, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
   - {fileID: -712161801, guid: cf9e7735e665ca646a9e7cab6cb88409, type: 3}
@@ -39,6 +173,9 @@ MonoBehaviour:
   wallMask:
     serializedVersion: 2
     m_Bits: 1984
+  ghostMask:
+    serializedVersion: 2
+    m_Bits: 0
   stuckAnim:
     serializedVersion: 2
     m_Curve:

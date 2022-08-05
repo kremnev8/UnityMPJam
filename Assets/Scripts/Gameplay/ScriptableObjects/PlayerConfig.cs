@@ -1,7 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
+using Util;
 
 namespace ScriptableObjects
 {
+    [Serializable]
+    public class PlayerAnim
+    {
+        public Sprite[] frames;
+        public Vector3[] staffLight;
+    }
+
     /// <summary>
     /// Player default controls configuration
     /// </summary>
@@ -12,12 +22,14 @@ namespace ScriptableObjects
         public Color iceMageLightColor;
         public Color fireMageLightColor;
 
-        public Sprite[] iceMageSprites;
-        public Sprite[] fireMageSprites;
-
-        public Vector3[] iceStaffLightPos;
-        public Vector3[] fireStaffLightPos;
+        public PlayerAnim[] iceMageWalk;
+        public PlayerAnim[] iceMageIdle;
         
+        public PlayerAnim[] fireMageWalk;
+        public PlayerAnim[] fireMageIdle;
+        
+        public int idleFrameTime;
+        public int walkFrameTime;
 
         [Header("Movement")]
         public float moveTime = 1f;
@@ -26,5 +38,13 @@ namespace ScriptableObjects
         public LayerMask ghostMask;
 
         public AnimationCurve stuckAnim;
+
+        [InspectorButton]
+        public void CopyToFire()
+        {
+            fireMageWalk = iceMageWalk.ToArray();
+            fireMageIdle = iceMageIdle.ToArray();
+
+        }
     }
 }
