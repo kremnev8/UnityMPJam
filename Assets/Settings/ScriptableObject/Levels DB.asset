@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Levels DB
   m_EditorClassIdentifier: 
   items:
+  - levelName: Cube Recall
+    levelId: cuberecall
+    scene: Assets/Scenes/Ice Cube/CubeRecall.unity
   - levelName: Maze V2
     levelId: buttonmaze
     scene: Assets/Scenes/Dashnghost/Level1.unity
@@ -28,9 +31,6 @@ MonoBehaviour:
   - levelName: The pool
     levelId: level3
     scene: Assets/Scenes/Level3.unity
-  - levelName: Key Demo
-    levelId: keydemo
-    scene: Assets/Scenes/Game.unity
   - levelName: Not the intro
     levelId: level1
     scene: Assets/Scenes/Game2.unity

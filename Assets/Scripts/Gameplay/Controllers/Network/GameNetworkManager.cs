@@ -28,11 +28,6 @@ namespace Gameplay.Controllers
         public bool CanChangeLevel => playersInExit >= players.Count;
 
         public int startLevel;
-        
-        [Scene]
-        public string lobbyScene;
-        [Scene]
-        public string gameScene;
 
         public event Action ServerReady;
 
