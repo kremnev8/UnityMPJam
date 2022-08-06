@@ -252,6 +252,12 @@ namespace Gameplay.World
         public override void Destroy()
         {
             base.Destroy();
+            RpcDieAnimation();
+        }
+
+        [ClientRpc]
+        private void RpcDieAnimation()
+        {
             if (animator != null)
                 animator.SetTrigger(die);
         }

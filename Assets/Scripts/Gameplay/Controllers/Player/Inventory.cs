@@ -19,6 +19,7 @@ namespace Gameplay.Controllers.Player
 
         public int selectedIndex;
         
+        [SyncVar]
         [SerializeField]
         private int inventoryCap;
 

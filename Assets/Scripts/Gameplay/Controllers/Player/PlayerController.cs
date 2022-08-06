@@ -60,6 +60,7 @@ namespace Gameplay.Conrollers
         
         public bool isGhost;
         public float ghostTimeLeft;
+        public bool allowSwap;
         
         private InputAction movement;
         private InputAction firstAbility;
@@ -302,8 +303,11 @@ namespace Gameplay.Conrollers
         [Server]
         public void OnDead()
         {
-            EnterState(PlayerState.DEAD);
-            RpcDead();
+            if (state != PlayerState.DEAD)
+            {
+                EnterState(PlayerState.DEAD);
+                RpcDead();
+            }
         }
 
         [ClientRpc]
@@ -469,13 +473,20 @@ namespace Gameplay.Conrollers
         [Command(requiresAuthority = false)]
         public void CmdTransferItem(bool toGlobal, string itemId)
         {
-            if (toGlobal)
+            if (allowSwap)
             {
-                model.globalInventory.Transfer(inventory, itemId);
+                if (toGlobal)
+                {
+                    model.globalInventory.Transfer(inventory, itemId);
+                }
+                else
+                {
+                    inventory.Transfer(model.globalInventory, itemId);
+                }
             }
             else
             {
-                inventory.Transfer(model.globalInventory, itemId);
+                RpcFeedback("Can't swap abilities here!");
             }
         }
 

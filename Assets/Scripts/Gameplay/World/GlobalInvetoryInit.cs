@@ -14,22 +14,19 @@ namespace Gameplay.World
         public List<string> defaultItems;
 
         public string backpackId;
-        
+
         public void Start()
         {
+            GameModel model = Simulation.GetModel<GameModel>();
+            model.globalInventoryUI = globalInventoryUI;
+            model.globalInventoryUI.inventory = model.globalInventory;
+            model.globalInventoryUI.Init();
+            model.globalInventory.InventoryCap = 6;
             if (NetworkServer.active)
             {
-                GameModel model = Simulation.GetModel<GameModel>();
-                model.globalInventoryUI = globalInventoryUI;
-                model.globalInventoryUI.inventory = model.globalInventory;
-                model.globalInventoryUI.Init();
-                model.globalInventory.InventoryCap = 6;
-                if (NetworkServer.active)
+                foreach (string item in defaultItems)
                 {
-                    foreach (string item in defaultItems)
-                    {
-                        model.globalInventory.AddItem(item);
-                    }
+                    model.globalInventory.AddItem(item);
                 }
             }
         }
@@ -40,8 +37,8 @@ namespace Gameplay.World
             GameModel model = Simulation.GetModel<GameModel>();
             model.globalInventory.AddItem(backpackId);
         }
-        
-        
+
+
         [InspectorButton]
         public void RemoveBackpack()
         {

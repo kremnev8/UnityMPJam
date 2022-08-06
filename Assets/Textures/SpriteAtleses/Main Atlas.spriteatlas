@@ -1032,7 +1032,6 @@ SpriteAtlas:
   - {fileID: -1325867072, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
   - {fileID: -2064557541, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
   - {fileID: -1358425582, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
-  - {fileID: 604232694, guid: e145e34e6a7a72e43ac71e80e16e99e5, type: 3}
   - {fileID: -1094186235, guid: 8575b85e333de0d488c2b70f66ce7962, type: 3}
   - {fileID: 2063879638, guid: 8575b85e333de0d488c2b70f66ce7962, type: 3}
   - {fileID: -326457418, guid: 8575b85e333de0d488c2b70f66ce7962, type: 3}
@@ -2029,7 +2028,6 @@ SpriteAtlas:
   - firemagedeath_1
   - firemagedeath_2
   - firemagedeath_3
-  - Image21_0
   - iceMageEyes_1
   - iceMageEyes_0
   - iceMageEyes_3

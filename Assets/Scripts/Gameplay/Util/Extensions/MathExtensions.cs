@@ -7,6 +7,7 @@ using Gameplay.Conrollers;
 using Gameplay.Core;
 using Gameplay.World;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 namespace Util
 {
@@ -426,6 +427,18 @@ namespace Util
             vector[largestIndex] = newLargest;
 
             return vector;
+        }
+        
+        /// <summary>
+        /// Calculate camera orthographic screen size in world space
+        /// </summary>
+        public static Vector2 OrthographicSize(this Camera camera, PixelPerfectCamera perfectCamera)
+        {
+            float sizeCorrection = perfectCamera.refResolutionX * perfectCamera.pixelRatio / (float)Screen.width;
+            
+            float screenAspect = Screen.width / (float)Screen.height;
+            float cameraHeight = camera.orthographicSize * 2;
+            return new Vector2(cameraHeight * screenAspect * sizeCorrection, cameraHeight * sizeCorrection);
         }
     }
 }
