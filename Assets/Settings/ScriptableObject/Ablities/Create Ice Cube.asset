@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Create Ice Cube
   m_EditorClassIdentifier: 
   abilityName: CreateIceCube
-  abilityCooldown: 5
+  abilityCooldown: 1
   projectileID: 2

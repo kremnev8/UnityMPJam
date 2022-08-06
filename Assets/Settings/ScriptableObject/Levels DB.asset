@@ -16,15 +16,15 @@ MonoBehaviour:
   - levelName: Death trap
     levelId: deathtrap
     scene: Assets/Scenes/Game4.unity
-  - levelName: The pool
-    levelId: level3
-    scene: Assets/Scenes/Level3.unity
   - levelName: Lever Testing
     levelId: level1
     scene: Assets/Scenes/Level1.unity
   - levelName: Button and cube testing
     levelId: level2
     scene: Assets/Scenes/Level2.unity
+  - levelName: The pool
+    levelId: level3
+    scene: Assets/Scenes/Level3.unity
   - levelName: Key Demo
     levelId: keydemo
     scene: Assets/Scenes/Game.unity

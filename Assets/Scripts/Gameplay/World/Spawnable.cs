@@ -3,6 +3,7 @@ using Gameplay.Core;
 using Gameplay.Util;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Gameplay.World
 {
@@ -20,7 +21,8 @@ namespace Gameplay.World
         }
 
         protected PlayerController owner;
-        public float destoryTime;
+        [FormerlySerializedAs("destoryTime")] 
+        public float destroyTime;
         protected float destroyTimer;
         protected GameModel model;
         public bool pendingDestroy;
@@ -40,6 +42,8 @@ namespace Gameplay.World
         [ClientRpc]
         public virtual void RpcSpawn(Vector2Int position, Direction direction)
         {
+            pendingDestroy = false;
+            destroyTimer = 0;
             model = Simulation.GetModel<GameModel>();
             World world = model.levelElement.GetWorld();
             transform.position = world.GetWorldSpacePos(position);
@@ -48,7 +52,7 @@ namespace Gameplay.World
 
         public virtual void Destroy()
         {
-            destroyTimer = destoryTime;
+            destroyTimer = destroyTime;
             pendingDestroy = true;
         }
         
