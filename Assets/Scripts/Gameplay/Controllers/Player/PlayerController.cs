@@ -126,8 +126,18 @@ namespace Gameplay.Conrollers
             camera.gameObject.SetActive(false);
 
             firstAbility.performed += OnCastAbility;
+            if (isServer)
+            {
+                model.globalInventory.serverInventoryChanged += OnServerItemAdded;
+            }
         }
-        
+
+        private void OnServerItemAdded()
+        {
+            int extraInventory = model.globalInventory.GetItems().Select(desc => desc.extraPlayerInventory).Sum();
+            inventory.InventoryCap = extraInventory + 1;
+        }
+
         public void StartMap()
         {
             SpawnPlayer();
@@ -630,7 +640,7 @@ namespace Gameplay.Conrollers
                                 if (hit.collider.isTrigger)
                                 {
                                     IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-                                    if (interactable != null && interactable.FacingDirection == -dir)
+                                    if (interactable != null && (interactable.FacingDirection == -dir || !interactable.checkFacing))
                                     {
                                         interactable.Activate(this);
                                     }

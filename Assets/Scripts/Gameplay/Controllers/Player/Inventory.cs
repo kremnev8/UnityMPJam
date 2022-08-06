@@ -15,7 +15,22 @@ namespace Gameplay.Controllers.Player
         private GameModel model;
 
         public Action inventoryChanged;
+        public Action serverInventoryChanged;
+
         public int selectedIndex;
+        
+        [SerializeField]
+        private int inventoryCap;
+
+        public int InventoryCap
+        {
+            get => inventoryCap;
+            set
+            {
+                inventoryCap = value;
+                inventoryChanged?.Invoke();
+            }
+        }
 
         public void SelectNext()
         {
@@ -68,6 +83,7 @@ namespace Gameplay.Controllers.Player
             if (index != -1)
             {
                 items.RemoveAt(index);
+                serverInventoryChanged?.Invoke();
                 return true;
             }
 
@@ -84,10 +100,12 @@ namespace Gameplay.Controllers.Player
 
             try
             {
-                if (items.Count + 1 > maxSize) return false;
+                int cap = Mathf.Min(inventoryCap, maxSize);
+                if (items.Count + 1 > cap) return false;
 
                 ItemDesc item = model.items.Get(itemId);
                 items.Add(item);
+                serverInventoryChanged?.Invoke();
                 return true;
             }
             catch (IndexOutOfRangeException e)
@@ -100,7 +118,8 @@ namespace Gameplay.Controllers.Player
 
         public bool Transfer(Inventory from, string itemId)
         {
-            if (items.Count + 1 > maxSize) return false;
+            int cap = Mathf.Min(inventoryCap, maxSize);
+            if (items.Count + 1 > cap) return false;
 
             if (from.TryConsume(itemId))
             {

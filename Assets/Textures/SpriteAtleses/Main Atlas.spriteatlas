@@ -876,6 +876,7 @@ SpriteAtlas:
   - {fileID: 989278603, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
   - {fileID: 1112266519, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
   - {fileID: -1101380248, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
+  - {fileID: 21300000, guid: 4a73db959743dea4b8e3b26def30f309, type: 3}
   - {fileID: -2002930234, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
   - {fileID: 1540352797, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
   - {fileID: -1714486074, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
@@ -1865,6 +1866,7 @@ SpriteAtlas:
   - flame_3
   - flame_2
   - flame_10
+  - backpack
   - icemagedeath_1
   - icemagedeath_0
   - icemagedeath_3

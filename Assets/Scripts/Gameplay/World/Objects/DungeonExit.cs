@@ -10,6 +10,7 @@ namespace Gameplay.World
     [RequireComponent(typeof(WorldElement))]
     public class DungeonExit : NetworkBehaviour, IInteractable, ILinked
     {
+        public bool checkFacing => true;
         public Vector2Int forward;
         public Vector2Int FacingDirection => forward;
 

@@ -16,6 +16,7 @@ namespace Gameplay.ScriptableObjects
         public Sprite itemIcon;
         public BaseAbility itemSpell;
         public bool canBeDragged;
+        public int extraPlayerInventory;
 
         public string ItemId => itemId;
     }

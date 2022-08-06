@@ -233,6 +233,7 @@ MonoBehaviour:
   syncInterval: 0.1
   maxSize: 2
   selectedIndex: 0
+  inventoryCap: 0
 --- !u!114 &686841614958085027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,6 +414,8 @@ MonoBehaviour:
   - fireballspell
   - dashspell
   - ghostspell
+  - spellholder
+  backpackId: spellholder
 --- !u!1 &1605358307926610178
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,6 +1143,7 @@ MonoBehaviour:
     itemIcon: {fileID: 0}
     itemSpell: {fileID: 0}
     canBeDragged: 0
+    extraPlayerInventory: 0
   border: {fileID: 7927020599292901575}
   icon: {fileID: 5237661398602608114}
   normalBorder: {fileID: -1508087015, guid: 4dcc7fea56df91a4398cdc80a8db1b98, type: 3}
@@ -1402,7 +1406,7 @@ PrefabInstance:
     - target: {fileID: 6398669943064822432, guid: df5f236cbd1df7e499ccc0a93dbc2192,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 6398669943064822432, guid: df5f236cbd1df7e499ccc0a93dbc2192,
         type: 3}
@@ -1468,6 +1472,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007738259155527943, guid: df5f236cbd1df7e499ccc0a93dbc2192,
+        type: 3}
+      propertyPath: m_ChildAlignment
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df5f236cbd1df7e499ccc0a93dbc2192, type: 3}
