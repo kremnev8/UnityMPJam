@@ -25,6 +25,9 @@ MonoBehaviour:
     - {x: 0.62, y: 0.9, z: 0}
     - {x: 0.62, y: 0.83, z: 0}
     - {x: 0.62, y: 0.83, z: 0}
+    eyePos: []
+    globalEyePos: {x: 0.0625, y: 0.8377, z: 0}
+    useGlobalPos: 1
   - frames:
     - {fileID: -1072650912, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
     - {fileID: -499306352, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
@@ -35,6 +38,9 @@ MonoBehaviour:
     - {x: -0.63, y: 0.9, z: 0}
     - {x: -0.56, y: 0.83, z: 0}
     - {x: -0.63, y: 0.83, z: 0}
+    eyePos: []
+    globalEyePos: {x: 0.0625, y: 0.8377, z: 0}
+    useGlobalPos: 1
   - frames:
     - {fileID: -312923702, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
     - {fileID: 317956948, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
@@ -45,6 +51,9 @@ MonoBehaviour:
     - {x: -0.69, y: 0.9, z: 0}
     - {x: -0.69, y: 0.83, z: 0}
     - {x: -0.69, y: 0.83, z: 0}
+    eyePos: []
+    globalEyePos: {x: 0.0625, y: 0.8377, z: 0}
+    useGlobalPos: 1
   - frames:
     - {fileID: 1431172730, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
     - {fileID: 932447494, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
@@ -55,6 +64,9 @@ MonoBehaviour:
     - {x: -0.69, y: 0.9, z: 0}
     - {x: -0.63, y: 0.83, z: 0}
     - {x: -0.69, y: 0.83, z: 0}
+    eyePos: []
+    globalEyePos: {x: 0.0625, y: 0.8377, z: 0}
+    useGlobalPos: 1
   iceMageIdle:
   - frames:
     - {fileID: -506266152, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
@@ -62,24 +74,44 @@ MonoBehaviour:
     staffLight:
     - {x: 0.625, y: 0.83, z: 0}
     - {x: 0.69, y: 0.83, z: 0}
+    eyePos:
+    - {x: 0.0625, y: 0.8377, z: 0}
+    - {x: 0.0625, y: 0.775, z: 0}
+    globalEyePos: {x: 0, y: 0, z: 0}
+    useGlobalPos: 0
   - frames:
     - {fileID: 792859892, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
     - {fileID: 694688128, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
     staffLight:
     - {x: -0.625, y: 0.83, z: 0}
     - {x: -0.56, y: 0.83, z: 0}
+    eyePos:
+    - {x: 0.0625, y: 0.8377, z: 0}
+    - {x: 0.0625, y: 0.775, z: 0}
+    globalEyePos: {x: 0, y: 0, z: 0}
+    useGlobalPos: 0
   - frames:
     - {fileID: 577623433, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
     - {fileID: -274234017, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
     staffLight:
     - {x: -0.69, y: 0.83, z: 0}
     - {x: -0.622, y: 0.83, z: 0}
+    eyePos:
+    - {x: 0.0625, y: 0.8377, z: 0}
+    - {x: 0.0625, y: 0.775, z: 0}
+    globalEyePos: {x: 0, y: 0, z: 0}
+    useGlobalPos: 0
   - frames:
     - {fileID: -952948722, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
     - {fileID: 891410449, guid: c4ad7b39063f4404b9dc105c949448a4, type: 3}
     staffLight:
     - {x: -0.69, y: 0.83, z: 0}
     - {x: -0.622, y: 0.83, z: 0}
+    eyePos:
+    - {x: 0.0625, y: 0.8377, z: 0}
+    - {x: 0.0625, y: 0.775, z: 0}
+    globalEyePos: {x: 0, y: 0, z: 0}
+    useGlobalPos: 0
   iceMageDeath:
     frames:
     - {fileID: 1540352797, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
@@ -91,6 +123,22 @@ MonoBehaviour:
     - {x: -0.689, y: 0.457, z: 0}
     - {x: -0.687, y: 0.204, z: 0}
     - {x: -0.682, y: 0.076, z: -50}
+    eyePos: []
+    globalEyePos: {x: 0, y: 0, z: 0}
+    useGlobalPos: 0
+  iceMageEyes:
+  - frames:
+    - {fileID: 2063879638, guid: 8575b85e333de0d488c2b70f66ce7962, type: 3}
+    - {fileID: -1094186235, guid: 8575b85e333de0d488c2b70f66ce7962, type: 3}
+  - frames:
+    - {fileID: -1408651915, guid: 8575b85e333de0d488c2b70f66ce7962, type: 3}
+    - {fileID: -326457418, guid: 8575b85e333de0d488c2b70f66ce7962, type: 3}
+  - frames:
+    - {fileID: -48374239, guid: 8575b85e333de0d488c2b70f66ce7962, type: 3}
+    - {fileID: 2002486424, guid: 8575b85e333de0d488c2b70f66ce7962, type: 3}
+  - frames:
+    - {fileID: -300368557, guid: 8575b85e333de0d488c2b70f66ce7962, type: 3}
+    - {fileID: 1606144389, guid: 8575b85e333de0d488c2b70f66ce7962, type: 3}
   fireMageWalk:
   - frames:
     - {fileID: -1236766454, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
@@ -102,6 +150,9 @@ MonoBehaviour:
     - {x: 0.62, y: 0.9, z: 0}
     - {x: 0.62, y: 0.83, z: 0}
     - {x: 0.62, y: 0.83, z: 0}
+    eyePos: []
+    globalEyePos: {x: 0.0625, y: 0.8377, z: 0}
+    useGlobalPos: 1
   - frames:
     - {fileID: -13345706, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
     - {fileID: -1113391744, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
@@ -112,6 +163,9 @@ MonoBehaviour:
     - {x: -0.63, y: 0.9, z: 0}
     - {x: -0.56, y: 0.83, z: 0}
     - {x: -0.63, y: 0.83, z: 0}
+    eyePos: []
+    globalEyePos: {x: 0.0625, y: 0.8377, z: 0}
+    useGlobalPos: 1
   - frames:
     - {fileID: -765716057, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
     - {fileID: -1588310397, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
@@ -122,6 +176,9 @@ MonoBehaviour:
     - {x: -0.69, y: 0.9, z: 0}
     - {x: -0.69, y: 0.83, z: 0}
     - {x: -0.69, y: 0.83, z: 0}
+    eyePos: []
+    globalEyePos: {x: 0.0625, y: 0.8377, z: 0}
+    useGlobalPos: 1
   - frames:
     - {fileID: -2071612928, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
     - {fileID: -2024401328, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
@@ -132,6 +189,9 @@ MonoBehaviour:
     - {x: -0.69, y: 0.9, z: 0}
     - {x: -0.63, y: 0.83, z: 0}
     - {x: -0.69, y: 0.83, z: 0}
+    eyePos: []
+    globalEyePos: {x: 0.0625, y: 0.8377, z: 0}
+    useGlobalPos: 1
   fireMageIdle:
   - frames:
     - {fileID: -904366103, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
@@ -139,24 +199,44 @@ MonoBehaviour:
     staffLight:
     - {x: 0.625, y: 0.83, z: 0}
     - {x: 0.69, y: 0.83, z: 0}
+    eyePos:
+    - {x: 0.0625, y: 0.8377, z: 0}
+    - {x: 0.0625, y: 0.775, z: 0}
+    globalEyePos: {x: 0, y: 0, z: 0}
+    useGlobalPos: 0
   - frames:
     - {fileID: -1294370198, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
     - {fileID: -1616598773, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
     staffLight:
     - {x: -0.625, y: 0.83, z: 0}
     - {x: -0.56, y: 0.83, z: 0}
+    eyePos:
+    - {x: 0.0625, y: 0.8377, z: 0}
+    - {x: 0.0625, y: 0.775, z: 0}
+    globalEyePos: {x: 0, y: 0, z: 0}
+    useGlobalPos: 0
   - frames:
     - {fileID: 217438184, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
     - {fileID: -196995890, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
     staffLight:
     - {x: -0.69, y: 0.83, z: 0}
     - {x: -0.622, y: 0.83, z: 0}
+    eyePos:
+    - {x: 0.0625, y: 0.8377, z: 0}
+    - {x: 0.0625, y: 0.775, z: 0}
+    globalEyePos: {x: 0, y: 0, z: 0}
+    useGlobalPos: 0
   - frames:
     - {fileID: -324474095, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
     - {fileID: -134185034, guid: 022ac3c10d1aef8418ca026fbe95279b, type: 3}
     staffLight:
     - {x: -0.69, y: 0.83, z: 0}
     - {x: -0.622, y: 0.83, z: 0}
+    eyePos:
+    - {x: 0.0625, y: 0.8377, z: 0}
+    - {x: 0.0625, y: 0.775, z: 0}
+    globalEyePos: {x: 0, y: 0, z: 0}
+    useGlobalPos: 0
   fireMageDeath:
     frames:
     - {fileID: 78370335, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
@@ -168,9 +248,28 @@ MonoBehaviour:
     - {x: -0.689, y: 0.457, z: 0}
     - {x: -0.687, y: 0.204, z: 0}
     - {x: -0.682, y: 0.076, z: -50}
+    eyePos: []
+    globalEyePos: {x: 0, y: 0, z: 0}
+    useGlobalPos: 0
+  fireMageEyes:
+  - frames:
+    - {fileID: -1988677818, guid: 62bbf8f0912ce8c4f969132cc37df2d5, type: 3}
+    - {fileID: -155607523, guid: 62bbf8f0912ce8c4f969132cc37df2d5, type: 3}
+  - frames:
+    - {fileID: -1779701425, guid: 62bbf8f0912ce8c4f969132cc37df2d5, type: 3}
+    - {fileID: -202460708, guid: 62bbf8f0912ce8c4f969132cc37df2d5, type: 3}
+  - frames:
+    - {fileID: -119911217, guid: 62bbf8f0912ce8c4f969132cc37df2d5, type: 3}
+    - {fileID: 91577050, guid: 62bbf8f0912ce8c4f969132cc37df2d5, type: 3}
+  - frames:
+    - {fileID: 302390039, guid: 62bbf8f0912ce8c4f969132cc37df2d5, type: 3}
+    - {fileID: 628915488, guid: 62bbf8f0912ce8c4f969132cc37df2d5, type: 3}
   idleFrameTime: 15
   walkFrameTime: 10
   deathFrameTime: 6
+  eyeHoldMinTime: 60
+  eyeHoldMaxTime: 80
+  eyeBlinkTime: 5
   moveTime: 0.5
   failMoveTime: 0.2
   dashTime: 0.5

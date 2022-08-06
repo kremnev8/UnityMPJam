@@ -1,15 +1,37 @@
 ﻿using System;
 using System.Linq;
+using Gameplay.Util;
 using UnityEngine;
 using Util;
 
 namespace ScriptableObjects
 {
     [Serializable]
+    public class SimplePlayerAnim
+    {
+        public Sprite[] frames;
+    }
+    
+    
+    [Serializable]
     public class PlayerAnim
     {
         public Sprite[] frames;
         public Vector3[] staffLight;
+        public Vector3[] eyePos;
+
+        public Vector3 globalEyePos;
+        public bool useGlobalPos;
+
+        public Vector3 GetEyePos(int frame)
+        {
+            if (useGlobalPos)
+            {
+                return globalEyePos;
+            }
+
+            return eyePos[frame];
+        }
     }
 
     /// <summary>
@@ -25,15 +47,21 @@ namespace ScriptableObjects
         public PlayerAnim[] iceMageWalk;
         public PlayerAnim[] iceMageIdle;
         public PlayerAnim iceMageDeath;
+        public SimplePlayerAnim[] iceMageEyes;
         
         public PlayerAnim[] fireMageWalk;
         public PlayerAnim[] fireMageIdle;
         public PlayerAnim fireMageDeath;
-        
+        public SimplePlayerAnim[] fireMageEyes;
+
         public int idleFrameTime;
         public int walkFrameTime;
         public int deathFrameTime;
 
+        public int eyeHoldMinTime;
+        public int eyeHoldMaxTime;
+        public int eyeBlinkTime;
+        
         [Header("Movement")]
         public float moveTime = 1f;
         public float failMoveTime = 1f;

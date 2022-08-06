@@ -14,6 +14,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 using Util;
+using Random = UnityEngine.Random;
 
 namespace Gameplay.Conrollers
 {
@@ -47,6 +48,8 @@ namespace Gameplay.Conrollers
         public Vector2Int position;
 
         public new SpriteRenderer renderer;
+        public SpriteRenderer eyesRenderer;
+        public Transform eyesTransform;
         public Transform lightTransform;
         public Light2D staffLight;
         public Inventory inventory;
@@ -75,6 +78,10 @@ namespace Gameplay.Conrollers
 
         private int animationTime;
         private int currentFrame;
+
+        public int eyesAnimTime;
+        public int currentEyesFrameTime;
+        public int eyesFrame;
 
         private Dictionary<BaseAbility, float> abilityCooldowns = new Dictionary<BaseAbility, float>();
         private Dictionary<ProjectileID, List<GameObject>> playerObjects = new Dictionary<ProjectileID, List<GameObject>>();
@@ -339,8 +346,10 @@ namespace Gameplay.Conrollers
         private void UpdateVisual(Direction direction)
         {
             Color lightColor = role == PlayerRole.ICE_MAGE ? config.iceMageLightColor : config.fireMageLightColor;
+            SimplePlayerAnim[] eyes = role == PlayerRole.ICE_MAGE ? config.iceMageEyes : config.fireMageEyes;
             PlayerAnim[] sprites;
             animationTime++;
+            eyesAnimTime++;
             Direction displayDir = direction;
 
             if (state == PlayerState.IDLE)
@@ -351,6 +360,7 @@ namespace Gameplay.Conrollers
                     animationTime = 0;
                     currentFrame++;
                 }
+                eyesRenderer.enabled = true;
             }
             else if (state == PlayerState.DEAD)
             {
@@ -366,6 +376,8 @@ namespace Gameplay.Conrollers
                     renderer.sprite = sprite.frames[currentFrame];
                     lightTransform.localPosition = sprite.staffLight[currentFrame];
                 }
+
+                eyesRenderer.enabled = false;
                 return;
             }
             else
@@ -378,6 +390,20 @@ namespace Gameplay.Conrollers
                 }
 
                 displayDir = lastMoveDir.GetDirection();
+                eyesRenderer.enabled = true;
+            }
+
+            if (eyesAnimTime >= currentEyesFrameTime)
+            {
+                eyesAnimTime = 0;
+                eyesFrame++;
+                if (eyesFrame >= eyes[(int)displayDir].frames.Length)
+                {
+                    eyesFrame = 0;
+                }
+                
+                int holdTime = Random.Range(config.eyeHoldMinTime, config.eyeHoldMaxTime);
+                currentEyesFrameTime = eyesFrame == 0 ? holdTime : config.eyeBlinkTime;
             }
 
             if (currentFrame >= sprites[(int)displayDir].frames.Length)
@@ -387,6 +413,9 @@ namespace Gameplay.Conrollers
 
             renderer.sprite = sprites[(int)displayDir].frames[currentFrame];
             lightTransform.localPosition = sprites[(int)displayDir].staffLight[currentFrame];
+            
+            eyesRenderer.sprite = eyes[(int)displayDir].frames[eyesFrame];
+            eyesTransform.localPosition = sprites[(int)displayDir].GetEyePos(currentFrame);
             staffLight.color = lightColor;
         }
 

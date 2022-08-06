@@ -51,7 +51,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Angle: 6.33
+    - _Angle: 0.7
     - _EnableExternalAlpha: 0
     - _Frame: 0
     - _QueueControl: 0
@@ -59,6 +59,7 @@ Material:
     - _Rotate: 3.1
     - _Speed: 0.4
     m_Colors:
+    - _Center: {r: 760, g: -340, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
