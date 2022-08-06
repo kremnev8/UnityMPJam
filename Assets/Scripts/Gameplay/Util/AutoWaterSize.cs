@@ -17,7 +17,7 @@ namespace Gameplay.Util
         {
             if (Application.isPlaying)
             {
-                Destroy(gameObject);
+                Destroy(this);
                 return;
             }
             waterRenderer = GetComponent<SpriteRenderer>();

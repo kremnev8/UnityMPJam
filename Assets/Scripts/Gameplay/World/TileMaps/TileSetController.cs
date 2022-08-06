@@ -211,6 +211,19 @@ namespace TileMaps
             return type;
         }
 
+        public bool CheckTileEqual(TileBase a, TileBase b)
+        {
+            if (a == b) return true;
+
+            foreach (TilePair pair in tileSet.siblings)
+            {
+                if (pair.tile1 == a && pair.tile2 == b) return true;
+                if (pair.tile1 == b && pair.tile2 == a) return true;
+            }
+
+            return false;
+        }
+
         private void CheckShadowAt(Vector3Int pos, TileBase brush)
         {
             if (tileSet.wallBrush == brush)
@@ -255,7 +268,9 @@ namespace TileMaps
                         try
                         {
                             Tilemap tileMap = tilemaps[target];
-                            TileSideType sideType = DetermineSideType(mapping.sideType, top == brush, bottom == brush);
+                            TileSideType sideType = DetermineSideType(mapping.sideType, 
+                                CheckTileEqual(top, brush), 
+                                CheckTileEqual(bottom, brush));
                             PaintMultiply(pos, tileMap, mapping.tile, sideType);
                         }
                         catch (Exception e)

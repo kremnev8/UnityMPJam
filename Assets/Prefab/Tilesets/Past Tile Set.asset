@@ -33,7 +33,7 @@ MonoBehaviour:
       sideType: 0
   - brushTile: {fileID: 11400000, guid: 1924942f0c841494e9da8dbec95288d3, type: 2}
     tileMappings:
-    - tile: {fileID: 11400000, guid: 9757c24e1008fae47aadf0ee164b2be0, type: 2}
+    - tile: {fileID: 11400000, guid: 405e3e5ba60176a4d9259ed07116674f, type: 2}
       targets: 0a000000
       sideType: 0
     - tile: {fileID: 11400000, guid: cd528cdfc0b2c6d468ce21833c3fdf0b, type: 2}
@@ -53,4 +53,18 @@ MonoBehaviour:
     - tile: {fileID: 11400000, guid: 43f31be03fe723a42b41976d7d5471b3, type: 2}
       targets: 02000000
       sideType: 5
+  - brushTile: {fileID: 11400000, guid: 461e7788a5963294e8d442a9c7a7b7c2, type: 2}
+    tileMappings:
+    - tile: {fileID: 11400000, guid: f5bc5f7e039752e47b1a01a50a798842, type: 2}
+      targets: 03000000
+      sideType: 2
+    - tile: {fileID: 11400000, guid: d3c512b8765533c419d2bb9e12436c81, type: 2}
+      targets: 03000000
+      sideType: 5
+    - tile: {fileID: 11400000, guid: 43f31be03fe723a42b41976d7d5471b3, type: 2}
+      targets: 02000000
+      sideType: 5
+  siblings:
+  - tile1: {fileID: 11400000, guid: 514124bcd9a9ad346b035a2b0d353f96, type: 2}
+    tile2: {fileID: 11400000, guid: 461e7788a5963294e8d442a9c7a7b7c2, type: 2}
   wallBrush: {fileID: 11400000, guid: 867f1063e3260a142801192fe01560b1, type: 2}

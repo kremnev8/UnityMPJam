@@ -34,11 +34,19 @@ namespace Gameplay.ScriptableObjects
         public List<TileMapping> tileMappings;
     }
 
+    [Serializable]
+    public class TilePair
+    {
+        public TileBase tile1;
+        public TileBase tile2;
+    }
+
     [CreateAssetMenu(fileName = "Tile Set", menuName = "SO/New Tile Set", order = 0)]
     public class TileSet : ScriptableObject
     {
         public string tilesetName;
         public List<TileGroup> tileGroups;
+        public List<TilePair> siblings;
 
         public TileBase wallBrush;
 

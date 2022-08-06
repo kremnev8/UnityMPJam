@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dash Ability
   m_EditorClassIdentifier: 
   abilityName: PlayerDash
-  abilityCooldown: 5
+  abilityCooldown: 3
   dashDistance: 2
   dashMask:
     serializedVersion: 2

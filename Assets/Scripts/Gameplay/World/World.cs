@@ -22,8 +22,15 @@ namespace Gameplay.World
 
             foreach (WorldElement timeObject in objArr)
             {
-                objects.Add(timeObject.UniqueId, timeObject);
-                
+                if (!objects.ContainsKey(timeObject.UniqueId))
+                {
+                    objects.Add(timeObject.UniqueId, timeObject);
+                }
+                else
+                {
+                    Debug.Log($"Duplicate ID at {timeObject.UniqueId}");
+                }
+
                 ILinked linked = timeObject.GetComponent<ILinked>();
                 if (timeObject == null || linked == null)
                 {

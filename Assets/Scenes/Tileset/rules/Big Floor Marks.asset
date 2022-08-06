@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 0, y: -1, z: 0}
   sprites:
-  - {fileID: -4537561724958472371, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
-  - {fileID: 5481206119072353625, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
-  - {fileID: 4679181483979388462, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
-  - {fileID: -1744499585199354300, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
+  - {fileID: -329727362, guid: ce02070097f16ab4eb4baa8daead08fc, type: 3}
+  - {fileID: -1909362859, guid: ce02070097f16ab4eb4baa8daead08fc, type: 3}
+  - {fileID: -1868429236, guid: ce02070097f16ab4eb4baa8daead08fc, type: 3}
+  - {fileID: -499027622, guid: ce02070097f16ab4eb4baa8daead08fc, type: 3}
