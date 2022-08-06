@@ -26,7 +26,8 @@ namespace Gameplay
         public GameNetworkManager networkManager;
         public RoleController roleController;
         [FormerlySerializedAs("spacetime")] public LevelElementController levelElement;
-
+        public PrefabPoolController poolController;
+        
         public Inventory globalInventory;
         public InventoryUI globalInventoryUI;
         public InventoryUI playerInventoryUI;

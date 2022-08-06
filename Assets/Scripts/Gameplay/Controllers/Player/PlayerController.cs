@@ -54,11 +54,13 @@ namespace Gameplay.Conrollers
         public Light2D staffLight;
         public Inventory inventory;
         public Health health;
-
+        public FeedbackUI feedbackUI;
+        
         public Animator animator;
         
         public bool isGhost;
         public float ghostTimeLeft;
+        public bool allowSwap;
         
         private InputAction movement;
         private InputAction firstAbility;
@@ -126,8 +128,18 @@ namespace Gameplay.Conrollers
             camera.gameObject.SetActive(false);
 
             firstAbility.performed += OnCastAbility;
+            if (isServer)
+            {
+                model.globalInventory.serverInventoryChanged += OnServerItemAdded;
+            }
         }
-        
+
+        private void OnServerItemAdded()
+        {
+            int extraInventory = model.globalInventory.GetItems().Select(desc => desc.extraPlayerInventory).Sum();
+            inventory.InventoryCap = extraInventory + 1;
+        }
+
         public void StartMap()
         {
             SpawnPlayer();
@@ -291,8 +303,11 @@ namespace Gameplay.Conrollers
         [Server]
         public void OnDead()
         {
-            EnterState(PlayerState.DEAD);
-            RpcDead();
+            if (state != PlayerState.DEAD)
+            {
+                EnterState(PlayerState.DEAD);
+                RpcDead();
+            }
         }
 
         [ClientRpc]
@@ -458,13 +473,20 @@ namespace Gameplay.Conrollers
         [Command(requiresAuthority = false)]
         public void CmdTransferItem(bool toGlobal, string itemId)
         {
-            if (toGlobal)
+            if (allowSwap)
             {
-                model.globalInventory.Transfer(inventory, itemId);
+                if (toGlobal)
+                {
+                    model.globalInventory.Transfer(inventory, itemId);
+                }
+                else
+                {
+                    inventory.Transfer(model.globalInventory, itemId);
+                }
             }
             else
             {
-                inventory.Transfer(model.globalInventory, itemId);
+                RpcFeedback("Can't swap abilities here!");
             }
         }
 
@@ -584,8 +606,7 @@ namespace Gameplay.Conrollers
         [Client]
         public void Feedback(string message)
         {
-            //TODO nice popups
-            Debug.Log(message);
+            feedbackUI.SetFeedback(message);
         }
         
         [ClientRpc]
@@ -630,7 +651,7 @@ namespace Gameplay.Conrollers
                                 if (hit.collider.isTrigger)
                                 {
                                     IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-                                    if (interactable != null && interactable.FacingDirection == -dir)
+                                    if (interactable != null && (interactable.FacingDirection == -dir || !interactable.checkFacing))
                                     {
                                         interactable.Activate(this);
                                     }

@@ -18,8 +18,9 @@ namespace Gameplay.UI
 
         public InventoryUI globalInventoryUI;
         public InventoryUI playerInventory;
-        
 
+        public GameObject dragDisableHint;
+        
         private GameModel model;
         private InputAction mouseClick;
         private InputAction mousePosition;
@@ -97,6 +98,8 @@ namespace Gameplay.UI
         private void OnLeftClick(InputAction.CallbackContext obj)
         {
             if (isDragging) return;
+            PlayerController player = GetPlayer();
+            if (player == null || !player.allowSwap) return;
             
             if (globalInventoryUI != null && globalInventoryUI.inventory != null)
             {
@@ -139,6 +142,12 @@ namespace Gameplay.UI
                 playerInventory = model.playerInventoryUI;
             }
             
+            PlayerController player = GetPlayer();
+            if (player != null)
+            {
+                dragDisableHint.SetActive(!player.allowSwap);
+            }
+
             if (isDragging)
             {
                 Vector2 mousePos = mousePosition.ReadValue<Vector2>();

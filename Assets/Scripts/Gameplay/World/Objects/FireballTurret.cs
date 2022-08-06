@@ -112,7 +112,7 @@ namespace Gameplay.World
                     pos += fireDirection.GetVector();
                     Projectile projectile = model.projectiles.Get(fireball);
 
-                    SpawnController.Spawn(pos, fireDirection, projectile.prefab);
+                    PrefabPoolController.Spawn(pos, fireDirection, projectile.prefab);
                     timeElapsed = 0;
                     if (fireMode == FireMode.SINGLE)
                     {

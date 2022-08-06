@@ -54,14 +54,14 @@ namespace Gameplay.Controllers.Player.Ability
 
                 if (active.Count < projectile.maxActive)
                 {
-                    SpawnController.SpawnWithLink(player, projectile.itemId, pos, direction, projectile.prefab);
+                    PrefabPoolController.SpawnWithLink(player, projectile.itemId, pos, direction, projectile.prefab);
                     return true;
                 }
 
                 if (projectile.canReplace)
                 {
                     GameObject oldObj = active.Last();
-                    SpawnController.SpawnWithReplace(player, projectile.itemId, pos, direction, oldObj, projectile.prefab);
+                    PrefabPoolController.SpawnWithReplace(player, projectile.itemId, pos, direction, oldObj, projectile.prefab);
                     return true;
                 }
 

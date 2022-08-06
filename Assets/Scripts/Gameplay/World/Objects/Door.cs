@@ -11,7 +11,6 @@ namespace Gameplay.World
     {
         public Transform doorTransform;
         public new Collider2D collider;
-        public ParticleLight timeGlitchEffect;
         public float moveTime;
         
         public Vector3 openPos;

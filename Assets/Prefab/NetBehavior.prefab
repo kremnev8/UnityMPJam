@@ -67,11 +67,6 @@ MonoBehaviour:
   syncInterval: 0.1
   iceMagePlayer: {fileID: 0}
   fireMagePlayer: {fileID: 0}
-  defaultItems:
-  - cubespell
-  - fireballspell
-  - dashspell
-  - ghostspell
 --- !u!114 &2082276734785403955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,3 +83,4 @@ MonoBehaviour:
   syncInterval: 0.1
   maxSize: 6
   selectedIndex: 0
+  inventoryCap: 6

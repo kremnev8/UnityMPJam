@@ -20,9 +20,14 @@ namespace Gameplay.ScriptableObjects
         public float pushWithDashSpeed;
         
         public LayerMask wallMask;
+        public LayerMask sinkMask;
+        public float sinkOffset;
+
         public int damage;
         public bool destroySelfOnHit;
         public int projectileMass;
+        public bool activateInteractibles;
+        
         
         public GameObject prefab;
         public GameObject spawnOnHit;

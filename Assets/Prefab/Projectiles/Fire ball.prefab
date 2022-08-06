@@ -4863,6 +4863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  m_prefabId: fireball_prefab
   destoryTime: 0.1
   pendingDestroy: 0
   trailSystem: {fileID: 8984919041827110928}

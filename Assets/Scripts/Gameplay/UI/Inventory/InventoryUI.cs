@@ -44,6 +44,7 @@ namespace Gameplay.UI
                 slotUI.Set(item, i);
                 slots.Add(slotUI);
                 slots[i].SetSelected(i == inventory.selectedIndex);
+                slots[i].gameObject.SetActive(i < inventory.InventoryCap);
             }
 
             inventory.inventoryChanged += RefreshUI;
@@ -80,6 +81,7 @@ namespace Gameplay.UI
                     ItemDesc item = i < items.Length ? items[i] : null;
                     slots[i].Set(item, i);
                     slots[i].SetSelected(i == inventory.selectedIndex);
+                    slots[i].gameObject.SetActive(i < inventory.InventoryCap);
                 }
             }
         }

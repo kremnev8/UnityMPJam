@@ -9,6 +9,7 @@ namespace Gameplay.World
     [RequireComponent(typeof(WorldElement))]
     public class DungeonEntrance : MonoBehaviour, IInteractable, ILinked
     {
+        public bool checkFacing => true;
         public Vector2Int forward;
         public Vector2Int FacingDirection => forward;
 

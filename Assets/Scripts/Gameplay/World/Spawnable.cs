@@ -3,11 +3,14 @@ using Gameplay.Core;
 using Gameplay.Util;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Gameplay.World
 {
     public class Spawnable : NetworkBehaviour, ISpawnable
     {
+        public string m_prefabId;
+        public string prefabId => m_prefabId;
         
         protected Vector2Int m_position;
 
@@ -18,13 +21,16 @@ namespace Gameplay.World
         }
 
         protected PlayerController owner;
-        public float destoryTime;
+        [FormerlySerializedAs("destoryTime")] 
+        public float destroyTime;
         protected float destroyTimer;
         protected GameModel model;
         public bool pendingDestroy;
 
         public virtual void Spawn(PlayerController player, Vector2Int position, Direction direction)
         {
+            pendingDestroy = false;
+            destroyTimer = 0;
             model = Simulation.GetModel<GameModel>();
             World world = model.levelElement.GetWorld();
             transform.position = world.GetWorldSpacePos(position);
@@ -36,6 +42,8 @@ namespace Gameplay.World
         [ClientRpc]
         public virtual void RpcSpawn(Vector2Int position, Direction direction)
         {
+            pendingDestroy = false;
+            destroyTimer = 0;
             model = Simulation.GetModel<GameModel>();
             World world = model.levelElement.GetWorld();
             transform.position = world.GetWorldSpacePos(position);
@@ -44,7 +52,7 @@ namespace Gameplay.World
 
         public virtual void Destroy()
         {
-            destroyTimer = destoryTime;
+            destroyTimer = destroyTime;
             pendingDestroy = true;
         }
         
@@ -59,7 +67,7 @@ namespace Gameplay.World
             
             if (destroyTimer <= 0)
             {
-                Destroy(gameObject);
+                PrefabPoolController.Return(gameObject);
             }
         }
     }

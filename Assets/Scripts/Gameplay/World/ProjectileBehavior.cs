@@ -15,7 +15,8 @@ namespace Gameplay.World
     {
         IDLE,
         STUCK,
-        MOVING
+        MOVING,
+        SINK
     }
 
     [RequireComponent(typeof(Rigidbody2D))]
@@ -23,6 +24,7 @@ namespace Gameplay.World
     {
         public ParticleSystem trailSystem;
         public new SpriteRenderer renderer;
+        public Animator animator;
         private new Collider2D collider;
 
         private Rigidbody2D body;
@@ -54,6 +56,8 @@ namespace Gameplay.World
         private Projectile projectile;
 
         private static RaycastHit2D[] hits = new RaycastHit2D[6];
+        private static Collider2D[] colliders = new Collider2D[6];
+        private static readonly int die = Animator.StringToHash("Die");
 
         public int Mass => projectile.projectileMass;
 
@@ -62,6 +66,11 @@ namespace Gameplay.World
         {
             body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
+            if (animator != null)
+            {
+                animator.ResetTrigger(die);
+                animator.Play("Idle");
+            }
 
             base.Spawn(player, position, direction);
 
@@ -80,6 +89,11 @@ namespace Gameplay.World
         {
             body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
+            if (animator != null)
+            {
+                animator.ResetTrigger(die);
+                animator.Play("Idle");
+            }
 
             base.RpcSpawn(position, direction);
 
@@ -179,7 +193,7 @@ namespace Gameplay.World
                                 velocity = 0;
                                 hitSomething = true;
                             }
-                            else if (owner != null)
+                            else if (owner != null && projectile.activateInteractibles)
                             {
                                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
                                 if (interactable != null)
@@ -193,10 +207,41 @@ namespace Gameplay.World
 
                 if (hitSomething)
                 {
+                    if (projectileID == ProjectileID.ICE_CUBE)
+                        Debug.Log("Hit something!");
                     OnHit();
                     EnterState(ProjectileState.STUCK);
                     RpcStuck();
                     return;
+                }
+
+                ContactFilter2D filter2D = new ContactFilter2D()
+                {
+                    layerMask = projectile.sinkMask,
+                    useLayerMask = true,
+                };
+                Vector2 testPos = body.position + (Vector2)moveDir.GetVector() * -1 * projectile.sinkOffset;
+                
+                hitCount = Physics2D.OverlapPoint(testPos, filter2D, colliders);
+                if (hitCount > 0)
+                {
+                    for (int i = 0; i < hitCount; i++)
+                    {
+                        Collider2D hitCollider = colliders[i];
+                        if (hitCollider == null) continue;
+                        
+                        if (projectileID == ProjectileID.ICE_CUBE)
+                            Debug.Log("Sink!");
+                        
+                        EnterState(ProjectileState.SINK);
+                        RpcSink();
+                        Destroy();
+                        if (owner != null)
+                        {
+                            owner.RemoveObject(projectileID, gameObject);
+                        }
+                        break;
+                    }
                 }
             }
 
@@ -204,12 +249,32 @@ namespace Gameplay.World
             body.MovePosition(newPos);
         }
 
+        public override void Destroy()
+        {
+            base.Destroy();
+            RpcDieAnimation();
+        }
+
+        [ClientRpc]
+        private void RpcDieAnimation()
+        {
+            if (animator != null)
+                animator.SetTrigger(die);
+        }
+
+        [ClientRpc]
+        private void RpcSink()
+        {
+            velocity = 0;
+            EnterState(ProjectileState.SINK);
+        }
+
         [Server]
         public void OnHit()
         {
             if (projectile.spawnOnHit != null && owner != null)
             {
-                SpawnController.SpawnWithReplace(owner, projectileID, transform.position.ToGridPos(), moveDir.GetOpposite(), gameObject,
+                PrefabPoolController.SpawnWithReplace(owner, projectileID, transform.position.ToGridPos(), moveDir.GetOpposite(), gameObject,
                     projectile.spawnOnHit);
             }
             else if (projectile.destroySelfOnHit)
