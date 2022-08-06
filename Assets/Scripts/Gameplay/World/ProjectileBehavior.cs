@@ -209,7 +209,7 @@ namespace Gameplay.World
         {
             if (projectile.spawnOnHit != null && owner != null)
             {
-                SpawnController.SpawnWithReplace(owner, projectileID, transform.position.ToGridPos(), moveDir.GetOpposite(), gameObject,
+                PrefabPoolController.SpawnWithReplace(owner, projectileID, transform.position.ToGridPos(), moveDir.GetOpposite(), gameObject,
                     projectile.spawnOnHit);
             }
             else if (projectile.destroySelfOnHit)

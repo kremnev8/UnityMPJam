@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  m_prefabId: icecube_prefab
   destoryTime: 0.3
   pendingDestroy: 0
   trailSystem: {fileID: 3191196990528652830}

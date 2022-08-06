@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1016365998649999128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1016365998649999135}
+  m_Layer: 0
+  m_Name: Pools
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1016365998649999135
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016365998649999128}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1016365999418362785}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1016365999418362780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1016365999418362785}
+  - component: {fileID: 1016365999418362786}
+  - component: {fileID: 1016365999418362784}
+  - component: {fileID: 1016365999418362787}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1016365999418362785
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016365999418362780}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.9096564, y: -1.9324858, z: -1.5651921}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1016365998649999135}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1016365999418362786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016365999418362780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62d0f6addce5621459297e7f362f3890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model:
+    input: {fileID: 1016365999418362787}
+    mainCamera: {fileID: 0}
+    networkManager: {fileID: 0}
+    roleController: {fileID: 0}
+    levelElement: {fileID: 0}
+    poolController: {fileID: 1016365999418362784}
+    globalInventory: {fileID: 0}
+    globalInventoryUI: {fileID: 0}
+    playerInventoryUI: {fileID: 0}
+    eosLobby: {fileID: 0}
+    localLobby: {fileID: 0}
+    loadingUI: {fileID: 0}
+    hoverUI: {fileID: 0}
+    settings: {fileID: 0}
+    layers: {fileID: 0}
+    strings: {fileID: 0}
+    abilities: {fileID: 11400000, guid: 90f538d225f7711498fe02a9ac9cb640, type: 2}
+    projectiles: {fileID: 11400000, guid: c48eeb89caaa5514682e16f745293605, type: 2}
+    levels: {fileID: 11400000, guid: 85818196ecb645b428cfaa19c7cdeea3, type: 2}
+    items: {fileID: 11400000, guid: 5cc15796f555d364c8838482c272c3fa, type: 2}
+--- !u!114 &1016365999418362784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016365999418362780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdf9343af8af421c99ced2802ca644a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolablePrefabs:
+  - {fileID: 4997097714237469524, guid: fe0b4f671d68d2948be81439e1ea08b1, type: 3}
+  - {fileID: 1593202355466616539, guid: 4473bdc8c2376864a9ec173c55a25e9d, type: 3}
+  poolPrefab: {fileID: 4264884059955586825, guid: b37b05f9ba13b18469d7b5d1085396e5,
+    type: 3}
+  poolsTransform: {fileID: 1016365998649999135}
+  initialCapacity: 10
+--- !u!114 &1016365999418362787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016365999418362780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 2d11d46275887b54b8e398853d05d294,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: main
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}

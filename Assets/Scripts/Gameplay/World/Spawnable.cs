@@ -8,6 +8,8 @@ namespace Gameplay.World
 {
     public class Spawnable : NetworkBehaviour, ISpawnable
     {
+        public string m_prefabId;
+        public string prefabId => m_prefabId;
         
         protected Vector2Int m_position;
 
@@ -25,6 +27,8 @@ namespace Gameplay.World
 
         public virtual void Spawn(PlayerController player, Vector2Int position, Direction direction)
         {
+            pendingDestroy = false;
+            destroyTimer = 0;
             model = Simulation.GetModel<GameModel>();
             World world = model.levelElement.GetWorld();
             transform.position = world.GetWorldSpacePos(position);
@@ -59,7 +63,7 @@ namespace Gameplay.World
             
             if (destroyTimer <= 0)
             {
-                Destroy(gameObject);
+                PrefabPoolController.Return(gameObject);
             }
         }
     }

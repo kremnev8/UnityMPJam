@@ -54,7 +54,8 @@ namespace Gameplay.Conrollers
         public Light2D staffLight;
         public Inventory inventory;
         public Health health;
-
+        public FeedbackUI feedbackUI;
+        
         public Animator animator;
         
         public bool isGhost;
@@ -594,8 +595,7 @@ namespace Gameplay.Conrollers
         [Client]
         public void Feedback(string message)
         {
-            //TODO nice popups
-            Debug.Log(message);
+            feedbackUI.SetFeedback(message);
         }
         
         [ClientRpc]
