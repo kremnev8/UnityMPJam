@@ -7,7 +7,7 @@ using Util;
 namespace ScriptableObjects
 {
     [Serializable]
-    public class SimplePlayerAnim
+    public class SimpleAnim
     {
         public Sprite[] frames;
     }
@@ -47,12 +47,12 @@ namespace ScriptableObjects
         public PlayerAnim[] iceMageWalk;
         public PlayerAnim[] iceMageIdle;
         public PlayerAnim iceMageDeath;
-        public SimplePlayerAnim[] iceMageEyes;
+        public SimpleAnim[] iceMageEyes;
         
         public PlayerAnim[] fireMageWalk;
         public PlayerAnim[] fireMageIdle;
         public PlayerAnim fireMageDeath;
-        public SimplePlayerAnim[] fireMageEyes;
+        public SimpleAnim[] fireMageEyes;
 
         public int idleFrameTime;
         public int walkFrameTime;

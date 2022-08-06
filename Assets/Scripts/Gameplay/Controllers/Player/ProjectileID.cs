@@ -6,8 +6,7 @@
         FIREBALL = 1,
         ICE_CUBE = 2,
         PORTAL = 3,
-        PAST_PORTAL = 4,
-        FUTURE_PORTAL = 5,
-        PARADOX = 6
+        ICE_PORTAL = 4,
+        FIRE_PORTAL = 5
     }
 }

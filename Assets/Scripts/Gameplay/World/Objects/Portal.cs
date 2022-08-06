@@ -1,91 +1,104 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 using Gameplay.Conrollers;
 using Gameplay.Controllers.Player;
 using Gameplay.Core;
 using Gameplay.Util;
 using Mirror;
+using ScriptableObjects;
 using UnityEngine;
 using Util;
 
 namespace Gameplay.World
 {
-    public enum Polarity
-    {
-        ALL,
-        TO_PAST,
-        TO_FUTURE
-    }
-    
+
     public class Portal : Spawnable
     {
-        public Polarity polarity;
-
         public new SpriteRenderer renderer;
+
+        public SimpleAnim iceAnim;
+        public SimpleAnim fireAnim;
+
+        public int frameTime;
+
+        private int animTime;
+        private int currentFrame;
+
+        public bool multiUse = true;
         
-        public Color all;
-        public Color topast;
-        public Color tofuture;
-        
-        private Portal otherPortal;
+        private Direction faceDirection;
+        private Portal otherPortal
+        {
+            get
+            {
+                PlayerRole other = owner.role == PlayerRole.ICE_MAGE ? PlayerRole.FIRE_MAGE : PlayerRole.ICE_MAGE;
+                if (portals.ContainsKey(other))
+                {
+                    if (portals[other].gameObject.activeSelf)
+                    {
+                        return portals[other];
+                    }
+                }
+
+                return null;
+            }
+        }
 
         private bool ignoreEvent;
 
-        public override void Spawn(PlayerController player, Timeline timeline,  Vector2Int position, Direction direction)
+        private static Dictionary<PlayerRole, Portal> portals = new Dictionary<PlayerRole, Portal>();
+        public static List<ICanTeleport> ignoreList = new List<ICanTeleport>();
+
+        public override void Spawn(PlayerController player, Vector2Int position, Direction direction)
         {
-            base.Spawn(player, timeline, position, direction);
-            
-            if (polarity == Polarity.TO_PAST)
+            base.Spawn(player, position, direction);
+            faceDirection = direction;
+            if (portals.ContainsKey(player.role))
             {
-                renderer.color = topast;
+                portals[player.role] = this;
             }
-            
-            if (polarity == Polarity.TO_FUTURE)
+            else
             {
-                renderer.color = tofuture;
-            }
-
-            if (owner.timeline == timeline)
-            {
-                Timeline other = timeline == Timeline.PAST ? Timeline.FUTURE : Timeline.PAST;
-                GameObject portalPrefab = model.projectiles.Get(ProjectileID.PORTAL).spawnOnHit;
-
-                GameObject otherPortalObj = SpawnController.Spawn(player, other, position, direction, portalPrefab);
-                otherPortal = otherPortalObj.GetComponent<Portal>();
-                otherPortal.otherPortal = this;
+                portals.Add(player.role, this);
             }
         }
 
         [ClientRpc]
-        public override void RpcSpawn(Timeline timeline, Vector2Int position, Direction direction)
+        public override void RpcSpawn(Vector2Int position, Direction direction)
         {
-            base.RpcSpawn(timeline, position, direction);
-
-            renderer.color = all;
-            if (polarity == Polarity.TO_PAST)
-            {
-                renderer.color = topast;
-            }
-            
-            if (polarity == Polarity.TO_FUTURE)
-            {
-                renderer.color = tofuture;
-            }
+            base.RpcSpawn(position, direction);
+            faceDirection = direction;
         }
 
         public override void Destroy()
         {
-            if (destroyTimer <= 0)
+            base.Destroy();
+            
+            if (owner != null)
             {
-                destroyTimer = destoryTime;
-                pendingDestroy = true;
                 owner.RemoveObject(ProjectileID.PORTAL, gameObject);
-                if (otherPortal != null)
-                {
-                    otherPortal.Destroy();
-                }
             }
         }
+
+        private void Update()
+        {
+            SimpleAnim anim = owner.role == PlayerRole.ICE_MAGE ? iceAnim : fireAnim;
+
+            animTime++;
+
+            if (animTime >= frameTime)
+            {
+                animTime = 0;
+                currentFrame++;
+                if (currentFrame >= anim.frames.Length)
+                {
+                    currentFrame = 0;
+                }
+            }
+
+            renderer.sprite = anim.frames[currentFrame];
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (pendingDestroy) return;
@@ -95,25 +108,21 @@ namespace Gameplay.World
                 ICanTeleport canTeleport = other.GetComponent<ICanTeleport>();
                 if (canTeleport != null)
                 {
-                    if (polarity == Polarity.TO_PAST && 
-                        otherPortal.timeline != Timeline.PAST) return;
+                    if (ignoreList.Contains(canTeleport))
+                    {
+                        ignoreList.Remove(canTeleport);
+                        return;
+                    }
                     
-                    if (polarity == Polarity.TO_FUTURE && 
-                        otherPortal.timeline != Timeline.FUTURE) return;
-
-                    otherPortal.ignoreEvent = true;
-                    bool result = canTeleport.Teleport(otherPortal.timeline, otherPortal.position);
-                    if (result)
+                    ignoreList.Add(canTeleport);
+                    bool result = canTeleport.Teleport(otherPortal.position, faceDirection);
+                    if (result && !multiUse)
                     {
                         Destroy();
-                    }
-                    else
-                    {
-                        otherPortal.ignoreEvent = false;
+                        otherPortal.Destroy();
                     }
                 }
             }
-            
         }
     }
-}*/
+}

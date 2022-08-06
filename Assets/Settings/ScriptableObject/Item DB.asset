@@ -37,10 +37,16 @@ MonoBehaviour:
     itemSpell: {fileID: 11400000, guid: a8cc795d10066884694099faf484feec, type: 2}
     canBeDragged: 1
     extraPlayerInventory: 0
-  - itemName: Turn into ghost
-    itemId: ghostspell
-    itemIcon: {fileID: 21300000, guid: df0e55a255b465d44a4e03cb0ddc7594, type: 3}
-    itemSpell: {fileID: 11400000, guid: c133be2603bf9074099e69143559aedd, type: 2}
+  - itemName: Shoot Portal
+    itemId: shootportalspell
+    itemIcon: {fileID: 21300000, guid: 6360cde483f778f4db9cde604e5a07eb, type: 3}
+    itemSpell: {fileID: 11400000, guid: 1889884d956402e4e8943816acfa6040, type: 2}
+    canBeDragged: 1
+    extraPlayerInventory: 0
+  - itemName: Spawn portal
+    itemId: spawn-portal
+    itemIcon: {fileID: 21300000, guid: 1974b3869cd9bff4bab3900960c5b462, type: 3}
+    itemSpell: {fileID: 11400000, guid: 10b5144fd91e0834ba2273c9d3629ce3, type: 2}
     canBeDragged: 1
     extraPlayerInventory: 0
   - itemName: Spell holder

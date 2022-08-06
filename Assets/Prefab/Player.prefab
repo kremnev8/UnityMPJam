@@ -56,10 +56,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0.29814816
-    width: 0.28020835
-    height: 0.2809002
+    x: 0.20312501
+    y: 0
+    width: 0.31219214
+    height: 0.31296295
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -518,7 +518,8 @@ MonoBehaviour:
   - cubespell
   - fireballspell
   - dashspell
-  - ghostspell
+  - shootportalspell
+  - spawn-portal
   - spellholder
   backpackId: spellholder
 --- !u!1 &1605358307926610178

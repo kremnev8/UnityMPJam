@@ -11,7 +11,10 @@ namespace Gameplay.Logic
             if (col != null)
             {
                 PlayerController player = col.GetComponent<PlayerController>();
-                player.allowSwap = true;
+                if (player != null)
+                {
+                    player.allowSwap = true;
+                }
             }
         }
 
@@ -20,7 +23,10 @@ namespace Gameplay.Logic
             if (col != null)
             {
                 PlayerController player = col.GetComponent<PlayerController>();
-                player.allowSwap = false;
+                if (player != null)
+                {
+                    player.allowSwap = false;
+                }
             }
         }
     }

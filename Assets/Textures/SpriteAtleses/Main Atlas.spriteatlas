@@ -881,7 +881,17 @@ SpriteAtlas:
   - {fileID: 989278603, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
   - {fileID: 1112266519, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
   - {fileID: -1101380248, guid: 9f69b7a4633078247b46e6b4a3b90f99, type: 3}
+  - {fileID: 413372065, guid: 6c36e9e454c80f24da367cd629eca6dc, type: 3}
+  - {fileID: -108471846, guid: 6c36e9e454c80f24da367cd629eca6dc, type: 3}
+  - {fileID: 1579504513, guid: 6c36e9e454c80f24da367cd629eca6dc, type: 3}
+  - {fileID: -1347516188, guid: 6c36e9e454c80f24da367cd629eca6dc, type: 3}
+  - {fileID: -1364098718, guid: 6c36e9e454c80f24da367cd629eca6dc, type: 3}
+  - {fileID: 122628509, guid: 6c36e9e454c80f24da367cd629eca6dc, type: 3}
+  - {fileID: -507567148, guid: 6c36e9e454c80f24da367cd629eca6dc, type: 3}
+  - {fileID: -8761090, guid: 6c36e9e454c80f24da367cd629eca6dc, type: 3}
+  - {fileID: 21300000, guid: 6360cde483f778f4db9cde604e5a07eb, type: 3}
   - {fileID: 21300000, guid: 4a73db959743dea4b8e3b26def30f309, type: 3}
+  - {fileID: 21300000, guid: 1974b3869cd9bff4bab3900960c5b462, type: 3}
   - {fileID: -2002930234, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
   - {fileID: 1540352797, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
   - {fileID: -1714486074, guid: c692e8a7737e22748b45fb2b919bfd30, type: 3}
@@ -1046,9 +1056,6 @@ SpriteAtlas:
   - {fileID: 1606144389, guid: 8575b85e333de0d488c2b70f66ce7962, type: 3}
   - {fileID: -300368557, guid: 8575b85e333de0d488c2b70f66ce7962, type: 3}
   - {fileID: 21300000, guid: bb5d8cce81221634c82fc87bd7b0a00a, type: 3}
-  - {fileID: 1823019292, guid: 094add4f325d19a4fba5608a9f49d2c5, type: 3}
-  - {fileID: -2006733262, guid: 094add4f325d19a4fba5608a9f49d2c5, type: 3}
-  - {fileID: -1224927355, guid: 094add4f325d19a4fba5608a9f49d2c5, type: 3}
   - {fileID: 1064787831, guid: b87efd4faeaab82468f2f8fa2326bf3b, type: 3}
   - {fileID: 1156883401, guid: b87efd4faeaab82468f2f8fa2326bf3b, type: 3}
   - {fileID: 150722869, guid: eb805e9f674930c4481680ca49c75da3, type: 3}
@@ -1890,7 +1897,17 @@ SpriteAtlas:
   - flame_3
   - flame_2
   - flame_10
+  - vortex-portals_4
+  - vortex-portals_5
+  - vortex-portals_6
+  - vortex-portals_7
+  - vortex-portals_0
+  - vortex-portals_1
+  - vortex-portals_2
+  - vortex-portals_3
+  - scroll-portal-ball
   - backpack
+  - scroll-spawn-portal
   - icemagedeath_1
   - icemagedeath_0
   - icemagedeath_3
@@ -2055,9 +2072,6 @@ SpriteAtlas:
   - iceMageEyes_7
   - iceMageEyes_6
   - scroll-dash
-  - time-particle-sheet_0
-  - time-particle-sheet_1
-  - time-particle-sheet_2
   - shadow_0
   - shadow_1
   - objects2_4

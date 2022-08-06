@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Levels DB
   m_EditorClassIdentifier: 
   items:
+  - levelName: Ghost
+    levelId: ghost
+    scene: Assets/Scenes/Dashnghost/Ghost1.unity
   - levelName: Water test
     levelId: watertest
     scene: Assets/Scenes/Dashnghost/Level2.unity

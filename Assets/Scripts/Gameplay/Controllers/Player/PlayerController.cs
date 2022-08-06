@@ -34,7 +34,7 @@ namespace Gameplay.Conrollers
         DEAD
     }
 
-    public class PlayerController : NetworkBehaviour, IPlayerData, ICanTeleport, IHeavyObject
+    public class PlayerController : NetworkBehaviour, IPlayerData, IHeavyObject
     {
         [SyncVar] private string playerName;
         [SyncVar(hook = nameof(SetRoleHook))] private PlayerRole m_role;
@@ -361,7 +361,7 @@ namespace Gameplay.Conrollers
         private void UpdateVisual(Direction direction)
         {
             Color lightColor = role == PlayerRole.ICE_MAGE ? config.iceMageLightColor : config.fireMageLightColor;
-            SimplePlayerAnim[] eyes = role == PlayerRole.ICE_MAGE ? config.iceMageEyes : config.fireMageEyes;
+            SimpleAnim[] eyes = role == PlayerRole.ICE_MAGE ? config.iceMageEyes : config.fireMageEyes;
             PlayerAnim[] sprites;
             animationTime++;
             eyesAnimTime++;

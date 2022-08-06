@@ -114,10 +114,12 @@ MonoBehaviour:
   poolablePrefabs:
   - {fileID: 4997097714237469524, guid: fe0b4f671d68d2948be81439e1ea08b1, type: 3}
   - {fileID: 1593202355466616539, guid: 4473bdc8c2376864a9ec173c55a25e9d, type: 3}
+  - {fileID: 3539697828345830676, guid: 3db211925d21358479f4314a5fdd73e8, type: 3}
+  - {fileID: 1844685588833815413, guid: ab57c039b828442daee6bff0a1f65387, type: 3}
   poolPrefab: {fileID: 4264884059955586825, guid: b37b05f9ba13b18469d7b5d1085396e5,
     type: 3}
   poolsTransform: {fileID: 1016365998649999135}
-  initialCapacity: 10
+  initialCapacity: 8
 --- !u!114 &1016365999418362787
 MonoBehaviour:
   m_ObjectHideFlags: 0

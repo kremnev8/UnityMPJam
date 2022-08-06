@@ -69,7 +69,7 @@ namespace Gameplay.World
             if (animator != null)
             {
                 animator.ResetTrigger(die);
-                animator.Play("Idle");
+                animator.Play("Base Layer.Idle");
             }
 
             base.Spawn(player, position, direction);
@@ -92,7 +92,7 @@ namespace Gameplay.World
             if (animator != null)
             {
                 animator.ResetTrigger(die);
-                animator.Play("Idle");
+                animator.Play("Base Layer.Idle");
             }
 
             base.RpcSpawn(position, direction);
@@ -207,8 +207,6 @@ namespace Gameplay.World
 
                 if (hitSomething)
                 {
-                    if (projectileID == ProjectileID.ICE_CUBE)
-                        Debug.Log("Hit something!");
                     OnHit();
                     EnterState(ProjectileState.STUCK);
                     RpcStuck();
@@ -230,8 +228,6 @@ namespace Gameplay.World
                         Collider2D hitCollider = colliders[i];
                         if (hitCollider == null) continue;
                         
-                        if (projectileID == ProjectileID.ICE_CUBE)
-                            Debug.Log("Sink!");
                         
                         EnterState(ProjectileState.SINK);
                         RpcSink();
@@ -251,8 +247,11 @@ namespace Gameplay.World
 
         public override void Destroy()
         {
-            base.Destroy();
-            RpcDieAnimation();
+            if (!pendingDestroy)
+            {
+                base.Destroy();
+                RpcDieAnimation();
+            }
         }
 
         [ClientRpc]
@@ -292,26 +291,26 @@ namespace Gameplay.World
         }
 
 
-        public bool Teleport(Vector2Int position)
+        public bool Teleport(Vector2Int position, Direction direction)
         {
             if (destroyTimer > 0) return false;
 
             this.position = position;
-            moveDir = moveDir.GetOpposite();
+            moveDir = direction;
             if (isServer)
             {
-                RpcTeleport(position);
+                RpcTeleport(position, direction);
             }
 
             return true;
         }
 
         [ClientRpc(includeOwner = false)]
-        public void RpcTeleport( Vector2Int position)
+        public void RpcTeleport( Vector2Int position, Direction direction)
         {
             if (isClientOnly)
             {
-                Teleport( position);
+                Teleport( position, direction);
             }
         }
 
