@@ -7,6 +7,7 @@
         ICE_CUBE = 2,
         PORTAL = 3,
         ICE_PORTAL = 4,
-        FIRE_PORTAL = 5
+        FIRE_PORTAL = 5,
+        STEEL_CUBE = 6
     }
 }

@@ -661,7 +661,7 @@ namespace Gameplay.Conrollers
                                     IMoveAble moveAble = hit.collider.GetComponent<IMoveAble>();
                                     if (moveAble != null)
                                     {
-                                        moveAble.Move(lastMoveDir.GetDirection(), state == PlayerState.DASHING);
+                                        moveAble.Move(lastMoveDir.GetDirection());
                                     }
 
                                     shouldStop = true;

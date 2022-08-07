@@ -4,6 +4,7 @@ namespace Gameplay.World
 {
     public interface IMoveAble
     {
-        void Move(Direction direction, bool isDashing);
+        bool isMagnetic { get; }
+        void Move(Direction direction);
     }
 }

@@ -19,6 +19,12 @@ MonoBehaviour:
     itemSpell: {fileID: 0}
     canBeDragged: 0
     extraPlayerInventory: 0
+  - itemName: Spell holder
+    itemId: spellholder
+    itemIcon: {fileID: 21300000, guid: 4a73db959743dea4b8e3b26def30f309, type: 3}
+    itemSpell: {fileID: 0}
+    canBeDragged: 0
+    extraPlayerInventory: 1
   - itemName: Summon Cube Spell
     itemId: cubespell
     itemIcon: {fileID: 21300000, guid: 8335825b902c54b4984862ab774e8aea, type: 3}
@@ -49,9 +55,15 @@ MonoBehaviour:
     itemSpell: {fileID: 11400000, guid: 10b5144fd91e0834ba2273c9d3629ce3, type: 2}
     canBeDragged: 1
     extraPlayerInventory: 0
-  - itemName: Spell holder
-    itemId: spellholder
-    itemIcon: {fileID: 21300000, guid: 4a73db959743dea4b8e3b26def30f309, type: 3}
-    itemSpell: {fileID: 0}
-    canBeDragged: 0
-    extraPlayerInventory: 1
+  - itemName: Push Magnet
+    itemId: push-maget-spell
+    itemIcon: {fileID: 21300000, guid: 2f56e8e207d06df4f9f616e6cc46f710, type: 3}
+    itemSpell: {fileID: 11400000, guid: 9b7f2373f73f1ed4fbc266bd04ca25a4, type: 2}
+    canBeDragged: 1
+    extraPlayerInventory: 0
+  - itemName: Pull Magent
+    itemId: pull-maget-spell
+    itemIcon: {fileID: 21300000, guid: bad3989570365c64b881e9f903e66965, type: 3}
+    itemSpell: {fileID: 11400000, guid: 44aedea558e03a44aa06d87586b53c11, type: 2}
+    canBeDragged: 1
+    extraPlayerInventory: 0

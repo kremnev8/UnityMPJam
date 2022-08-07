@@ -47,9 +47,12 @@ namespace Gameplay.World
             }
         }
 
+        public bool isMagnetic => projectile.magnetic;
+
 
         protected float velocity;
         protected Direction moveDir;
+        protected Vector2Int startMovePos;
 
         private ProjectileState state;
 
@@ -85,7 +88,7 @@ namespace Gameplay.World
         }
 
         [ClientRpc]
-        public override void RpcSpawn( Vector2Int position, Direction direction)
+        public override void RpcSpawn(Vector2Int position, Direction direction)
         {
             body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
@@ -124,6 +127,7 @@ namespace Gameplay.World
         {
             moveDir = direction;
             this.velocity = velocity;
+            startMovePos = position;
 
             EnterState(ProjectileState.MOVING);
             RpcStartMove(direction, velocity);
@@ -137,6 +141,7 @@ namespace Gameplay.World
             {
                 moveDir = direction;
                 this.velocity = velocity;
+                startMovePos = position;
                 EnterState(ProjectileState.MOVING);
             }
         }
@@ -172,7 +177,7 @@ namespace Gameplay.World
 
                 int hitCount = Physics2D.CircleCastNonAlloc(pos, 0.33f, moveDir.GetVector(), hits, 0.5f, projectile.wallMask);
                 bool hitSomething = false;
-                
+
                 if (hitCount > 0)
                 {
                     for (int i = 0; i < hitCount; i++)
@@ -219,7 +224,7 @@ namespace Gameplay.World
                     useLayerMask = true,
                 };
                 Vector2 testPos = body.position + (Vector2)moveDir.GetVector() * -1 * projectile.sinkOffset;
-                
+
                 hitCount = Physics2D.OverlapPoint(testPos, filter2D, colliders);
                 if (hitCount > 0)
                 {
@@ -227,8 +232,8 @@ namespace Gameplay.World
                     {
                         Collider2D hitCollider = colliders[i];
                         if (hitCollider == null) continue;
-                        
-                        
+
+
                         EnterState(ProjectileState.SINK);
                         RpcSink();
                         Destroy();
@@ -236,6 +241,7 @@ namespace Gameplay.World
                         {
                             owner.RemoveObject(projectileID, gameObject);
                         }
+
                         break;
                     }
                 }
@@ -243,6 +249,17 @@ namespace Gameplay.World
 
             Vector3 newPos = body.position + (Vector2)moveDir.GetVector() * velocity * Time.fixedDeltaTime;
             body.MovePosition(newPos);
+
+            if (projectile.maxTravelDistance > 0 && isServer)
+            {
+                float distance = (startMovePos.ToWorldPos() - (Vector2)newPos).magnitude;
+                if (distance > projectile.maxTravelDistance)
+                {
+                    OnHit();
+                    EnterState(ProjectileState.STUCK);
+                    RpcStuck();
+                }
+            }
         }
 
         public override void Destroy()
@@ -273,7 +290,7 @@ namespace Gameplay.World
         {
             if (projectile.spawnOnHit != null && owner != null)
             {
-                PrefabPoolController.SpawnWithReplace(owner, projectileID, transform.position.ToGridPos(), moveDir.GetOpposite(), gameObject,
+                PrefabPoolController.SpawnWithReplace(owner, projectileID, transform.position.ToGridPos(), moveDir, gameObject,
                     projectile.spawnOnHit);
             }
             else if (projectile.destroySelfOnHit)
@@ -306,31 +323,20 @@ namespace Gameplay.World
         }
 
         [ClientRpc(includeOwner = false)]
-        public void RpcTeleport( Vector2Int position, Direction direction)
+        public void RpcTeleport(Vector2Int position, Direction direction)
         {
             if (isClientOnly)
             {
-                Teleport( position, direction);
+                Teleport(position, direction);
             }
         }
 
         [Client]
-        public void Move(Direction direction, bool isDashing)
+        public void Move(Direction direction)
         {
-            if (isDashing)
+            if (projectile.pushMoveSpeed > 0)
             {
-                float speed = Mathf.Max(projectile.pushMoveSpeed, projectile.pushWithDashSpeed);
-                if (speed > 0)
-                {
-                    CmdStartMove(direction, speed);
-                }
-            }
-            else
-            {
-                if (projectile.pushMoveSpeed > 0)
-                {
-                    CmdStartMove(direction, projectile.pushMoveSpeed);
-                }
+                CmdStartMove(direction, projectile.pushMoveSpeed);
             }
         }
     }

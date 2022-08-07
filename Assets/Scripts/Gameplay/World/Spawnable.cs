@@ -1,9 +1,12 @@
-﻿using Gameplay.Conrollers;
+﻿using System;
+using Gameplay.Conrollers;
+using Gameplay.Controllers;
 using Gameplay.Core;
 using Gameplay.Util;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Util;
 
 namespace Gameplay.World
 {
@@ -27,6 +30,38 @@ namespace Gameplay.World
         protected GameModel model;
         public bool pendingDestroy;
 
+        public bool spawnInTheWorld;
+        
+        private void Start()
+        {
+            GameNetworkManager.MapStarted += OnMapStarted;
+        }
+
+        private void OnEnable()
+        {
+            GameNetworkManager.MapStarted -= OnMapStarted;
+            GameNetworkManager.MapStarted += OnMapStarted;
+        }
+
+        private void OnDisable()
+        {
+            GameNetworkManager.MapStarted -= OnMapStarted;
+        }
+
+        private void OnDestroy()
+        {
+            GameNetworkManager.MapStarted -= OnMapStarted;
+        }
+
+        private void OnMapStarted()
+        {
+            if (isServer && spawnInTheWorld)
+            {
+                Vector2Int pos = transform.localPosition.ToGridPos();
+                Spawn(null, pos, Direction.FORWARD);
+            }
+        }
+
         public virtual void Spawn(PlayerController player, Vector2Int position, Direction direction)
         {
             pendingDestroy = false;
@@ -42,6 +77,7 @@ namespace Gameplay.World
         [ClientRpc]
         public virtual void RpcSpawn(Vector2Int position, Direction direction)
         {
+            Debug.Log($"Spawn {gameObject.name}");
             pendingDestroy = false;
             destroyTimer = 0;
             model = Simulation.GetModel<GameModel>();
@@ -64,10 +100,17 @@ namespace Gameplay.World
             {
                 destroyTimer -= Time.fixedDeltaTime;
             }
-            
+
             if (destroyTimer <= 0)
             {
-                PrefabPoolController.Return(gameObject);
+                if (!prefabId.Equals(""))
+                {
+                    PrefabPoolController.Return(gameObject);
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }

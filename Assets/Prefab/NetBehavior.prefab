@@ -81,6 +81,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  maxSize: 6
+  maxSize: 8
   selectedIndex: 0
-  inventoryCap: 6
+  inventoryCap: 8

@@ -27,6 +27,9 @@ namespace Gameplay.ScriptableObjects
         public bool destroySelfOnHit;
         public int projectileMass;
         public bool activateInteractibles;
+
+        public bool magnetic;
+        public int maxTravelDistance = -1;
         
         
         public GameObject prefab;

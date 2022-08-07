@@ -21,7 +21,6 @@ namespace Gameplay.World
             model.globalInventoryUI = globalInventoryUI;
             model.globalInventoryUI.inventory = model.globalInventory;
             model.globalInventoryUI.Init();
-            model.globalInventory.InventoryCap = 6;
             if (NetworkServer.active)
             {
                 foreach (string item in defaultItems)

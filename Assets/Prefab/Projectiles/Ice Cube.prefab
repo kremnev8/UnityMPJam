@@ -55,6 +55,7 @@ MonoBehaviour:
   m_prefabId: icecube_prefab
   destroyTime: 0.35
   pendingDestroy: 0
+  spawnInTheWorld: 0
   trailSystem: {fileID: 3191196990528652830}
   renderer: {fileID: 6780920771128652615}
   animator: {fileID: 4513957874862749198}
@@ -147,7 +148,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.09}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -158,7 +159,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3, y: 1.3}
+  m_Size: {x: 1.85, y: 1.85}
   m_EdgeRadius: 0
 --- !u!1 &2316070388311079573
 GameObject:

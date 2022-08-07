@@ -27,11 +27,13 @@ namespace Gameplay.World
         public bool multiUse = true;
         
         private Direction faceDirection;
+        [SyncVar]
+        private PlayerRole ownerRole;
         private Portal otherPortal
         {
             get
             {
-                PlayerRole other = owner.role == PlayerRole.ICE_MAGE ? PlayerRole.FIRE_MAGE : PlayerRole.ICE_MAGE;
+                PlayerRole other = ownerRole == PlayerRole.ICE_MAGE ? PlayerRole.FIRE_MAGE : PlayerRole.ICE_MAGE;
                 if (portals.ContainsKey(other))
                 {
                     if (portals[other].gameObject.activeSelf)
@@ -52,6 +54,7 @@ namespace Gameplay.World
         public override void Spawn(PlayerController player, Vector2Int position, Direction direction)
         {
             base.Spawn(player, position, direction);
+            ownerRole = player.role;
             faceDirection = direction;
             if (portals.ContainsKey(player.role))
             {
@@ -82,7 +85,7 @@ namespace Gameplay.World
 
         private void Update()
         {
-            SimpleAnim anim = owner.role == PlayerRole.ICE_MAGE ? iceAnim : fireAnim;
+            SimpleAnim anim = ownerRole == PlayerRole.ICE_MAGE ? iceAnim : fireAnim;
 
             animTime++;
 
