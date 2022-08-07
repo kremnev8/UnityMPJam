@@ -127,7 +127,12 @@ namespace Gameplay.Controllers
 
         public void NextLevel()
         {
-            if (!IsInLobby() && playersInExit >= players.Count)
+            NextLevel(false);
+        }
+
+        public void NextLevel(bool ignoreCondition)
+        {
+            if (!IsInLobby() && (playersInExit >= players.Count || ignoreCondition))
             {
                 try
                 {

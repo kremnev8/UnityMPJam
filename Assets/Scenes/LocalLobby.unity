@@ -748,6 +748,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 168
       objectReference: {fileID: 0}
+    - target: {fileID: 6569975749225520792, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6569975749225520793, guid: d3893923bc1897a4b92e71138be3c88e,
         type: 3}
       propertyPath: m_NormalizedViewPortRect.y

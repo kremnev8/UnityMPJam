@@ -275,7 +275,7 @@ MonoBehaviour:
   dashTime: 0.5
   wallMask:
     serializedVersion: 2
-    m_Bits: 1984
+    m_Bits: 1856
   ghostMask:
     serializedVersion: 2
     m_Bits: 1600

@@ -53,6 +53,11 @@ namespace Gameplay.UI
             networkManager.RestartLevel();
         }
 
+        public void SkipLevel()
+        {
+            networkManager.NextLevel(true);
+        }
+        
         public void OnExitToMenu()
         {
             SetPauseState(false);

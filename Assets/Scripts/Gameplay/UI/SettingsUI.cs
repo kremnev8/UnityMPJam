@@ -3,6 +3,7 @@ using System.Linq;
 using Gameplay.Conrollers;
 using Gameplay.Core;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -100,6 +101,15 @@ namespace Gameplay.UI
         {
             settingsMenu.SetActive(false);
             buttons.SetActive(true);
+        }
+        
+        public void OnExit()
+        {
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
     }
 }

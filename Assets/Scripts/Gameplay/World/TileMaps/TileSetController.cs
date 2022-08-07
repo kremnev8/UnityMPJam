@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Gameplay.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -47,9 +46,7 @@ namespace TileMaps
         {
             Tilemap.tilemapTileChanged -= OnTileMapChanged;
         }
-#endif
-
-#if UNITY_EDITOR
+        
         private void Update()
         {
             if (!Application.isPlaying)
@@ -183,7 +180,6 @@ namespace TileMaps
                 CheckShadowAt(pos, tile);
             }
         }
-#endif
 
         private TileBase GetTileAt(Vector3Int pos)
         {
@@ -303,8 +299,7 @@ namespace TileMaps
                 }
             }
         }
-
-#if UNITY_EDITOR
+        
         public void OnTileMapChanged(Tilemap tilemap, Tilemap.SyncTile[] syncTiles)
         {
             if (tilemap == master)
@@ -376,7 +371,6 @@ namespace TileMaps
                 DestroyImmediate(info.left);
             }
         }
-#endif
 
         private void PaintMultiply(Vector3Int pos, Tilemap tilemap, TileBase tile, TileSideType sideType)
         {
@@ -394,5 +388,7 @@ namespace TileMaps
                 }
             }
         }
+        
+#endif
     }
 }

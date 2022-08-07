@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 1016365999418362784}
   - component: {fileID: 1016365999418362787}
   - component: {fileID: 150681475}
+  - component: {fileID: 5637287431424317705}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -167,8 +168,23 @@ MonoBehaviour:
   current:
     version: 0
     fullscreen: 0
+    volume: 0
+    width: 0
+    height: 0
     lastReachedLevel: 0
     currentLevel: 0
     globalInventory: []
     icePlayerInventory: []
     firePlayerInventory: []
+--- !u!114 &5637287431424317705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016365999418362780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6931b0785eda49cfa82144f3d4026fc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
