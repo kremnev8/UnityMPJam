@@ -13,33 +13,25 @@ MonoBehaviour:
   m_Name: Levels DB
   m_EditorClassIdentifier: 
   items:
-  - levelName: Ghost
-    levelId: ghost
-    scene: Assets/Scenes/Dashnghost/Ghost1.unity
-  - levelName: Water test
-    levelId: watertest
-    scene: Assets/Scenes/Dashnghost/Level2.unity
-  - levelName: Cube Recall
-    levelId: cuberecall
-    scene: Assets/Scenes/Ice Cube/CubeRecall.unity
-  - levelName: Maze V2
-    levelId: buttonmaze
-    scene: Assets/Scenes/Dashnghost/Level1.unity
-  - levelName: Death trap
-    levelId: deathtrap
-    scene: Assets/Scenes/Game4.unity
   - levelName: Lever Testing
     levelId: level1
     scene: Assets/Scenes/Level1.unity
+    defaultItems: []
   - levelName: Button and cube testing
     levelId: level2
     scene: Assets/Scenes/Level2.unity
+    defaultItems: []
   - levelName: The pool
     levelId: level3
     scene: Assets/Scenes/Level3.unity
-  - levelName: Not the intro
-    levelId: level1
-    scene: Assets/Scenes/Game2.unity
-  - levelName: Maze where i got lost
-    levelId: themaze
-    scene: Assets/Scenes/Game3.unity
+    defaultItems: []
+  - levelName: Cube Recall
+    levelId: cuberecall
+    scene: Assets/Scenes/Ice Cube/CubeRecall.unity
+    defaultItems:
+    - cubespell
+  - levelName: Maze V2
+    levelId: buttonmaze
+    scene: Assets/Scenes/Dashnghost/Level1.unity
+    defaultItems:
+    - cubespell

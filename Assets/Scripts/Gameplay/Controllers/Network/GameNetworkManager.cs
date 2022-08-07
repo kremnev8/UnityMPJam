@@ -29,6 +29,7 @@ namespace Gameplay.Controllers
         public bool CanChangeLevel => playersInExit >= players.Count;
 
         private static bool returningToMenu;
+        public static bool fromCheckpoint = true;
         
         [Scene]
         public string menu;
@@ -63,6 +64,7 @@ namespace Gameplay.Controllers
             {
                 currentLevel = lastLevel;
             }
+            fromCheckpoint = false;
         }
         
         public void SelectPrevLevel()
@@ -72,11 +74,14 @@ namespace Gameplay.Controllers
             {
                 currentLevel = 0;
             }
+
+            fromCheckpoint = false;
         }
 
         public void SetToCheckpoint()
         {
             currentLevel = model.saveGame.current.currentLevel;
+            fromCheckpoint = true;
         }
         
 
@@ -94,6 +99,14 @@ namespace Gameplay.Controllers
                 
                 LevelData scene = model.levels.GetLevel(currentLevel);
                 model.saveGame.current.currentLevel = currentLevel;
+
+                if (!fromCheckpoint)
+                {
+                    model.saveGame.current.icePlayerInventory = new List<string>();
+                    model.saveGame.current.firePlayerInventory = new List<string>();
+                    model.saveGame.current.globalInventory = scene.defaultItems.ToList();
+                }
+                
                 model.saveGame.Save();
                 playersInExit = 0;
                 ServerChangeScene(scene.scene);
