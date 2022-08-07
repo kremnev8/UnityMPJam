@@ -70,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1255560421
-  m_SortingLayer: -1
-  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -245097137, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -371,6 +371,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: flame
       objectReference: {fileID: 0}
+    - target: {fileID: 1978048711393872865, guid: 38a5284622ef24c48b90afccfb6ecf2e,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1978048711393872865, guid: 38a5284622ef24c48b90afccfb6ecf2e,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1978048711393872865, guid: 38a5284622ef24c48b90afccfb6ecf2e,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3277914711817332808, guid: 38a5284622ef24c48b90afccfb6ecf2e,
         type: 3}
       propertyPath: m_RootOrder
@@ -458,6 +473,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: flame (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1978048711393872865, guid: 38a5284622ef24c48b90afccfb6ecf2e,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1978048711393872865, guid: 38a5284622ef24c48b90afccfb6ecf2e,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1978048711393872865, guid: 38a5284622ef24c48b90afccfb6ecf2e,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3277914711817332808, guid: 38a5284622ef24c48b90afccfb6ecf2e,
         type: 3}
       propertyPath: m_RootOrder
@@ -544,6 +574,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: flame (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1978048711393872865, guid: 38a5284622ef24c48b90afccfb6ecf2e,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1978048711393872865, guid: 38a5284622ef24c48b90afccfb6ecf2e,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1978048711393872865, guid: 38a5284622ef24c48b90afccfb6ecf2e,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3277914711817332808, guid: 38a5284622ef24c48b90afccfb6ecf2e,
         type: 3}
