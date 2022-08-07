@@ -5,6 +5,7 @@ using Gameplay.Conrollers;
 using Gameplay.Controllers.Network;
 using Gameplay.Core;
 using Gameplay.ScriptableObjects;
+using Gameplay.Util;
 using Gameplay.World;
 using Mirror;
 using UnityEngine;
@@ -24,11 +25,14 @@ namespace Gameplay.Controllers
         private int playersLoaded;
         
         private int playersInExit;
-        private int currentLevel;
+        public int currentLevel;
         public bool CanChangeLevel => playersInExit >= players.Count;
 
-        public int startLevel;
-
+        private static bool returningToMenu;
+        
+        [Scene]
+        public string menu;
+        
         public event Action ServerReady;
 
         public static event Action MapStarted;
@@ -43,9 +47,38 @@ namespace Gameplay.Controllers
             {
                 canStartGame = true;
             }
-
-            currentLevel = startLevel;
+            SetToCheckpoint();
         }
+
+        public void SelectNextLevel()
+        {
+            currentLevel++;
+            int lastLevel = model.saveGame.current.lastReachedLevel;
+            if (Application.isEditor)
+            {
+                lastLevel = model.levels.Count();
+            }
+            
+            if (currentLevel > lastLevel)
+            {
+                currentLevel = lastLevel;
+            }
+        }
+        
+        public void SelectPrevLevel()
+        {
+            currentLevel--;
+            if (currentLevel < 0)
+            {
+                currentLevel = 0;
+            }
+        }
+
+        public void SetToCheckpoint()
+        {
+            currentLevel = model.saveGame.current.currentLevel;
+        }
+        
 
         public void StartGame()
         {
@@ -60,6 +93,8 @@ namespace Gameplay.Controllers
                 if (!Application.isEditor && !canStartGame) return;
                 
                 LevelData scene = model.levels.GetLevel(currentLevel);
+                model.saveGame.current.currentLevel = currentLevel;
+                model.saveGame.Save();
                 playersInExit = 0;
                 ServerChangeScene(scene.scene);
             }
@@ -85,6 +120,11 @@ namespace Gameplay.Controllers
                 {
                     LevelData scene = model.levels.GetLevel(currentLevel + 1);
                     currentLevel++;
+                    model.saveGame.current.currentLevel = currentLevel;
+                    int max = Mathf.Max(currentLevel, model.saveGame.current.lastReachedLevel);
+                    model.saveGame.current.lastReachedLevel = max;
+                    model.saveGame.Save();
+                    
                     playersInExit = 0;
                     ServerChangeScene(scene.scene);
                 }
@@ -94,6 +134,50 @@ namespace Gameplay.Controllers
                 }
             }
         }
+
+        public void RestartLevel()
+        {
+            if (!IsInLobby())
+            {
+                try
+                {
+                    LevelData scene = model.levels.GetLevel(currentLevel);
+                    playersInExit = 0;
+                    ServerChangeScene(scene.scene);
+                }
+                catch (InvalidOperationException e)
+                {
+                    Debug.LogWarning($"Failed to get level {currentLevel}!");
+                }
+            }
+        }
+
+        public void ReturnToMenu()
+        {
+            returningToMenu = true;
+            if (mode == NetworkManagerMode.Host)
+                StopHost();
+            if (mode == NetworkManagerMode.ClientOnly)
+                StopClient();
+            
+            DontDestroy.DestroyAll();
+            SceneManager.LoadScene(menu);
+        }
+
+        public override void OnClientDisconnect()
+        {
+            base.OnClientDisconnect();
+            if (!returningToMenu)
+                ReturnToMenu();
+        }
+
+        public override void OnServerDisconnect(NetworkConnectionToClient conn)
+        {
+            base.OnServerDisconnect(conn);
+            if (!returningToMenu)
+                ReturnToMenu();
+        }
+
 
         public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
         {

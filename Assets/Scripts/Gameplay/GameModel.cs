@@ -25,7 +25,7 @@ namespace Gameplay
         public Camera mainCamera;
         public GameNetworkManager networkManager;
         public RoleController roleController;
-        [FormerlySerializedAs("spacetime")] public LevelElementController levelElement;
+        public LevelElementController levelElement;
         public PrefabPoolController poolController;
         
         public Inventory globalInventory;
@@ -51,7 +51,7 @@ namespace Gameplay
 
         public HoverUI hoverUI;
         
-        public SettingsController settings;
+        public SaveGameController saveGame;
 
         public LayerSettings layers;
         public StringsDB strings;

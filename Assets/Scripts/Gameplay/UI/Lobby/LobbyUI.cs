@@ -38,9 +38,7 @@ namespace Gameplay.UI.Lobby
         public Button createbutton;
 
         public GameObject waitUI;
-        public GameObject waitText;
-
-        public TMP_Text roleText;
+        public TMP_Text waitText;
 
         public TMP_InputField userNameInputField;
 
@@ -132,7 +130,10 @@ namespace Gameplay.UI.Lobby
 
         public void OnCreateLobby()
         {
-            CreateLobby(2, LobbyPermissionLevel.Publicadvertised, false, new[] { new AttributeData { Key = AttributeKeys[0], Value = lobbyNameField.text }, });
+            CreateLobby(2, LobbyPermissionLevel.Publicadvertised, false, new[]
+            {
+                new AttributeData { Key = AttributeKeys[0], Value = lobbyNameField.text },
+            });
             canCreateLobby = false;
         }
 
@@ -162,8 +163,6 @@ namespace Gameplay.UI.Lobby
             createLobbyUI.SetActive(false);
             joinLobbyUI.SetActive(false);
             waitUI.SetActive(true);
-            
-            UpdateWaitUI();
         }
 
         public void Exit()
@@ -174,15 +173,6 @@ namespace Gameplay.UI.Lobby
             
             LeaveLobby();
             canCreateLobby = true;
-        }
-
-        public void UpdateWaitUI()
-        {
-            if (NetworkClient.localPlayer != null)
-            {
-                PlayerController controller = NetworkClient.localPlayer.gameObject.GetComponent<PlayerController>();
-                roleText.text = controller.role == PlayerRole.ICE_MAGE ? "Ice" : "Fire";
-            }
         }
 
         public void ToggleRole()
@@ -240,11 +230,18 @@ namespace Gameplay.UI.Lobby
 
                 needToRefresh = false;
             }
-            UpdateWaitUI();
 
             if (networkManager != null)
             {
-                waitText.SetActive(networkManager.numPlayers != 2);
+                if (networkManager.numPlayers != 2)
+                {
+                    waitText.text = "Waiting for partner";
+                }
+                else
+                {
+                    waitText.text = $"Your Partner: {networkManager.players[1].PlayerName}";
+                }
+                
                 startGameButton.interactable = networkManager.canStartGame;
             }
         }

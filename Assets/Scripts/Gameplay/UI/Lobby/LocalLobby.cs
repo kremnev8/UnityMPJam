@@ -16,23 +16,13 @@ namespace Gameplay.UI.Lobby
         private GameNetworkManager networkManager;
         private GameModel model;
         public GameObject lobbyUI;
-        
-        public TMP_Text roleText;
-        
+
         public void Start()
         {
             model = Simulation.GetModel<GameModel>();
             networkManager = model.networkManager;
         }
         
-        public void UpdateWaitUI()
-        {
-            if (NetworkClient.localPlayer != null)
-            {
-                PlayerController controller = NetworkClient.localPlayer.gameObject.GetComponent<PlayerController>();
-                roleText.text = controller.role == PlayerRole.ICE_MAGE ? "Ice" : "Fire";
-            }
-        }
 
         public void ToggleRole()
         {
@@ -70,11 +60,6 @@ namespace Gameplay.UI.Lobby
         public void HideLobby()
         {
             lobbyUI.SetActive(false);
-        }
-
-        private void Update()
-        {
-            UpdateWaitUI();
         }
     }
 }

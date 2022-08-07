@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 437631060}
   - component: {fileID: 437631057}
   - component: {fileID: 437631059}
+  - component: {fileID: 437631061}
   m_Layer: 0
   m_Name: Network Manager
   m_TagString: Untagged
@@ -207,9 +208,8 @@ MonoBehaviour:
     type: 3}
   players: []
   canStartGame: 0
-  startLevel: 0
-  lobbyScene: Assets/Scenes/Lobby.unity
-  gameScene: Assets/Scenes/Game3.unity
+  currentLevel: 0
+  menu: Assets/Scenes/LocalLobby.unity
 --- !u!114 &437631059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,6 +252,36 @@ MonoBehaviour:
   clientMaxReceivesPerTick: 1000
   clientSendQueueLimit: 10000
   clientReceiveQueueLimit: 10000
+--- !u!114 &437631061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437631049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6931b0785eda49cfa82144f3d4026fc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &555956156 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1016365999418362780, guid: a7a78132cfb821344995f929ab6121b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1016365998479997635}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &555956162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555956156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6931b0785eda49cfa82144f3d4026fc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!850595691 &750993060
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -498,6 +528,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 505333793179119618, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -191
+      objectReference: {fileID: 0}
     - target: {fileID: 1512815216459434683, guid: d3893923bc1897a4b92e71138be3c88e,
         type: 3}
       propertyPath: m_IsActive
@@ -707,6 +742,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750168575907621776, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 168
+      objectReference: {fileID: 0}
+    - target: {fileID: 6569975749225520793, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6569975749225520793, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6569975749225520793, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.height
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3893923bc1897a4b92e71138be3c88e, type: 3}

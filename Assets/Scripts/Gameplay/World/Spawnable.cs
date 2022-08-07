@@ -77,7 +77,6 @@ namespace Gameplay.World
         [ClientRpc]
         public virtual void RpcSpawn(Vector2Int position, Direction direction)
         {
-            Debug.Log($"Spawn {gameObject.name}");
             pendingDestroy = false;
             destroyTimer = 0;
             model = Simulation.GetModel<GameModel>();

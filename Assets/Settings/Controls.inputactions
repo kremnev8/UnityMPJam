@@ -42,7 +42,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "ecsape",
+                    "name": "escape",
                     "type": "Button",
                     "id": "c5699010-f221-4f19-882d-ca1056dd46c9",
                     "expectedControlType": "Button",
@@ -117,7 +117,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ecsape",
+                    "action": "escape",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

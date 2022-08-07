@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using ScriptableObjects;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Gameplay.Conrollers
     /// Settings data model
     /// </summary>
     [Serializable]
-    public class SettingsEntry : ISaveData
+    public class GameSaveData : ISaveData
     {
         public int Version
         {
@@ -18,32 +19,41 @@ namespace Gameplay.Conrollers
             set => version = value;
         }
 
-        public int difficulty;
-        public int theme;
         public int version;
+
+        public bool fullscreen;
+        
+        public float volume;
+        public int width;
+        public int height;
+
+        public int lastReachedLevel;
+        public int currentLevel;
+        
+        public List<string> globalInventory = new List<string>();
+        public List<string> icePlayerInventory = new List<string>();
+        public List<string> firePlayerInventory = new List<string>();
     }
     
     /// <summary>
     /// Controller that handles saving and loading player settings
     /// </summary>
-    public class SettingsController : SaveDataBaseController<SettingsEntry>
+    public class SaveGameController : SaveDataBaseController<GameSaveData>
     {
         public override int Version => 1;
-        public override string Filename => "settings";
+        public override string Filename => "SaveData";
 
         public override void OnVersionChanged(int oldVersion)
         {
+            current.version = Version;
         }
 
-        public override void InitializeSaveData(SettingsEntry data)
+        public override void InitializeSaveData(GameSaveData data)
         {
+            data.version = Version;
         }
 
         public override void OnSaveDataLoaded()
-        {
-        }
-
-        private void Start()
         {
         }
 

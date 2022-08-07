@@ -16,6 +16,8 @@ namespace Gameplay.ScriptableObjects
         [Scene]
         public string scene;
 
+        public string[] defaultItems;
+
         public string ItemId => levelId;
     }
 

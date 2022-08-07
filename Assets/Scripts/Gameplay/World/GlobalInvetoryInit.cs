@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Gameplay.Conrollers;
 using Gameplay.Core;
 using Gameplay.UI;
 using Mirror;
@@ -13,7 +14,8 @@ namespace Gameplay.World
         public InventoryUI globalInventoryUI;
         public List<string> defaultItems;
 
-        public string backpackId;
+        public static bool added;
+
 
         public void Start()
         {
@@ -23,26 +25,25 @@ namespace Gameplay.World
             model.globalInventoryUI.Init();
             if (NetworkServer.active)
             {
-                foreach (string item in defaultItems)
+                PlayerController.ignoreInventoryEvent = true;
+                if (Application.isEditor && !added)
                 {
-                    model.globalInventory.AddItem(item);
+                    added = true;
+                    var items = model.saveGame.current.globalInventory;
+                    if (items != null && items.Count > 0)
+                    {
+                        PlayerController.ignoreInventoryEvent = false;
+                        return;
+                    }
+
+                    foreach (string item in defaultItems)
+                    {
+                        model.globalInventory.AddItem(item);
+                    }
                 }
+
+                PlayerController.ignoreInventoryEvent = false;
             }
-        }
-
-        [InspectorButton]
-        public void AddBackpack()
-        {
-            GameModel model = Simulation.GetModel<GameModel>();
-            model.globalInventory.AddItem(backpackId);
-        }
-
-
-        [InspectorButton]
-        public void RemoveBackpack()
-        {
-            GameModel model = Simulation.GetModel<GameModel>();
-            model.globalInventory.TryConsume(backpackId);
         }
     }
 }

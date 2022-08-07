@@ -55,13 +55,13 @@ namespace Gameplay.Conrollers
         public Inventory inventory;
         public Health health;
         public FeedbackUI feedbackUI;
-        
+
         public Animator animator;
-        
+
         public bool isGhost;
         public float ghostTimeLeft;
         public bool allowSwap;
-        
+
         private InputAction movement;
         private InputAction firstAbility;
         private InputAction secondAbility;
@@ -93,7 +93,9 @@ namespace Gameplay.Conrollers
         private static RaycastHit2D[] hits = new RaycastHit2D[6];
         private static readonly int fadeIn = Animator.StringToHash("FadeIn");
         private static readonly int fadeOut = Animator.StringToHash("FadeOut");
-
+        public static bool ignoreInventoryEvent;
+        
+        
         public string PlayerName
         {
             get => playerName;
@@ -131,6 +133,7 @@ namespace Gameplay.Conrollers
             if (isServer)
             {
                 model.globalInventory.serverInventoryChanged += OnServerItemAdded;
+                inventory.serverInventoryChanged += OnServerPlayerItemAdded;
             }
         }
 
@@ -138,18 +141,68 @@ namespace Gameplay.Conrollers
         {
             int extraInventory = model.globalInventory.GetItems().Select(desc => desc.extraPlayerInventory).Sum();
             inventory.InventoryCap = extraInventory + 1;
+
+            if (ignoreInventoryEvent) return;
+            
+            model.saveGame.current.globalInventory = model.globalInventory.GetItems().Select(desc => desc.itemId).ToList();
+            model.saveGame.Save();
+        }
+
+        private void OnServerPlayerItemAdded()
+        {
+            Debug.Log(ignoreInventoryEvent);
+            if (ignoreInventoryEvent) return;
+            
+            if (role == PlayerRole.ICE_MAGE)
+            {
+                model.saveGame.current.icePlayerInventory = inventory.GetItems().Select(desc => desc.itemId).ToList();
+            }
+            else
+            {
+                model.saveGame.current.firePlayerInventory = inventory.GetItems().Select(desc => desc.itemId).ToList();
+            }
+
+            model.saveGame.Save();
         }
 
         public void StartMap()
         {
             SpawnPlayer();
+            
+            List<string> items;
+            ignoreInventoryEvent = true;
+            
+            if (isLocalPlayer && isServer)
+            {
+                items = model.saveGame.current.globalInventory;
+                if (items != null && items.Count > 0)
+                {
+                    foreach (string item in items)
+                    {
+                        model.globalInventory.AddItem(item);
+                    }
+                }
+            }
+
+            int extraInventory = model.globalInventory.GetItems().Select(desc => desc.extraPlayerInventory).Sum();
+            inventory.InventoryCap = extraInventory + 1;
+
+            items = role == PlayerRole.ICE_MAGE ? model.saveGame.current.icePlayerInventory : model.saveGame.current.firePlayerInventory;
+            if (items != null)
+            {
+                foreach (string item in items)
+                {
+                    inventory.AddItem(item);
+                }
+            }
+            ignoreInventoryEvent = false;
         }
 
         private void SpawnPlayer()
         {
             controlEnabled = true;
             health.Increment(10);
-            
+
             GameObject go = GameObject.Find("Spawn");
             SpawnPoints points = go.GetComponent<SpawnPoints>();
 
@@ -245,7 +298,7 @@ namespace Gameplay.Conrollers
             UpdatePosition();
             UpdateInState(state);
         }
-        
+
         public void UpdateInState(PlayerState state)
         {
             float stateTime = GetTimeIn(state);
@@ -327,7 +380,7 @@ namespace Gameplay.Conrollers
         #endregion
 
         #region Animation
-        
+
         private void Update()
         {
             if (isLocalPlayer)
@@ -375,6 +428,7 @@ namespace Gameplay.Conrollers
                     animationTime = 0;
                     currentFrame++;
                 }
+
                 eyesRenderer.enabled = true;
             }
             else if (state == PlayerState.DEAD)
@@ -384,8 +438,8 @@ namespace Gameplay.Conrollers
                 {
                     animationTime = 0;
                     currentFrame++;
-                }  
-                
+                }
+
                 if (currentFrame < sprite.frames.Length)
                 {
                     renderer.sprite = sprite.frames[currentFrame];
@@ -416,7 +470,7 @@ namespace Gameplay.Conrollers
                 {
                     eyesFrame = 0;
                 }
-                
+
                 int holdTime = Random.Range(config.eyeHoldMinTime, config.eyeHoldMaxTime);
                 currentEyesFrameTime = eyesFrame == 0 ? holdTime : config.eyeBlinkTime;
             }
@@ -428,7 +482,7 @@ namespace Gameplay.Conrollers
 
             renderer.sprite = sprites[(int)displayDir].frames[currentFrame];
             lightTransform.localPosition = sprites[(int)displayDir].staffLight[currentFrame];
-            
+
             eyesRenderer.sprite = eyes[(int)displayDir].frames[eyesFrame];
             eyesTransform.localPosition = sprites[(int)displayDir].GetEyePos(currentFrame);
             staffLight.color = lightColor;
@@ -445,10 +499,11 @@ namespace Gameplay.Conrollers
         {
             lastlookDir = direction;
         }
+
         #endregion
 
         #region Ability
-        
+
         private void OnCastAbility(InputAction.CallbackContext obj)
         {
             if (!controlEnabled) return;
@@ -608,7 +663,7 @@ namespace Gameplay.Conrollers
         {
             feedbackUI.SetFeedback(message);
         }
-        
+
         [ClientRpc]
         public void RpcActivateGhostMode(float time)
         {
@@ -621,8 +676,8 @@ namespace Gameplay.Conrollers
         #endregion
 
         #region Movement
-        
-         private void UpdatePosition()
+
+        private void UpdatePosition()
         {
             if (!isLocalPlayer) return;
             if (state != PlayerState.IDLE) return;
@@ -684,7 +739,7 @@ namespace Gameplay.Conrollers
                 }
             }
         }
-        
+
         [Command]
         public void CmdStuckAnim(Direction direction)
         {
@@ -709,7 +764,7 @@ namespace Gameplay.Conrollers
             EnterState(PlayerState.MOVING);
             RpcMove(pos, direction);
         }
-        
+
         [ClientRpc(includeOwner = false)]
         public void RpcMove(Vector2Int pos, Direction direction)
         {
@@ -735,7 +790,7 @@ namespace Gameplay.Conrollers
                 Teleport(target);
             }
         }
-        
+
         public bool Teleport(Vector2Int position)
         {
             if (body == null)
@@ -755,7 +810,7 @@ namespace Gameplay.Conrollers
 
             return true;
         }
-        
+
         #endregion
 
         #region Utils
