@@ -30,7 +30,7 @@ MonoBehaviour:
     damage: 1
     destroySelfOnHit: 1
     projectileMass: 0
-    activateInteractibles: 0
+    activateInteractibles: 1
     magnetic: 0
     maxTravelDistance: -1
     prefab: {fileID: 4997097714237469524, guid: fe0b4f671d68d2948be81439e1ea08b1,
