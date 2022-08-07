@@ -63,5 +63,17 @@ namespace Gameplay.World
             // add back to pool
             pool.Return(spawned);
         }
+
+        public void ReturnAll()
+        {
+            foreach (var poolObj in pool.objects)
+            {
+                if (poolObj.activeSelf)
+                {
+                    NetworkServer.UnSpawn(poolObj);
+                    Return(poolObj);
+                }
+            }
+        }
     }
 }

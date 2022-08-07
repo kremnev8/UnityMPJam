@@ -136,6 +136,8 @@ namespace Gameplay.Controllers
             {
                 try
                 {
+                    PrefabPoolController.ReturnAll();
+                    
                     LevelData scene = model.levels.GetLevel(currentLevel + 1);
                     currentLevel++;
                     model.saveGame.current.currentLevel = currentLevel;

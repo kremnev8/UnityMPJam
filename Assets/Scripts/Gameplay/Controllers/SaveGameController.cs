@@ -23,7 +23,7 @@ namespace Gameplay.Conrollers
 
         public bool fullscreen;
         
-        public float volume;
+        public float volume = -20;
         public int width;
         public int height;
 

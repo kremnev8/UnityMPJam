@@ -56,6 +56,8 @@ namespace Gameplay.Conrollers
         public Health health;
         public FeedbackUI feedbackUI;
 
+        public GameObject fadeObj;
+
         public RandomAudioSource footstepSource;
         public RandomAudioSource errorSource;
         
@@ -372,6 +374,7 @@ namespace Gameplay.Conrollers
         [ClientRpc]
         private void RpcDead()
         {
+            fadeObj.SetActive(true);
             animator.SetTrigger(fadeIn);
             animator.ResetTrigger(fadeOut);
             EnterState(PlayerState.DEAD);
@@ -381,6 +384,12 @@ namespace Gameplay.Conrollers
         private void RpcRespawned()
         {
             animator.SetTrigger(fadeOut);
+            Invoke(nameof(ForceHideFade), 1);
+        }
+
+        private void ForceHideFade()
+        {
+            fadeObj.SetActive(false);
         }
 
         #endregion

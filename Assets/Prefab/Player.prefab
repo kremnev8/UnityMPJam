@@ -56,10 +56,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.22291668
     y: 0
-    width: 1
-    height: 1
+    width: 0.28078818
+    height: 0.28148147
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -229,6 +229,7 @@ MonoBehaviour:
   inventory: {fileID: 5256782105078110090}
   health: {fileID: 686841614958085027}
   feedbackUI: {fileID: 6122123950683657680}
+  fadeObj: {fileID: 1605358307926610178}
   footstepSource: {fileID: 8480480824382679509}
   errorSource: {fileID: 1178836928434837567}
   animator: {fileID: 4636567153554537031}

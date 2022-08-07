@@ -85,6 +85,15 @@
                     "processors": "",
                     "interactions": "Hold",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "controllerDir",
+                    "type": "Value",
+                    "id": "fa4adbaa-210d-4948-92ca-0102b711e286",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -158,17 +167,6 @@
                     "name": "",
                     "id": "65a95cbd-8d38-4bef-aff3-c95f19368531",
                     "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "mouse",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f286ffb7-4d1c-44d9-91f5-c6cbd30a57a7",
-                    "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -481,6 +479,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "holdArrows",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fe318093-e8f4-4db2-bae0-5c0789ecac36",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "controllerDir",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

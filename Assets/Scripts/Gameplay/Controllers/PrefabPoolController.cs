@@ -61,6 +61,16 @@ namespace Gameplay.World
             pool.Return(gameObject);
         }
 
+        public static void ReturnAll()
+        {
+            GameModel model = Simulation.GetModel<GameModel>();
+            foreach (var pair in model.poolController.pools)
+            {
+                PrefabPool pool = pair.Value;
+                pool.ReturnAll();
+            }
+        }
+
 
         [Server]
         public static GameObject Spawn(PlayerController owner, Vector2Int pos, Direction direction, GameObject prefab)
