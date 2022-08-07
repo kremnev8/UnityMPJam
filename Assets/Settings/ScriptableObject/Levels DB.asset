@@ -25,13 +25,25 @@ MonoBehaviour:
     levelId: level3
     scene: Assets/Scenes/Level3.unity
     defaultItems: []
+  - levelName: Walk in the pool
+    levelId: walkinpool
+    scene: Assets/Scenes/Level4.unity
+    defaultItems:
+    - cubespell
+  - levelName: Fire trouble
+    levelId: firetrouble
+    scene: Assets/Scenes/Level5.unity
+    defaultItems:
+    - cubespell
   - levelName: Cube Recall
     levelId: cuberecall
     scene: Assets/Scenes/Ice Cube/CubeRecall.unity
     defaultItems:
     - cubespell
+    - fireballspell
   - levelName: Maze V2
     levelId: buttonmaze
     scene: Assets/Scenes/Dashnghost/Level1.unity
     defaultItems:
     - cubespell
+    - fireballspell
