@@ -10,6 +10,8 @@ namespace Gameplay.World
         public DeferredAnimatorEnabler[] fireRenderers;
         public new Light2D light;
 
+        public RandomAudioSource audioSource;
+        
         protected override void SetState(bool newState )
         {
             base.SetState(newState);
@@ -17,6 +19,15 @@ namespace Gameplay.World
             foreach (DeferredAnimatorEnabler fireRenderer in fireRenderers)
             {
                 fireRenderer.SetState(newState);
+            }
+
+            if (newState)
+            {
+                audioSource.Play();
+            }
+            else
+            {
+                audioSource.Stop();
             }
         }
 

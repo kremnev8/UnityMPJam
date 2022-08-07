@@ -15,6 +15,8 @@ namespace Gameplay.World
 
         private float sinceLastActive;
 
+        public RandomAudioSource audioSource;
+
         protected override void Start()
         {
             base.Start();
@@ -48,6 +50,12 @@ namespace Gameplay.World
                     sinceLastActive = 0;
                 }
             }
+        }
+
+        public override void RpcSetState(bool newState)
+        {
+            base.RpcSetState(newState);
+            audioSource.Play();
         }
 
         private void Update()

@@ -14,8 +14,12 @@ namespace Gameplay.World
         public SpriteRenderer topRenderer;
         public SpriteRenderer bottomRenderer;
 
+        public RandomAudioSource sound;
+        
         private static readonly int open = Animator.StringToHash("Open");
         private GameModel model;
+
+        public float activateDelay;
         
         protected override void Start()
         {
@@ -51,17 +55,24 @@ namespace Gameplay.World
             {
                 if (model.globalInventory.TryConsume(itemId))
                 {
-                    SetState(true);
-                    RpcSetState(true);
                     RpcUseKey();
+                    Invoke(nameof(ActualActivate), activateDelay);
                 }
             }
+        }
+
+        [Server]
+        private void ActualActivate()
+        {
+            SetState(true);
+            RpcSetState(true);
         }
 
         [ClientRpc]
         public void RpcUseKey()
         {
             animator.SetTrigger(open);
+            sound.Play();
         }
     }
 }

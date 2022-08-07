@@ -27,6 +27,9 @@ namespace Gameplay.World
         public Animator animator;
         private new Collider2D collider;
 
+        public RandomAudioSource audioSource;
+        public RandomAudioSource deathSource;
+        
         private Rigidbody2D body;
 
         public ProjectileID projectileID;
@@ -144,6 +147,8 @@ namespace Gameplay.World
                 startMovePos = position;
                 EnterState(ProjectileState.MOVING);
             }
+            if (audioSource != null)
+                audioSource.Play();
         }
 
         [ClientRpc]
@@ -151,6 +156,8 @@ namespace Gameplay.World
         {
             velocity = 0;
             EnterState(ProjectileState.STUCK);
+            if (audioSource != null)
+                audioSource.Stop();
         }
 
 
@@ -276,6 +283,12 @@ namespace Gameplay.World
         {
             if (animator != null)
                 animator.SetTrigger(die);
+            
+            if (audioSource != null)
+                audioSource.Stop();
+            
+            if (deathSource != null)
+                deathSource.Play();
         }
 
         [ClientRpc]
@@ -283,6 +296,8 @@ namespace Gameplay.World
         {
             velocity = 0;
             EnterState(ProjectileState.SINK);
+            if (audioSource != null)
+                audioSource.Stop();
         }
 
         [Server]

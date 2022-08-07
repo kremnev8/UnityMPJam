@@ -7,6 +7,13 @@ namespace Gameplay.World
 {
     public class Lever : Interactible
     {
+        public RandomAudioSource audioSource;
+    
+        public override void RpcSetState(bool newState)
+        {
+            base.RpcSetState(newState);
+            audioSource.Play();
+        }
 
         public override void Activate(PlayerController player)
         {

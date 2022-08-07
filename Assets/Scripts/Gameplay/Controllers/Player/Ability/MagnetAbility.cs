@@ -50,7 +50,7 @@ namespace Gameplay.Controllers.Player.Ability
 
             if (target == null)
             {
-                player.RpcFeedback("Nothing magnetic this way!");
+                player.RpcFeedback("Nothing magnetic this way!", false);
                 return false;
             }
 

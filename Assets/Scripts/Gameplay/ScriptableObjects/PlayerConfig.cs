@@ -61,6 +61,9 @@ namespace ScriptableObjects
         public int eyeHoldMinTime;
         public int eyeHoldMaxTime;
         public int eyeBlinkTime;
+
+        public int footstepMinTime;
+        public int footstepMaxTime;
         
         [Header("Movement")]
         public float moveTime = 1f;

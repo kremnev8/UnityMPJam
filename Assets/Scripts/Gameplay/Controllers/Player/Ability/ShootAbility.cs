@@ -48,7 +48,7 @@ namespace Gameplay.Controllers.Player.Ability
 
                 if (foundAWall)
                 {
-                    player.RpcFeedback("Can't use this ability facing a wall");
+                    player.RpcFeedback("Can't use this ability facing a wall", false);
                     return false;
                 }
 
@@ -65,12 +65,12 @@ namespace Gameplay.Controllers.Player.Ability
                     return true;
                 }
 
-                player.RpcFeedback("Can't spawn new projectile! You have too many!");
+                player.RpcFeedback("Can't spawn new projectile! You have too many!", false);
                 return false;
             }
             catch (IndexOutOfRangeException e)
             {
-                player.RpcFeedback($"Internal Server Error: No projectile with ID {projectileID}");
+                player.RpcFeedback($"Internal Server Error: No projectile with ID {projectileID}", false);
             }
             return false;
             
