@@ -34,6 +34,8 @@ namespace Gameplay.World
         [Command(requiresAuthority = false)]
         public void CmdNextLevel(PlayerController player)
         {
+            if (player == null) return;
+            
             if (model.networkManager.CanChangeLevel)
             {
                 model.networkManager.NextLevel();
