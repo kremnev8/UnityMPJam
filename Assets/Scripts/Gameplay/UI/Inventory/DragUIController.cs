@@ -2,6 +2,7 @@
 using System.Linq;
 using Gameplay.Conrollers;
 using Gameplay.Core;
+using Gameplay.World;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,6 +30,8 @@ namespace Gameplay.UI
         
         private bool isDragging;
         private bool fromPlayer;
+
+        public RandomAudioSource errorSource;
 
         private void Start()
         {
@@ -99,7 +102,11 @@ namespace Gameplay.UI
         {
             if (isDragging) return;
             PlayerController player = GetPlayer();
-            if (player == null || !player.allowSwap) return;
+            if (player == null || !player.allowSwap)
+            {
+                errorSource.Play();
+                return;
+            }
             
             if (globalInventoryUI != null && globalInventoryUI.inventory != null)
             {

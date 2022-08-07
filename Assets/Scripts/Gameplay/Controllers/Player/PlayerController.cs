@@ -56,6 +56,9 @@ namespace Gameplay.Conrollers
         public Health health;
         public FeedbackUI feedbackUI;
 
+        public RandomAudioSource footstepSource;
+        public RandomAudioSource errorSource;
+        
         public Animator animator;
 
         public bool isGhost;
@@ -84,6 +87,9 @@ namespace Gameplay.Conrollers
         public int eyesAnimTime;
         public int currentEyesFrameTime;
         public int eyesFrame;
+
+        public int footstepsTime;
+        public int currentMaxFootstepsTime;
 
         private Dictionary<BaseAbility, float> abilityCooldowns = new Dictionary<BaseAbility, float>();
         private Dictionary<ProjectileID, List<GameObject>> playerObjects = new Dictionary<ProjectileID, List<GameObject>>();
@@ -418,6 +424,7 @@ namespace Gameplay.Conrollers
             PlayerAnim[] sprites;
             animationTime++;
             eyesAnimTime++;
+            footstepsTime++;
             Direction displayDir = direction;
 
             if (state == PlayerState.IDLE)
@@ -460,6 +467,16 @@ namespace Gameplay.Conrollers
 
                 displayDir = lastMoveDir.GetDirection();
                 eyesRenderer.enabled = true;
+            }
+
+            if (state == PlayerState.MOVING)
+            {
+                if (footstepsTime > currentMaxFootstepsTime)
+                {
+                    footstepSource.Play();
+                    footstepsTime = 0;
+                    currentMaxFootstepsTime = Random.Range(config.footstepMinTime, config.footstepMaxTime);
+                }
             }
 
             if (eyesAnimTime >= currentEyesFrameTime)
@@ -521,7 +538,7 @@ namespace Gameplay.Conrollers
             }
             else
             {
-                Feedback("You don't have any spell selected!");
+                Feedback("You don't have any spell selected!", false);
             }
         }
 
@@ -541,14 +558,14 @@ namespace Gameplay.Conrollers
             }
             else
             {
-                RpcFeedback("Can't swap abilities here!");
+                RpcFeedback("Can't swap abilities here!", false);
             }
         }
 
         [Command]
         public void CmdActivateAbility(string abilityId, Direction direction)
         {
-            if (CanCast(abilityId, out string feedback))
+            if (CanCast(abilityId, out string feedback, out bool error))
             {
                 BaseAbility ability = model.abilities.Get(abilityId);
                 bool success = ability.ActivateAbility(this, direction);
@@ -560,7 +577,7 @@ namespace Gameplay.Conrollers
             }
             else
             {
-                RpcFeedback(feedback);
+                RpcFeedback(feedback, error);
             }
         }
 
@@ -627,7 +644,7 @@ namespace Gameplay.Conrollers
             }
         }
 
-        public bool CanCast(string abilityId, out string feedback)
+        public bool CanCast(string abilityId, out string feedback, out bool error)
         {
             try
             {
@@ -635,33 +652,40 @@ namespace Gameplay.Conrollers
 
                 if (abilityCooldowns.ContainsKey(ability))
                 {
+                    error = false;
                     feedback = "Ability is on cooldown!";
                     return abilityCooldowns[ability] <= 0;
                 }
 
+                error = true;
                 feedback = "OK!";
                 return true;
             }
             catch (Exception)
             {
+                error = false;
                 feedback = "You don't have such ability!";
                 return false;
             }
         }
 
         [ClientRpc]
-        public void RpcFeedback(string message)
+        public void RpcFeedback(string message, bool success)
         {
             if (isLocalPlayer)
             {
-                Feedback(message);
+                Feedback(message, success);
             }
         }
 
         [Client]
-        public void Feedback(string message)
+        public void Feedback(string message, bool success)
         {
             feedbackUI.SetFeedback(message);
+            if (!success)
+            {
+                errorSource.Play();
+            }
         }
 
         [ClientRpc]

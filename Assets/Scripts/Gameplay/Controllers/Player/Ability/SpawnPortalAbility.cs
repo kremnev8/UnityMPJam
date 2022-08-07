@@ -47,7 +47,7 @@ namespace Gameplay.Controllers.Player.Ability
 
                 if (foundAWall)
                 {
-                    player.RpcFeedback("Can't use this ability facing a wall");
+                    player.RpcFeedback("Can't use this ability facing a wall", false);
                     return false;
                 }
 

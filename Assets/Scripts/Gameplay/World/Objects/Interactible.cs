@@ -82,7 +82,7 @@ namespace Gameplay.World
         }
 
         [ClientRpc]
-        public void RpcSetState(bool newState)
+        public virtual void RpcSetState(bool newState)
         {
             if (isClientOnly)
             {

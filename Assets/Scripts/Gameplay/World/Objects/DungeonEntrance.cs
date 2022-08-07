@@ -22,7 +22,7 @@ namespace Gameplay.World
         {
             if (NetworkClient.active)
             {
-                player.Feedback("You don't want to go this way!");
+                player.Feedback("You don't want to go this way!", false);
             }
         }
 

@@ -42,7 +42,7 @@ namespace Gameplay.Controllers.Player.Ability
             
             if (hitWall)
             {
-                player.RpcFeedback("Can't dash into walls!");
+                player.RpcFeedback("Can't dash into walls!", false);
                 return false;
             }
 
@@ -73,7 +73,7 @@ namespace Gameplay.Controllers.Player.Ability
             
             if (!isFloor)
             {
-                player.RpcFeedback("Can't dash into water!");
+                player.RpcFeedback("Can't dash into water!", false);
                 return false;
             }
             

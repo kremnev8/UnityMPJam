@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Levels DB
   m_EditorClassIdentifier: 
   items:
-  - levelName: Lever Testing
-    levelId: level1
-    scene: Assets/Scenes/Level1.unity
-    defaultItems: []
   - levelName: Button and cube testing
     levelId: level2
     scene: Assets/Scenes/Level2.unity
+    defaultItems: []
+  - levelName: Lever Testing
+    levelId: level1
+    scene: Assets/Scenes/Level1.unity
     defaultItems: []
   - levelName: The pool
     levelId: level3
@@ -44,6 +44,12 @@ MonoBehaviour:
   - levelName: Maze V2
     levelId: buttonmaze
     scene: Assets/Scenes/Dashnghost/Level1.unity
+    defaultItems:
+    - cubespell
+    - fireballspell
+  - levelName: 1212
+    levelId: 12123
+    scene: Assets/Scenes/Dashnghost/Ghost1.unity
     defaultItems:
     - cubespell
     - fireballspell

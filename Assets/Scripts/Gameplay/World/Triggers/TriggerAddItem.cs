@@ -23,6 +23,8 @@ namespace Gameplay.Logic
 
         public ActivateMode activateMode;
 
+        public RandomAudioSource audioSource;
+
         public void Activate(PlayerController player)
         {
             if (player != null && isClient)
@@ -94,6 +96,7 @@ namespace Gameplay.Logic
         private void RpcHideItem()
         {
             itemRenderer.enabled = false;
+            audioSource.Play();
         }
 
         public WorldElement element { get; set; }

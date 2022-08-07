@@ -18,6 +18,8 @@ namespace Gameplay.World
 
         public WorldElement element { get; set; }
 
+        public RandomAudioSource audioSource;
+        
         private void Start()
         {
             model = Simulation.GetModel<GameModel>();
@@ -28,6 +30,7 @@ namespace Gameplay.World
             if (isClient)
             {
                 CmdNextLevel(player);
+                audioSource.Play();
             }
         }
 
@@ -42,7 +45,7 @@ namespace Gameplay.World
             }
             else
             {
-                player.RpcFeedback("Waiting for other player!");
+                player.RpcFeedback("Waiting for other player!", true);
             }
         }
 

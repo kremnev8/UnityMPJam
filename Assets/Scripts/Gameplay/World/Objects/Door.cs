@@ -12,6 +12,9 @@ namespace Gameplay.World
         public Transform doorTransform;
         public new Collider2D collider;
         public float moveTime;
+
+        public RandomAudioSource opening;
+        public RandomAudioSource end;
         
         public Vector3 openPos;
         public Vector3 closedPos;
@@ -26,6 +29,7 @@ namespace Gameplay.World
         private float timeElapsed;
 
         private bool reachedEnd;
+       
 
         private static Collider2D[] colliders = new Collider2D[10];
         
@@ -56,6 +60,10 @@ namespace Gameplay.World
                 {
                     timeElapsed = moveTime - timeElapsed;
                 }
+                if (opening != null)
+                    opening.Play();
+                if (end != null)
+                    end.Stop();
             }
         }
 
@@ -105,6 +113,11 @@ namespace Gameplay.World
                 doorTransform.localPosition = state ? openPos : closedPos;
                 collider.enabled = !state;
                 reachedEnd = true;
+                if (opening != null)
+                    opening.Stop();
+                
+                if (end != null)
+                    end.Play();
             }
         }
 

@@ -270,6 +270,8 @@ MonoBehaviour:
   eyeHoldMinTime: 60
   eyeHoldMaxTime: 80
   eyeBlinkTime: 5
+  footstepMinTime: 30
+  footstepMaxTime: 40
   moveTime: 0.5
   failMoveTime: 0.2
   dashTime: 0.5
