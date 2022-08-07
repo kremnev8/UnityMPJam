@@ -198,7 +198,7 @@ namespace Gameplay.World
                                 velocity = 0;
                                 hitSomething = true;
                             }
-                            else if (owner != null && projectile.activateInteractibles)
+                            else if (projectile.activateInteractibles)
                             {
                                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
                                 if (interactable != null)
