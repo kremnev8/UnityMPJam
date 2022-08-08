@@ -158,7 +158,6 @@ namespace Gameplay.Conrollers
 
         private void OnServerPlayerItemAdded()
         {
-            Debug.Log(ignoreInventoryEvent);
             if (ignoreInventoryEvent) return;
             
             if (role == PlayerRole.ICE_MAGE)
@@ -185,6 +184,7 @@ namespace Gameplay.Conrollers
                 items = model.saveGame.current.globalInventory;
                 if (items != null && items.Count > 0)
                 {
+                    model.globalInventory.Clear();
                     foreach (string item in items)
                     {
                         model.globalInventory.AddItem(item);
@@ -198,6 +198,7 @@ namespace Gameplay.Conrollers
             items = role == PlayerRole.ICE_MAGE ? model.saveGame.current.icePlayerInventory : model.saveGame.current.firePlayerInventory;
             if (items != null)
             {
+                inventory.Clear();
                 foreach (string item in items)
                 {
                     inventory.AddItem(item);
@@ -350,6 +351,7 @@ namespace Gameplay.Conrollers
                 case PlayerState.DEAD:
                     if (isServer)
                     {
+                        //TODO death can be permanent if the player has some lag
                         if (stateTimeLeft < 0.1f)
                         {
                             SpawnPlayer();

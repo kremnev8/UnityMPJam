@@ -56,9 +56,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.30185184
-    width: 0.27291667
-    height: 0.27359053
+    y: 0.26574072
+    width: 0.34479168
+    height: 0.34564298
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -500,6 +500,18 @@ MonoBehaviour:
       - m_Target: {fileID: 5482173469285999025}
         m_TargetAssemblyTypeName: Gameplay.World.RandomAudioSource, Assembly-CSharp
         m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5238195467769168479}
+        m_TargetAssemblyTypeName: Gameplay.UI.SettingsUI, Assembly-CSharp
+        m_MethodName: OnExit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

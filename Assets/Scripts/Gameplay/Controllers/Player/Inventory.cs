@@ -145,5 +145,11 @@ namespace Gameplay.Controllers.Player
 
             return null;
         }
+
+        [Server]
+        public void Clear()
+        {
+            items.Clear();
+        }
     }
 }

@@ -28,7 +28,10 @@ namespace Gameplay.UI
 
         private void OnDestroy()
         {
-            pause.performed -= OnPause;
+            if (pause != null)
+            {
+                pause.performed -= OnPause;
+            }
         }
 
         private void OnPause(InputAction.CallbackContext obj)
@@ -55,6 +58,7 @@ namespace Gameplay.UI
 
         public void SkipLevel()
         {
+            SetPauseState(false);
             networkManager.NextLevel(true);
         }
         

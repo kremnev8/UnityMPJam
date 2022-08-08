@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 437631052}
   - component: {fileID: 437631058}
+  - component: {fileID: 437631062}
   - component: {fileID: 437631060}
   - component: {fileID: 437631057}
   - component: {fileID: 437631059}
@@ -191,7 +192,7 @@ MonoBehaviour:
   serverTickRate: 30
   offlineScene: 
   onlineScene: 
-  transport: {fileID: 437631060}
+  transport: {fileID: 437631062}
   networkAddress: localhost
   maxConnections: 2
   authenticator: {fileID: 437631059}
@@ -264,6 +265,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6931b0785eda49cfa82144f3d4026fc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &437631062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437631049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96b149f511061407fb54895c057b7736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wrap: {fileID: 437631060}
+  latencySpikeMultiplier: 0.218
+  latencySpikeSpeedMultiplier: 1
+  reliableLatency: 0.1
+  unreliableLoss: 0.09
+  unreliableLatency: 0
+  unreliableScramble: 0.094
 --- !u!1 &555956156 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1016365999418362780, guid: a7a78132cfb821344995f929ab6121b2,
@@ -558,6 +578,11 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2115235719860227707, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2115235720802121129, guid: d3893923bc1897a4b92e71138be3c88e,
         type: 3}
       propertyPath: m_IsActive
@@ -742,6 +767,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3246426224666524650, guid: d3893923bc1897a4b92e71138be3c88e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 4750168575907621776, guid: d3893923bc1897a4b92e71138be3c88e,
         type: 3}

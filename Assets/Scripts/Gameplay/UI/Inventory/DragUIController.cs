@@ -44,6 +44,12 @@ namespace Gameplay.UI
             mouseClick.canceled += OnLeftMouseUp;
         }
 
+        private void OnDestroy()
+        {
+            mouseClick.performed -= OnLeftClick;
+            mouseClick.canceled -= OnLeftMouseUp;
+        }
+
         private void StartDrag()
         {
             isDragging = true;

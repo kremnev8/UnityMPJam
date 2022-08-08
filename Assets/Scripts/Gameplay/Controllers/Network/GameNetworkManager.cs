@@ -136,6 +136,7 @@ namespace Gameplay.Controllers
             {
                 try
                 {
+                    playersLoaded = 0;
                     PrefabPoolController.ReturnAll();
                     
                     LevelData scene = model.levels.GetLevel(currentLevel + 1);
@@ -161,6 +162,7 @@ namespace Gameplay.Controllers
             {
                 try
                 {
+                    playersLoaded = 0;
                     LevelData scene = model.levels.GetLevel(currentLevel);
                     playersInExit = 0;
                     ServerChangeScene(scene.scene);
