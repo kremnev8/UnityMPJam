@@ -28,11 +28,16 @@ namespace Gameplay.Util
             if (masterTilemap != null)
             {
                 masterTilemap.CompressBounds();
-                waterRenderer.size = masterTilemap.size.ToVector2() * 2;
-                Vector3 center = masterTilemap.cellBounds.center;
-                center.z = 0;
-                center.x += 1;
-                center.y += 1;
+
+                Bounds bounds = masterTilemap.localBounds;
+                
+                Vector3 worldMin = masterTilemap.transform.TransformPoint(bounds.min); 
+                Vector3 worldMax = masterTilemap.transform.TransformPoint(bounds.max);
+
+                Vector3 center = (worldMin + worldMax) / 2f;
+                Vector2 size = worldMax - worldMin;
+
+                waterRenderer.size = size;
                 transform.localPosition = center;
             }
         }

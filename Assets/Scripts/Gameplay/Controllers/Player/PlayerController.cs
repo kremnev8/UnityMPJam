@@ -754,7 +754,7 @@ namespace Gameplay.Conrollers
                                     IMoveAble moveAble = hit.collider.GetComponent<IMoveAble>();
                                     if (moveAble != null)
                                     {
-                                        moveAble.Move(lastMoveDir.GetDirection());
+                                        moveAble.MoveClient(lastMoveDir.GetDirection());
                                     }
 
                                     shouldStop = true;

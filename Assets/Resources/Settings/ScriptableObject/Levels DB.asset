@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbb607a496c4a58813bb1139070475f, type: 3}
+  m_Name: Levels DB
+  m_EditorClassIdentifier: 
+  items:
+  - levelName: Test
+    levelId: test
+    scene: Assets/Scenes/TestArea.unity
+    defaultItems: []
+  - levelName: Intro
+    levelId: intro
+    scene: Assets/Scenes/Intro.unity
+    defaultItems: []
+  - levelName: Lever Testing
+    levelId: level1
+    scene: Assets/Scenes/Level1.unity
+    defaultItems: []
+  - levelName: Button and cube testing
+    levelId: level2
+    scene: Assets/Scenes/Level2.unity
+    defaultItems: []
+  - levelName: The pool
+    levelId: level3
+    scene: Assets/Scenes/Level3.unity
+    defaultItems: []
+  - levelName: Cube Recall
+    levelId: cuberecall
+    scene: Assets/Scenes/CubeRecall.unity
+    defaultItems:
+    - cubespell
+  - levelName: Walk in the pool
+    levelId: walkinpool
+    scene: Assets/Scenes/Level4.unity
+    defaultItems:
+    - cubespell
+  - levelName: Fire trouble
+    levelId: firetrouble
+    scene: Assets/Scenes/Level5.unity
+    defaultItems:
+    - cubespell
+  - levelName: Iron Friend
+    levelId: iron friend
+    scene: Assets/Scenes/Level6.unity
+    defaultItems:
+    - cubespell
+    - fireballspell
+  - levelName: Corrosion
+    levelId: corrosion
+    scene: Assets/Scenes/Level7.unity
+    defaultItems:
+    - cubespell
+    - fireballspell
+  - levelName: Maze
+    levelId: buttonmaze
+    scene: Assets/Scenes/Dashnghost/Level1.unity
+    defaultItems:
+    - cubespell
+  - levelName: Iron cube 2
+    levelId: ironcube2
+    scene: Assets/Scenes/IronCube2.unity
+    defaultItems:
+    - cubespell
+    - cubespell

@@ -128,6 +128,8 @@ namespace Gameplay.World
         [Command(requiresAuthority = false)]
         public void CmdStartMove(Direction direction, float velocity)
         {
+            if (state == ProjectileState.MOVING) return;
+            
             moveDir = direction;
             this.velocity = velocity;
             startMovePos = position;
@@ -200,6 +202,16 @@ namespace Gameplay.World
                                 if (health != null && projectile.damage > 0)
                                 {
                                     health.Decrement(projectile.damage);
+                                }
+
+                                IMoveAble moveAble = hit.collider.GetComponent<IMoveAble>();
+                                IHeavyObject heavy = hit.collider.GetComponent<IHeavyObject>();
+                                if (moveAble != null && heavy != null)
+                                {
+                                    if (heavy.Mass < Mass)
+                                    {
+                                        moveAble.MoveServer(moveDir);
+                                    }
                                 }
 
                                 velocity = 0;
@@ -347,12 +359,25 @@ namespace Gameplay.World
         }
 
         [Client]
-        public void Move(Direction direction)
+        public void MoveClient(Direction direction)
         {
             if (projectile.pushMoveSpeed > 0)
             {
                 CmdStartMove(direction, projectile.pushMoveSpeed);
             }
+        }
+
+        [Server]
+        public void MoveServer(Direction direction)
+        {
+            if (state == ProjectileState.MOVING) return;
+            
+            moveDir = direction;
+            velocity = projectile.pushMoveSpeed;
+            startMovePos = position;
+
+            EnterState(ProjectileState.MOVING);
+            RpcStartMove(direction, velocity);
         }
     }
 }

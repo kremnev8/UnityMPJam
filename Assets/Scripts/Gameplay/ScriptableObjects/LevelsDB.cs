@@ -4,6 +4,7 @@ using Mirror;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Util;
 
 namespace Gameplay.ScriptableObjects
 {
@@ -16,6 +17,7 @@ namespace Gameplay.ScriptableObjects
         [Scene]
         public string scene;
 
+        [ItemId]
         public string[] defaultItems;
 
         public string ItemId => levelId;
