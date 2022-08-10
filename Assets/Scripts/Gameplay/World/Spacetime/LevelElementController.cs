@@ -50,12 +50,8 @@ namespace Gameplay.World.Spacetime
 
         private void Awake()
         {
-            Configure();
-        }
-
-        private void Start()
-        {
             Simulation.GetModel<GameModel>().levelElement = this;
+            Configure();
         }
 
         private void DestroyGO(GameObject o)

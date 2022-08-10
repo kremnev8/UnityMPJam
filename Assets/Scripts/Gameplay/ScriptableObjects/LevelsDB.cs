@@ -12,7 +12,6 @@ namespace Gameplay.ScriptableObjects
     public class LevelData : GenericItem
     {
         public string levelName;
-        public string levelId;
 
         [Scene]
         public string scene;
@@ -20,7 +19,7 @@ namespace Gameplay.ScriptableObjects
         [ItemId]
         public string[] defaultItems;
 
-        public string ItemId => levelId;
+        public string ItemId => levelName;
     }
 
 

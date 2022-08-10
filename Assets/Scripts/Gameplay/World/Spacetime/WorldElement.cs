@@ -47,6 +47,8 @@ namespace Gameplay.World.Spacetime
         {
             if (Application.isPlaying && LevelElementController.eventListenerUp)
             {
+                model ??= Simulation.GetModel<GameModel>();
+
                 model.levelElement.ChangeLogicState(targetId, value);
             }
         }

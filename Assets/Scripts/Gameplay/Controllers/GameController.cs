@@ -1,4 +1,5 @@
-﻿using Gameplay.Core;
+﻿using Gameplay.Controllers.Player.Ability;
+using Gameplay.Core;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -26,6 +27,8 @@ namespace Gameplay.Conrollers
             
             instance = this;
             Simulation.SetModel(model);
+            
+            model.abilities = Resources.LoadAll<BaseAbility>("Settings/ScriptableObject/Ablities/");
         }
 
 

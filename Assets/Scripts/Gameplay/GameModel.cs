@@ -1,6 +1,7 @@
 ﻿using Gameplay.Conrollers;
 using Gameplay.Controllers;
 using Gameplay.Controllers.Player;
+using Gameplay.Controllers.Player.Ability;
 using Gameplay.ScriptableObjects;
 using Gameplay.UI;
 using Gameplay.UI.Lobby;
@@ -55,7 +56,7 @@ namespace Gameplay
 
         public LayerSettings layers;
         public StringsDB strings;
-        public AbilityDB abilities;
+        public BaseAbility[] abilities;
         public ProjectileDB projectiles;
         public LevelsDB levels;
         public ItemDB items;

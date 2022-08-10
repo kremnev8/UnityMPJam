@@ -9,7 +9,6 @@ namespace Gameplay.UI.Lobby
     {
         public Camera tmp_camera;
         public AudioListener listener;
-        //public PlayableDirector director;
         public GameObject fadeUI;
         public GameObject elements;
         public Image background;
@@ -19,19 +18,14 @@ namespace Gameplay.UI.Lobby
         
         public void Show()
         {
-            Debug.Log("Play loading anim");
             fadeUI.SetActive(true);
             elements.SetActive(true);
             background.color = Color.black;
-            //director.time = 0;
-            //director.Play();
         }
 
         public void Hide()
         {
-            Debug.Log("Stop loading anim");
             elements.SetActive(false);
-            //director.Stop();
             fadeTimer = fadeTime;
             if (listener != null)
                 listener.enabled = false;

@@ -54,6 +54,12 @@ MonoBehaviour:
     defaultItems:
     - cubespell
     - fireballspell
+  - levelName: Iron cube 2
+    levelId: ironcube2
+    scene: Assets/Scenes/IronCube2.unity
+    defaultItems:
+    - cubespell
+    - fireballspell
   - levelName: Corrosion
     levelId: corrosion
     scene: Assets/Scenes/Level7.unity
@@ -64,10 +70,4 @@ MonoBehaviour:
     levelId: buttonmaze
     scene: Assets/Scenes/Dashnghost/Level1.unity
     defaultItems:
-    - cubespell
-  - levelName: Iron cube 2
-    levelId: ironcube2
-    scene: Assets/Scenes/IronCube2.unity
-    defaultItems:
-    - cubespell
     - cubespell

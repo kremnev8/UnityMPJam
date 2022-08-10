@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using ScriptableObjects;
 
 namespace Util
 {
@@ -56,6 +57,12 @@ namespace Util
             }
             customAttribute = (T)attributes;
             return true;
+        }
+
+        public static TV Get<TV, TK>(this IEnumerable<TV> array, TK key)
+        where TV : GenericItem<TK>
+        {
+            return array.First(item => item.ItemId.Equals(key));
         }
     }
 }
