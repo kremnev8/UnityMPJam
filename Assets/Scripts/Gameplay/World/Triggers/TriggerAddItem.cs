@@ -7,6 +7,7 @@ using Gameplay.World;
 using Gameplay.World.Spacetime;
 using Mirror;
 using UnityEngine;
+using Util;
 
 namespace Gameplay.Logic
 {
@@ -44,6 +45,7 @@ namespace Gameplay.Logic
 
         public SpriteRenderer itemRenderer;
 
+        [ItemId]
         public string itemId;
         private bool isUsed;
         public bool replaceIcon;

@@ -55,7 +55,7 @@ namespace Gameplay.Controllers.Player.Ability
             }
 
             Direction pushDir = polarity == Polarity.PUSH ? direction : direction.GetOpposite();
-            target.Move(pushDir);
+            target.MoveClient(pushDir);
 
             return true;
 

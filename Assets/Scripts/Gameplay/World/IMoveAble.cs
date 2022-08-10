@@ -5,6 +5,7 @@ namespace Gameplay.World
     public interface IMoveAble
     {
         bool isMagnetic { get; }
-        void Move(Direction direction);
+        void MoveClient(Direction direction);
+        void MoveServer(Direction direction);
     }
 }
