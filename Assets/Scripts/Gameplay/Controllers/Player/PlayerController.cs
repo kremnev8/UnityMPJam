@@ -71,6 +71,7 @@ namespace Gameplay.Conrollers
         private InputAction firstAbility;
         private InputAction secondAbility;
         private InputAction mousePosition;
+        private InputAction controllerRight;
 
         private Rigidbody2D body;
         [HideInInspector] public new Collider2D collider;
@@ -126,6 +127,7 @@ namespace Gameplay.Conrollers
             movement = model.input.actions["move"];
             firstAbility = model.input.actions["first"];
             mousePosition = model.input.actions["mouse"];
+            controllerRight = model.input.actions["controllerDir"];
 
             body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
@@ -672,10 +674,11 @@ namespace Gameplay.Conrollers
                 feedback = "OK!";
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 error = false;
                 feedback = "You don't have such ability!";
+                Debug.Log(e);
                 return false;
             }
         }
@@ -767,10 +770,12 @@ namespace Gameplay.Conrollers
                         }
                     }
 
+                    Direction direction = dir.GetDirection();
                     prevPosition = position;
                     position += dir;
+                    lastlookDir = direction;
                     EnterState(PlayerState.MOVING);
-                    CmdMove(prevPosition, dir.GetDirection());
+                    CmdMove(prevPosition, direction);
                 }
             }
         }
@@ -794,6 +799,7 @@ namespace Gameplay.Conrollers
         public void CmdMove(Vector2Int pos, Direction direction)
         {
             lastMoveDir = direction.GetVector();
+            lastlookDir = direction;
             prevPosition = pos;
             position = pos + lastMoveDir;
             EnterState(PlayerState.MOVING);
@@ -804,6 +810,7 @@ namespace Gameplay.Conrollers
         public void RpcMove(Vector2Int pos, Direction direction)
         {
             lastMoveDir = direction.GetVector();
+            lastlookDir = direction;
             prevPosition = pos;
             position = pos + lastMoveDir;
             EnterState(PlayerState.MOVING);
@@ -855,6 +862,16 @@ namespace Gameplay.Conrollers
             if (mousePosition == null) return Vector3.down;
 
             Vector3 mouse = mousePosition.ReadValue<Vector2>();
+
+            if (mouse.Equals(Vector3.zero))
+            {
+                Vector2 direction = controllerRight.ReadValue<Vector2>();
+                if (direction.Equals(Vector2.zero))
+                {
+                    return lastlookDir.GetVector().ToVector3();
+                }
+                return direction.normalized.AxisRound();
+            }
             mouse.z = 10;
             Vector3 worldMousePos = camera.ScreenToWorldPoint(mouse);
             worldMousePos.z = 0;

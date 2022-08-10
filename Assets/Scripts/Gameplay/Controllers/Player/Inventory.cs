@@ -135,15 +135,20 @@ namespace Gameplay.Controllers.Player
         {
             return items.ToArray();
         }
-
-        public ItemDesc SelectedItem()
+        
+        public ItemDesc GetItem(int index)
         {
-            if (selectedIndex < items.Count)
+            if (index >= 0 && index < items.Count)
             {
-                return items[selectedIndex];
+                return items[index];
             }
 
             return null;
+        }
+
+        public ItemDesc SelectedItem()
+        {
+            return GetItem(selectedIndex);
         }
 
         [Server]

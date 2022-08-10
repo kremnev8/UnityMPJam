@@ -233,16 +233,16 @@ namespace Gameplay.UI.Lobby
 
             if (networkManager != null)
             {
-                if (networkManager.numPlayers != 2)
+                if (!networkManager.HasPartner())
                 {
                     waitText.text = "Waiting for partner";
                 }
                 else
                 {
-                    waitText.text = $"Your Partner: {networkManager.players[1].PlayerName}";
+                    waitText.text = $"Your Partner: {networkManager.GetPartnerName()}";
                 }
                 
-                startGameButton.interactable = networkManager.canStartGame;
+                startGameButton.interactable = networkManager.CanStartGame();
             }
         }
     }

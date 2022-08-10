@@ -17,9 +17,12 @@ namespace Gameplay.UI
         public InventorySlotUI slotPrefab;
 
         public bool canScroll;
+        public bool showScrollSlot;
         
         private GameModel model;
         private InputAction mouseScroll;
+        private InputAction prev;
+        private InputAction next;
         
         public List<InventorySlotUI> slots = new List<InventorySlotUI>();
         
@@ -28,10 +31,36 @@ namespace Gameplay.UI
         {
             model = Simulation.GetModel<GameModel>();
             mouseScroll = model.input.actions["mouseScroll"];
+            prev = model.input.actions["prevItem"];
+            next = model.input.actions["nextItem"];
+            
             if (inventory != null)
             {
                 Init();
             }
+
+            prev.performed += OnPrev;
+            next.performed += OnNext;
+
+            showScrollSlot = canScroll;
+        }
+        
+        
+
+        private void OnNext(InputAction.CallbackContext obj)
+        {
+            if (!canScroll) return;
+            
+            inventory.SelectNext();
+            RefreshUI();
+        }
+
+        private void OnPrev(InputAction.CallbackContext obj)
+        {
+            if (!canScroll) return;
+            
+            inventory.SelectPrevious();
+            RefreshUI();
         }
 
         public void Init()
@@ -43,7 +72,7 @@ namespace Gameplay.UI
                 ItemDesc item = i < items.Length ? items[i] : null;
                 slotUI.Set(item, i);
                 slots.Add(slotUI);
-                slots[i].SetSelected(i == inventory.selectedIndex);
+                slots[i].SetSelected(i == inventory.selectedIndex && showScrollSlot);
                 slots[i].gameObject.SetActive(i < inventory.InventoryCap);
             }
 
@@ -54,6 +83,12 @@ namespace Gameplay.UI
         {
             if (inventory != null)
                 inventory.inventoryChanged -= RefreshUI;
+
+            if (next != null)
+            {
+                prev.performed -= OnPrev;
+                next.performed -= OnNext;
+            }
         }
 
         private void OnEnable()
@@ -63,15 +98,29 @@ namespace Gameplay.UI
                 inventory.inventoryChanged -= RefreshUI;
                 inventory.inventoryChanged += RefreshUI;
             }
+
+            if (next != null)
+            {
+                prev.performed -= OnPrev;
+                next.performed -= OnNext;
+                prev.performed += OnPrev;
+                next.performed += OnNext;
+            }
         }
 
         private void OnDisable()
         {
             if (inventory != null)
                 inventory.inventoryChanged -= RefreshUI;
+
+            if (next != null)
+            {
+                prev.performed -= OnPrev;
+                next.performed -= OnNext;
+            }
         }
 
-        private void RefreshUI()
+        public void RefreshUI()
         {
             if (inventory != null)
             {
@@ -80,7 +129,7 @@ namespace Gameplay.UI
                 {
                     ItemDesc item = i < items.Length ? items[i] : null;
                     slots[i].Set(item, i);
-                    slots[i].SetSelected(i == inventory.selectedIndex);
+                    slots[i].SetSelected(i == inventory.selectedIndex && showScrollSlot);
                     slots[i].gameObject.SetActive(i < inventory.InventoryCap);
                 }
             }

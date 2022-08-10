@@ -430,6 +430,26 @@ namespace Util
         }
         
         /// <summary>
+        /// Rounds a Vector3 to world axis or relative to another transform
+        /// </summary>
+        /// <param name="vector">Vector to round</param>
+        /// <param name="relativeTo">Optional relative transform space axis</param>
+        /// <returns></returns>
+        public static Vector2 AxisRound(this Vector2 vector)
+        {
+            int largestIndex = 0;
+            for (int i = 1; i < 2; i++)
+            {
+                largestIndex = Mathf.Abs(vector[i]) > Mathf.Abs(vector[largestIndex]) ? i : largestIndex;
+            }
+            float newLargest = vector[largestIndex] > 0 ? 1 : -1;
+            vector = Vector2.zero;
+            vector[largestIndex] = newLargest;
+
+            return vector;
+        }
+        
+        /// <summary>
         /// Calculate camera orthographic screen size in world space
         /// </summary>
         public static Vector2 OrthographicSize(this Camera camera, PixelPerfectCamera perfectCamera)

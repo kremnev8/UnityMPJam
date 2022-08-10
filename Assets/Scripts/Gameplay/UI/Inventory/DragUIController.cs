@@ -2,6 +2,7 @@
 using System.Linq;
 using Gameplay.Conrollers;
 using Gameplay.Core;
+using Gameplay.ScriptableObjects;
 using Gameplay.World;
 using Mirror;
 using UnityEngine;
@@ -25,11 +26,18 @@ namespace Gameplay.UI
         private GameModel model;
         private InputAction mouseClick;
         private InputAction mousePosition;
+        
+        private InputAction controllerGlobalNext;
+        private InputAction controllerGlobalPrev;
+        private InputAction controllerTransfer;
+        
 
         private RectTransform rootTransform;
         
         private bool isDragging;
         private bool fromPlayer;
+
+        private float timeSinceControllerInput;
 
         public RandomAudioSource errorSource;
 
@@ -40,14 +48,83 @@ namespace Gameplay.UI
 
             mousePosition = model.input.actions["mouse"];
             mouseClick = model.input.actions["click"];
+            controllerGlobalNext = model.input.actions["globalNext"];
+            controllerGlobalPrev = model.input.actions["globalPrev"];
+            controllerTransfer = model.input.actions["controllerTranfer"];
+            
             mouseClick.performed += OnLeftClick;
             mouseClick.canceled += OnLeftMouseUp;
+
+            controllerGlobalNext.performed += OnNext;
+            controllerGlobalPrev.performed += OnPrev;
+            controllerTransfer.performed += Transfer;
+        }
+
+        private void Transfer(InputAction.CallbackContext obj)
+        {
+            if (globalInventoryUI != null && globalInventoryUI.inventory != null)
+            {
+                PlayerController local = GetPlayer();
+                if (local != null)
+                {
+                    int index = globalInventoryUI.inventory.selectedIndex;
+                    if (index >= 0)
+                    {
+                        ItemDesc item = globalInventoryUI.inventory.GetItem(index);
+                        if (item != null)
+                        {
+                            local.CmdTransferItem(false, item.itemId);
+                        }
+
+                        globalInventoryUI.inventory.selectedIndex = -1;
+                        globalInventoryUI.RefreshUI();
+                    }
+                    else
+                    {
+                        ItemDesc item = playerInventory.inventory.SelectedItem();
+                        if (item != null)
+                        {
+                            local.CmdTransferItem(true, item.itemId);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void OnPrev(InputAction.CallbackContext obj)
+        {
+            if (globalInventoryUI != null)
+            {
+                globalInventoryUI.showScrollSlot = true;
+                globalInventoryUI.inventory.SelectPrevious();
+                globalInventoryUI.RefreshUI();
+            }
+        }
+
+        private void OnNext(InputAction.CallbackContext obj)
+        {
+            if (globalInventoryUI != null)
+            {
+                globalInventoryUI.showScrollSlot = true;
+                globalInventoryUI.inventory.SelectNext();
+                globalInventoryUI.RefreshUI();
+            }
         }
 
         private void OnDestroy()
         {
-            mouseClick.performed -= OnLeftClick;
-            mouseClick.canceled -= OnLeftMouseUp;
+            if (mouseClick != null)
+            {
+                mouseClick.performed -= OnLeftClick;
+                mouseClick.canceled -= OnLeftMouseUp;
+            }
+
+            if (controllerGlobalNext != null)
+            {
+                controllerGlobalNext.performed -= OnNext;
+                controllerGlobalPrev.performed -= OnPrev;
+                controllerTransfer.performed -= Transfer;
+            }
         }
 
         private void StartDrag()

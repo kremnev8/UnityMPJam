@@ -6,16 +6,25 @@ namespace Gameplay.Util
         
         private Animator animator;
         private new SpriteRenderer renderer;
-        
+
         public void Start()
         {
-            animator = GetComponent<Animator>();
-            renderer = GetComponent<SpriteRenderer>();
-            Invoke(nameof(EnableAnimator), Random.value);
+            if (animator == null)
+            {
+                animator = GetComponent<Animator>();
+                renderer = GetComponent<SpriteRenderer>();
+                Invoke(nameof(EnableAnimator), Random.value);
+            }
         }
 
         public void SetState(bool value)
         {
+            if (animator == null)
+            {
+                animator = GetComponent<Animator>();
+                renderer = GetComponent<SpriteRenderer>();
+            }
+            
             if (!value)
             {
                 animator.enabled = false;

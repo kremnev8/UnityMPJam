@@ -17,37 +17,37 @@ namespace Gameplay.Controllers
     {
         public GameObject controllerPrefab;
         private GameModel model;
-        
+
         public List<PlayerController> players = new List<PlayerController>();
         private Dictionary<int, string> tmpUsernames = new Dictionary<int, string>();
-        
-        public bool canStartGame = false;
+
+        private bool canStartGame = false;
         private int playersLoaded;
-        
+
         private int playersInExit;
         public int currentLevel;
         public bool CanChangeLevel => playersInExit >= players.Count;
 
         private static bool returningToMenu;
         public static bool fromCheckpoint = true;
-        
-        [Scene]
-        public string menu;
-        
+
+        [Scene] public string menu;
+
         public event Action ServerReady;
 
         public static event Action MapStarted;
-        
+
         public override void Start()
         {
             base.Start();
             model = Simulation.GetModel<GameModel>();
-            ((PlayerAuthenticator) authenticator).OnAuthenticationResult += OnServerAddPlayer;
+            ((PlayerAuthenticator)authenticator).OnAuthenticationResult += OnServerAddPlayer;
 
             if (Application.isEditor)
             {
                 canStartGame = true;
             }
+
             SetToCheckpoint();
         }
 
@@ -59,14 +59,15 @@ namespace Gameplay.Controllers
             {
                 lastLevel = model.levels.Count();
             }
-            
+
             if (currentLevel > lastLevel)
             {
                 currentLevel = lastLevel;
             }
+
             fromCheckpoint = false;
         }
-        
+
         public void SelectPrevLevel()
         {
             currentLevel--;
@@ -83,20 +84,70 @@ namespace Gameplay.Controllers
             currentLevel = model.saveGame.current.currentLevel;
             fromCheckpoint = true;
         }
-        
+
+        public bool HasPartner()
+        {
+            if (mode == NetworkManagerMode.ClientOnly)
+            {
+                return NetworkClient.isConnected;
+            }
+
+            if (mode == NetworkManagerMode.Host)
+            {
+                return numPlayers == 2;
+            }
+
+            return false;
+        }
+
+        public string GetPartnerName()
+        {
+            if (mode == NetworkManagerMode.ClientOnly && NetworkClient.isConnected)
+            {
+                PlayerController[] players1 = FindObjectsOfType<PlayerController>();
+                PlayerController player = players1.First(controller => !controller.isLocalPlayer);
+                if (player != null)
+                {
+                    return player.PlayerName;
+                }
+            }
+
+            if (mode == NetworkManagerMode.Host)
+            {
+                return players[1].PlayerName;
+            }
+
+            return "Error!";
+        }
+
+        public bool CanStartGame()
+        {
+            if (mode == NetworkManagerMode.ClientOnly)
+            {
+                return NetworkClient.isConnected;
+            }
+
+            if (mode == NetworkManagerMode.Host)
+            {
+                return canStartGame;
+            }
+
+            return false;
+        }
+
 
         public void StartGame()
         {
             if (mode == NetworkManagerMode.ClientOnly)
             {
-                NetworkClient.Send(new ClientPressedPlay());
+                NetworkClient.Send(new ClientChangeSceneRequest(SceneChangeType.START_GAME));
                 return;
             }
-            
+
             if (IsInLobby())
             {
                 if (!Application.isEditor && !canStartGame) return;
-                
+
                 LevelData scene = model.levels.GetLevel(currentLevel);
                 model.saveGame.current.currentLevel = currentLevel;
 
@@ -106,7 +157,7 @@ namespace Gameplay.Controllers
                     model.saveGame.current.firePlayerInventory = new List<string>();
                     model.saveGame.current.globalInventory = scene.defaultItems.ToList();
                 }
-                
+
                 model.saveGame.Save();
                 playersInExit = 0;
                 ServerChangeScene(scene.scene);
@@ -118,7 +169,7 @@ namespace Gameplay.Controllers
         {
             playersInExit++;
         }
-        
+
         [Server]
         public void DecrementPlayersInExit()
         {
@@ -132,20 +183,27 @@ namespace Gameplay.Controllers
 
         public void NextLevel(bool ignoreCondition)
         {
+            if (mode == NetworkManagerMode.ClientOnly)
+            {
+                NetworkClient.Send(new ClientChangeSceneRequest(SceneChangeType.NEXT_LEVEL));
+                return;
+            }
+
+
             if (!IsInLobby() && (playersInExit >= players.Count || ignoreCondition))
             {
                 try
                 {
                     playersLoaded = 0;
                     PrefabPoolController.ReturnAll();
-                    
+
                     LevelData scene = model.levels.GetLevel(currentLevel + 1);
                     currentLevel++;
                     model.saveGame.current.currentLevel = currentLevel;
                     int max = Mathf.Max(currentLevel, model.saveGame.current.lastReachedLevel);
                     model.saveGame.current.lastReachedLevel = max;
                     model.saveGame.Save();
-                    
+
                     playersInExit = 0;
                     ServerChangeScene(scene.scene);
                 }
@@ -158,6 +216,12 @@ namespace Gameplay.Controllers
 
         public void RestartLevel()
         {
+            if (mode == NetworkManagerMode.ClientOnly)
+            {
+                NetworkClient.Send(new ClientChangeSceneRequest(SceneChangeType.RESTART_LEVEL));
+                return;
+            }
+
             if (!IsInLobby())
             {
                 try
@@ -181,7 +245,7 @@ namespace Gameplay.Controllers
                 StopHost();
             if (mode == NetworkManagerMode.ClientOnly)
                 StopClient();
-            
+
             DontDestroy.DestroyAll();
             SceneManager.LoadScene(menu);
         }
@@ -231,14 +295,14 @@ namespace Gameplay.Controllers
                 OnAllSceneChanged();
             }
         }
-        
+
         public void OnAllSceneChanged()
         {
             foreach (PlayerController player in players)
             {
                 player.StartMap();
             }
-        
+
             MapStarted?.Invoke();
             NetworkServer.SendToAll(new HideFade());
         }
@@ -247,7 +311,7 @@ namespace Gameplay.Controllers
         {
             base.OnStartServer();
             NetworkServer.RegisterHandler<SceneChangeFinished>(OnClientSceneChanged, false);
-            NetworkServer.RegisterHandler<ClientPressedPlay>(OnClientPressedPlay, false);
+            NetworkServer.RegisterHandler<ClientChangeSceneRequest>(OnClientPressedPlay, false);
 
             GameObject contr = Instantiate(controllerPrefab, transform);
             NetworkServer.Spawn(contr);
@@ -264,22 +328,33 @@ namespace Gameplay.Controllers
             model.loadingUI.Hide();
         }
 
-        private void OnClientPressedPlay(NetworkConnectionToClient arg1, ClientPressedPlay arg2)
+        private void OnClientPressedPlay(NetworkConnectionToClient conn, ClientChangeSceneRequest packet)
         {
-            StartGame();
+            switch (packet.type)
+            {
+                case SceneChangeType.START_GAME:
+                    StartGame();
+                    break;
+                case SceneChangeType.RESTART_LEVEL:
+                    RestartLevel();
+                    break;
+                case SceneChangeType.NEXT_LEVEL:
+                    NextLevel(false);
+                    break;
+            }
         }
 
 
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
             base.OnServerAddPlayer(conn);
-            
+
             PlayerController controller = conn.identity.gameObject.GetComponent<PlayerController>();
             model.roleController.SetPlayerRole(controller, model.roleController.GetNextRole());
 
             controller.PlayerName = tmpUsernames[conn.connectionId];
             players.Add(controller);
-        
+
             if (numPlayers >= 2)
             {
                 canStartGame = true;
@@ -290,8 +365,8 @@ namespace Gameplay.Controllers
         {
             ServerReady?.Invoke();
         }
-        
-        
+
+
         public override void OnClientSceneChanged()
         {
             base.OnClientSceneChanged();

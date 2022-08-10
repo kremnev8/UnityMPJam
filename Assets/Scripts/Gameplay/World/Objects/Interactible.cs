@@ -54,7 +54,6 @@ namespace Gameplay.World
         
         protected virtual void Start()
         {
-            WorldElement to = GetComponent<WorldElement>();
             SetState(initialState);
         }
 

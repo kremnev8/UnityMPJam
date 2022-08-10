@@ -4,8 +4,11 @@ using Epic.OnlineServices.Platform;
 
 using System;
 using System.Runtime.InteropServices;
-
 using UnityEngine;
+
+#if UNITY_EDITOR
+using ParrelSync;
+#endif
 
 /// <summary>
 /// Manages the Epic Online Services SDK
@@ -243,6 +246,13 @@ namespace EpicTransport {
                     Application.Quit();
                 }
             }
+            
+#if UNITY_EDITOR
+            if (ClonesManager.IsClone())
+            {
+                devAuthToolCredentialName = ClonesManager.GetArgument();          
+            }
+#endif
 
             // If we use the Auth interface then only login into the Connect interface after finishing the auth interface login
             // If we don't use the Auth interface we can directly login to the Connect interface
