@@ -1,8 +1,10 @@
 ﻿#if UNITY_EDITOR
+using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEditor.EditorPrefs;
+using Object = UnityEngine.Object;
 
 namespace Util
 {
@@ -10,8 +12,9 @@ namespace Util
     /// Utility to always load the game from main menu
     /// </summary>
     public static class PlayFromTheFirstScene
-    {      
-        const string playFromFirstMenuStr = "Edit/Always Start From Scene 0 &p";
+    {
+        private const string startScene = "1";
+        private const string playFromFirstMenuStr = "Edit/Always Start From Scene " + startScene + " &p";
  
         static bool playFromFirstScene
         {
@@ -25,7 +28,7 @@ namespace Util
             playFromFirstScene = !playFromFirstScene;
             Menu.SetChecked(playFromFirstMenuStr, playFromFirstScene);
  
-            ShowNotifyOrLog(playFromFirstScene ? "Play from scene 0" : "Play from current scene");
+            ShowNotifyOrLog(playFromFirstScene ? "Play from scene " + startScene : "Play from current scene");
         }
  
         // The menu won't be gray out, we use this validate method for update check state
@@ -43,7 +46,9 @@ namespace Util
             if(!playFromFirstScene)
                 return;
  
-            if(EditorBuildSettings.scenes.Length  == 0)
+            int index = int.Parse(startScene);
+            
+            if(index < EditorBuildSettings.scenes.Length)
             {
                 Debug.LogWarning("The scene build list is empty. Can't play from first scene.");
                 return;
@@ -52,7 +57,7 @@ namespace Util
             foreach(GameObject go in Object.FindObjectsOfType<GameObject>())
                 go.SetActive(false);
          
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(index);
         }
  
         static void ShowNotifyOrLog(string msg)
