@@ -65,7 +65,18 @@ namespace Gameplay.World
         private static Collider2D[] colliders = new Collider2D[6];
         private static readonly int die = Animator.StringToHash("Die");
 
-        public int Mass => projectile.projectileMass;
+        public int Mass
+        {
+            get
+            {
+                if (projectile == null)
+                {
+                    ProjectileDB projectileDB = Simulation.GetModel<GameModel>().projectiles;
+                    projectile = projectileDB.Get(projectileID);
+                }
+                return projectile.projectileMass;
+            }
+        }
 
         [Server]
         public override void Spawn(PlayerController player, Vector2Int position, Direction direction)

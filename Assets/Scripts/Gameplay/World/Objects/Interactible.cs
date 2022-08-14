@@ -19,6 +19,8 @@ namespace Gameplay.World
         public WorldElement target;
         public bool value;
 
+        public LogicConnection() { }
+
         public LogicConnection(WorldElement target)
         {
             this.target = target;
@@ -30,6 +32,8 @@ namespace Gameplay.World
     {
         public WorldElement target;
         public bool invert;
+
+        public ValueConnection() { }
 
         public ValueConnection(WorldElement target)
         {
@@ -95,6 +99,8 @@ namespace Gameplay.World
         {
             foreach (ValueConnection item in objects)
             {
+                if (item.target == null) continue;
+                
                 bool setValue = item.invert ? !value : value;
                 element.SendLogicState(item.target.UniqueId, setValue);
             }

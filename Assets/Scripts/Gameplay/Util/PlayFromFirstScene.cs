@@ -15,7 +15,7 @@ namespace Util
     {
         private const string startScene = "1";
         private const string playFromFirstMenuStr = "Edit/Always Start From Scene " + startScene + " &p";
- 
+
         static bool playFromFirstScene
         {
             get => HasKey(playFromFirstMenuStr) && GetBool(playFromFirstMenuStr);
@@ -48,7 +48,7 @@ namespace Util
  
             int index = int.Parse(startScene);
             
-            if(index < EditorBuildSettings.scenes.Length)
+            if(index >= EditorBuildSettings.scenes.Length || EditorBuildSettings.scenes.Length == 0)
             {
                 Debug.LogWarning("The scene build list is empty. Can't play from first scene.");
                 return;

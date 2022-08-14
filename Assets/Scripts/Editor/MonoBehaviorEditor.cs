@@ -112,14 +112,17 @@ namespace Editor
                     int index = value.Connections.FindIndex(connection => connection.target == element);
                     if (index != -1)
                     {
+                        Undo.RecordObject (mono, $"Disconnecting {target.name} from {element.name}!");
                         Debug.Log($"Disconnecting {target.name} from {element.name}!");
                         value.Connections.RemoveAt(index);
                     }
                     else
                     {
+                        Undo.RecordObject (mono, $"Connecting {target.name} with {element.name}!");
                         Debug.Log($"Connecting {target.name} with {element.name}!");
                         value.Connections.Add(new ValueConnection(element){invert = shift});
                     }
+                    EditorUtility.SetDirty(mono);
                 });
             }
             else if (target is ILogicConnectable logic)
@@ -129,14 +132,17 @@ namespace Editor
                     int index = logic.Connections.FindIndex(connection => connection.target == element);
                     if (index != -1)
                     {
+                        Undo.RecordObject (mono, $"Disconnecting {target.name} from {element.name}!");
                         Debug.Log($"Disconnecting {target.name} from {element.name}!");
                         logic.Connections.RemoveAt(index);
                     }
                     else
                     {
+                        Undo.RecordObject (mono, $"Connecting {target.name} with {element.name}!");
                         Debug.Log($"Connecting {target.name} with {element.name}!");
                         logic.Connections.Add(new LogicConnection(element){value = shift});
                     }
+                    EditorUtility.SetDirty(mono);
                 });
             }
         }

@@ -48,6 +48,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Level7.unity
     guid: 9daef92f3f539b04bada1270cc06b799
   - enabled: 1
+    path: Assets/Scenes/MagenticMaze.unity
+    guid: bcdc8004fc4ce6c41963eba80e27c454
+  - enabled: 1
     path: Assets/Scenes/Dashnghost/Level1.unity
     guid: 087425567e8af5242b8b25a7f531e665
   - enabled: 1

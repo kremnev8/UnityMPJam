@@ -66,8 +66,9 @@ namespace Gameplay.World
 
         public void ReturnAll()
         {
-            foreach (var poolObj in pool.objects)
+            foreach (Transform trans in transform)
             {
+                GameObject poolObj = trans.gameObject;
                 if (poolObj.activeSelf)
                 {
                     NetworkServer.UnSpawn(poolObj);

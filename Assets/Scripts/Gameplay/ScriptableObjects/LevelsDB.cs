@@ -43,21 +43,25 @@ namespace Gameplay.ScriptableObjects
 
         private void OnValidate()
         {
-            List<EditorBuildSettingsScene> scenes = new List<EditorBuildSettingsScene>();
-            
-            foreach (var scenePath in baseScenes)
+            if (!Application.isPlaying)
             {
-                if (!string.IsNullOrEmpty(scenePath))
-                    scenes.Add(new EditorBuildSettingsScene(scenePath, true));
+
+                List<EditorBuildSettingsScene> scenes = new List<EditorBuildSettingsScene>();
+
+                foreach (var scenePath in baseScenes)
+                {
+                    if (!string.IsNullOrEmpty(scenePath))
+                        scenes.Add(new EditorBuildSettingsScene(scenePath, true));
+                }
+
+                foreach (var scenePath in items)
+                {
+                    if (!string.IsNullOrEmpty(scenePath.scene))
+                        scenes.Add(new EditorBuildSettingsScene(scenePath.scene, true));
+                }
+
+                EditorBuildSettings.scenes = scenes.ToArray();
             }
-            
-            foreach (var scenePath in items)
-            {
-                if (!string.IsNullOrEmpty(scenePath.scene))
-                    scenes.Add(new EditorBuildSettingsScene(scenePath.scene, true));
-            }
-            
-            EditorBuildSettings.scenes = scenes.ToArray();
         }
     }
 }

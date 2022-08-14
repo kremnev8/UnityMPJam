@@ -226,6 +226,7 @@ namespace Gameplay.Controllers
             {
                 try
                 {
+                    PrefabPoolController.ReturnAll();
                     playersLoaded = 0;
                     LevelData scene = model.levels.GetLevel(currentLevel);
                     playersInExit = 0;

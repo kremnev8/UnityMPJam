@@ -30,6 +30,7 @@ namespace Gameplay.Controllers.Player
             {
                 inventoryCap = value;
                 inventoryChanged?.Invoke();
+                RpcUpdateInventoryUI();
             }
         }
 
@@ -67,6 +68,12 @@ namespace Gameplay.Controllers.Player
             OnInventoryUpdated(SyncList<ItemDesc>.Operation.OP_ADD, 0, null, null);
         }
 
+        [ClientRpc]
+        private void RpcUpdateInventoryUI()
+        {
+            inventoryChanged?.Invoke();
+        }
+        
         void OnInventoryUpdated(SyncList<ItemDesc>.Operation op, int index, ItemDesc oldItem, ItemDesc newItem)
         {
             inventoryChanged?.Invoke();

@@ -31,7 +31,15 @@ namespace Mirror
 
         // take an element from the pool, or create a new one if empty
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T Get() => objects.Count > 0 ? objects.Pop() : objectGenerator();
+        public T Get()
+        {
+            if (objects.Count > 0)
+            {
+                return objects.Pop();
+            }
+
+            return objectGenerator();
+        }
 
         // return an element to the pool
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

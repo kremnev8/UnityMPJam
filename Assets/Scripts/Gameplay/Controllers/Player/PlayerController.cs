@@ -732,7 +732,7 @@ namespace Gameplay.Conrollers
                     Vector2 pos = position.ToWorldPos();
 
 
-                    int hitCount = Physics2D.CircleCastNonAlloc(pos, 0.9f, dir, hits, 2f, mask);
+                    int hitCount = Physics2D.CircleCastNonAlloc(pos, 0.8f, dir, hits, 1.5f, mask);
                     if (hitCount > 0)
                     {
                         bool shouldStop = false;

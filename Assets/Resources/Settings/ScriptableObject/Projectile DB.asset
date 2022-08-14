@@ -76,7 +76,7 @@ MonoBehaviour:
     sinkOffset: 0.8
     damage: 0
     destroySelfOnHit: 0
-    projectileMass: 50
+    projectileMass: 25
     activateInteractibles: 1
     magnetic: 0
     maxTravelDistance: -1
@@ -92,7 +92,7 @@ MonoBehaviour:
     pushWithDashSpeed: 0
     wallMask:
       serializedVersion: 2
-      m_Bits: 1984
+      m_Bits: 10176
     sinkMask:
       serializedVersion: 2
       m_Bits: 0

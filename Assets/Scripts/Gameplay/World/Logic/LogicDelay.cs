@@ -28,6 +28,7 @@ namespace Gameplay.Logic
         {
             foreach (LogicConnection item in objects)
             {
+                if (item.target == null) continue;
                 element.SendLogicState(item.target.UniqueId, item.value);
             }
         }
@@ -36,6 +37,7 @@ namespace Gameplay.Logic
         {
             foreach (ValueConnection item in objects)
             {
+                if (item.target == null) continue;
                 bool setValue = item.invert ? !value : value;
                 element.SendLogicState(item.target.UniqueId, setValue);
             }

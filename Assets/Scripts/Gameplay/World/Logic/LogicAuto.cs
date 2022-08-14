@@ -25,6 +25,7 @@ namespace Gameplay.Logic
         {
             foreach (LogicConnection item in objects)
             {
+                if (item.target == null) continue;
                 element.SendLogicState(item.target.UniqueId, item.value);
             }
         }

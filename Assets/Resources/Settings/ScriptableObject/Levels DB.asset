@@ -55,6 +55,16 @@ MonoBehaviour:
     defaultItems:
     - cubespell
     - fireballspell
+    - push-maget-spell
+    - spellholder
+  - levelName: MagenticMaze
+    scene: Assets/Scenes/MagenticMaze.unity
+    defaultItems:
+    - cubespell
+    - fireballspell
+    - push-maget-spell
+    - pull-maget-spell
+    - spellholder
   - levelName: Maze
     scene: Assets/Scenes/Dashnghost/Level1.unity
     defaultItems:
