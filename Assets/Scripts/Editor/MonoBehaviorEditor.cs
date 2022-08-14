@@ -36,7 +36,8 @@ namespace Editor
 
         private static MonoBehaviour lastTarget;
         private static Vector3 handlePos;
-
+        private static bool shift;
+        
         private const int ConnectionControlID = 546143;
 
         private static void ConnectionHandle(MonoBehaviour target, Action<WorldElement> connectCallback)
@@ -76,6 +77,16 @@ namespace Editor
                 }
 
                 ResetPosition();
+            }else if (current.type == EventType.KeyDown && current.keyCode == KeyCode.LeftShift)
+            {
+                shift = true;
+            }else if (current.type == EventType.KeyUp && current.keyCode == KeyCode.LeftShift)
+            {
+                shift = false;
+            }
+            else if (current.button == 0 && GUIUtility.hotControl != ConnectionControlID)
+            {
+                ResetPosition();
             }
 
             handlePos = Handles.FreeMoveHandle(ConnectionControlID, handlePos, Quaternion.identity, 0.25f, snap, Handles.CircleHandleCap);
@@ -107,7 +118,7 @@ namespace Editor
                     else
                     {
                         Debug.Log($"Connecting {target.name} with {element.name}!");
-                        value.Connections.Add(new ValueConnection(element));
+                        value.Connections.Add(new ValueConnection(element){invert = shift});
                     }
                 });
             }
@@ -124,7 +135,7 @@ namespace Editor
                     else
                     {
                         Debug.Log($"Connecting {target.name} with {element.name}!");
-                        logic.Connections.Add(new LogicConnection(element));
+                        logic.Connections.Add(new LogicConnection(element){value = shift});
                     }
                 });
             }

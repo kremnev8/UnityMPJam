@@ -70,21 +70,26 @@ namespace Util
         
         public static void DrawWireGizmo(this MonoBehaviour mono, List<ValueConnection> connections)
         {
-            Gizmos.color = Color.magenta;
             foreach (ValueConnection connection in connections)
             {
                 if (connection != null && connection.target != null)
+                {
+                    Gizmos.color = connection.invert ? Color.blue : Color.magenta;
+                    
                     Gizmos.DrawLine(mono.transform.position, connection.target.transform.position);
+                }
             }
         }
 
         public static void DrawWireGizmo(this MonoBehaviour mono, List<LogicConnection> connections)
         {
-            Gizmos.color = Color.magenta;
             foreach (LogicConnection connection in connections)
             {
                 if (connection != null && connection.target != null)
+                {
+                    Gizmos.color = connection.value ? Color.green : Color.red;
                     Gizmos.DrawLine(mono.transform.position, connection.target.transform.position);
+                }
             }
         }
     }
