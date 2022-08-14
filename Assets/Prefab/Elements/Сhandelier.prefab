@@ -372,7 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {x: 2, y: 2}
   offset: {x: 1, y: 1}
-  tileUnder: {fileID: 11400000, guid: 1924942f0c841494e9da8dbec95288d3, type: 2}
+  tileUnder: {fileID: 0}
 --- !u!61 &8273286595090457917
 BoxCollider2D:
   m_ObjectHideFlags: 0
