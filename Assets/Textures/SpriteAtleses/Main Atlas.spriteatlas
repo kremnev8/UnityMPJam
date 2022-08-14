@@ -125,6 +125,7 @@ SpriteAtlas:
   - {fileID: -59899474, guid: 9c9b2b32b022b8f4b8fdb1e3ee9a5ce7, type: 3}
   - {fileID: -1680391250, guid: 9c9b2b32b022b8f4b8fdb1e3ee9a5ce7, type: 3}
   - {fileID: 21300000, guid: df0e55a255b465d44a4e03cb0ddc7594, type: 3}
+  - {fileID: 21300000, guid: 59f207a21f6de0e47874904728a847cc, type: 3}
   - {fileID: 21300000, guid: 2f56e8e207d06df4f9f616e6cc46f710, type: 3}
   - {fileID: -6198062173903498804, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
   - {fileID: -5074241504903905377, guid: 498d6c33c89360e43b56b0934609c613, type: 3}
@@ -601,6 +602,7 @@ SpriteAtlas:
   - {fileID: 1941468122, guid: 4dcc7fea56df91a4398cdc80a8db1b98, type: 3}
   - {fileID: -1508087015, guid: 4dcc7fea56df91a4398cdc80a8db1b98, type: 3}
   - {fileID: 21300000, guid: 8335825b902c54b4984862ab774e8aea, type: 3}
+  - {fileID: 21300000, guid: 928cc88d4e3546545a7d1d9640e592f9, type: 3}
   - {fileID: 78370335, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
   - {fileID: -1325867072, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
   - {fileID: -2064557541, guid: 11958add9e8eaa549af826ae7837766d, type: 3}
@@ -699,6 +701,7 @@ SpriteAtlas:
   - wall-template_21
   - wall-template_20
   - scroll-ghost
+  - wooden-cube
   - scroll-magnet-pos
   - atlas_16x_463
   - atlas_16x_278
@@ -1175,6 +1178,7 @@ SpriteAtlas:
   - item-border_1
   - item-border_2
   - scroll-cube
+  - cube-shadow
   - firemagedeath_0
   - firemagedeath_1
   - firemagedeath_2

@@ -296,6 +296,7 @@ MonoBehaviour:
   initialState: 1
   newConnections: []
   m_timeObject: {fileID: 0}
+  m_checkFacing: 0
   fireRenderers:
   - {fileID: 6474666701800398841}
   - {fileID: 340603162101716270}

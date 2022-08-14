@@ -56,7 +56,7 @@ namespace Gameplay.World
     public class Interactible : NetworkBehaviour, IInteractable, ILinked, IValueConnectable
     {
         public Vector2Int forward;
-        public bool checkFacing => true;
+        public virtual bool checkFacing => true;
         public Vector2Int FacingDirection => forward;
         
         [SerializeField]

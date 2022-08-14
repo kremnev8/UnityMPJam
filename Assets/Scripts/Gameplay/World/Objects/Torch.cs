@@ -8,6 +8,8 @@ namespace Gameplay.World
     [SelectionBase]
     public class Torch : Interactible
     {
+        public bool m_checkFacing = true;
+        public override bool checkFacing => m_checkFacing;
         public DeferredAnimatorEnabler[] fireRenderers;
         public new Light2D light;
 
