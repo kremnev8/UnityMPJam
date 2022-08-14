@@ -40,11 +40,6 @@ MonoBehaviour:
     scene: Assets/Scenes/Level5.unity
     defaultItems:
     - cubespell
-  - levelName: Iron cube 2
-    scene: Assets/Scenes/IronCube2.unity
-    defaultItems:
-    - cubespell
-    - fireballspell
   - levelName: Iron Friend
     scene: Assets/Scenes/Level6.unity
     defaultItems:
@@ -67,6 +62,11 @@ MonoBehaviour:
   - levelName: Test
     scene: Assets/Scenes/TestArea.unity
     defaultItems: []
+  - levelName: Iron cube 2
+    scene: Assets/Scenes/IronCube2.unity
+    defaultItems:
+    - cubespell
+    - fireballspell
   baseScenes:
   - Assets/Scenes/Lobby.unity
   - Assets/Scenes/LocalLobby.unity
