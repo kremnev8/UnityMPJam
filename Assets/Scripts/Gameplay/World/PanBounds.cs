@@ -36,6 +36,7 @@ namespace Gameplay.World
                     1);
 
                 rectExample.worldBounds = rect;
+                EditorUtility.SetDirty(target);
             }
         }
     }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Mirror;
 using ScriptableObjects;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Util;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Gameplay.ScriptableObjects
 {
@@ -41,6 +42,7 @@ namespace Gameplay.ScriptableObjects
             throw new InvalidOperationException($"There is no level with index {index}!");
         }
 
+#if UNITY_EDITOR
         private void OnValidate()
         {
             if (!Application.isPlaying)
@@ -63,5 +65,6 @@ namespace Gameplay.ScriptableObjects
                 EditorBuildSettings.scenes = scenes.ToArray();
             }
         }
+#endif
     }
 }

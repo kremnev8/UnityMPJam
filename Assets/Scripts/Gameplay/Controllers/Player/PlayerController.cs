@@ -60,7 +60,7 @@ namespace Gameplay.Conrollers
 
         public RandomAudioSource footstepSource;
         public RandomAudioSource errorSource;
-        
+
         public Animator animator;
 
         public bool isGhost;
@@ -103,8 +103,8 @@ namespace Gameplay.Conrollers
         private static readonly int fadeIn = Animator.StringToHash("FadeIn");
         private static readonly int fadeOut = Animator.StringToHash("FadeOut");
         public static bool ignoreInventoryEvent;
-        
-        
+
+
         public string PlayerName
         {
             get => playerName;
@@ -153,7 +153,7 @@ namespace Gameplay.Conrollers
             inventory.InventoryCap = extraInventory + 1;
 
             if (ignoreInventoryEvent) return;
-            
+
             model.saveGame.current.globalInventory = model.globalInventory.GetItems().Select(desc => desc.itemId).ToList();
             model.saveGame.Save();
         }
@@ -161,7 +161,7 @@ namespace Gameplay.Conrollers
         private void OnServerPlayerItemAdded()
         {
             if (ignoreInventoryEvent) return;
-            
+
             if (role == PlayerRole.ICE_MAGE)
             {
                 model.saveGame.current.icePlayerInventory = inventory.GetItems().Select(desc => desc.itemId).ToList();
@@ -177,10 +177,10 @@ namespace Gameplay.Conrollers
         public void StartMap()
         {
             SpawnPlayer();
-            
+
             List<string> items;
             ignoreInventoryEvent = true;
-            
+
             if (isLocalPlayer && isServer)
             {
                 items = model.saveGame.current.globalInventory;
@@ -206,6 +206,7 @@ namespace Gameplay.Conrollers
                     inventory.AddItem(item);
                 }
             }
+
             ignoreInventoryEvent = false;
         }
 
@@ -539,19 +540,27 @@ namespace Gameplay.Conrollers
             if (!controlEnabled) return;
             if (!isLocalPlayer) return;
 
-            ItemDesc itemDesc = inventory.SelectedItem();
-            if (itemDesc != null && itemDesc.itemSpell != null)
+            try
             {
-                Vector2Int dir = GetLookVector().ToVector2Int();
-
-                if (itemDesc.itemSpell != null)
+                ItemDesc itemDesc = inventory.SelectedItem();
+                if (itemDesc != null && itemDesc.itemSpell != null)
                 {
-                    CmdActivateAbility(itemDesc.itemSpell.ItemId, dir.GetDirection());
+                    Vector2Int dir = GetLookVector().ToVector2Int();
+
+                    if (itemDesc.itemSpell != null)
+                    {
+                        CmdActivateAbility(itemDesc.itemSpell.ItemId, dir.GetDirection());
+                    }
+                }
+                else
+                {
+                    Feedback("You don't have any spell selected!", false);
                 }
             }
-            else
+            catch (Exception e)
             {
-                Feedback("You don't have any spell selected!", false);
+                Feedback("Internal Error.", false);
+                Debug.Log(e);
             }
         }
 
@@ -870,8 +879,10 @@ namespace Gameplay.Conrollers
                 {
                     return lastlookDir.GetVector().ToVector3();
                 }
+
                 return direction.normalized.AxisRound();
             }
+
             mouse.z = 10;
             Vector3 worldMousePos = camera.ScreenToWorldPoint(mouse);
             worldMousePos.z = 0;

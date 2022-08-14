@@ -1,5 +1,4 @@
-﻿using System;
-using Gameplay.World.Spacetime;
+﻿using Gameplay.World.Spacetime;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Util;
@@ -24,6 +23,8 @@ namespace Gameplay.Util
         private TileBase prevTile;
 
         private static LevelElementController cachedController;
+        
+#if UNITY_EDITOR
         
         private void OnDrawGizmos()
         {
@@ -106,8 +107,7 @@ namespace Gameplay.Util
             {
                 Destroy(this);
             }
-#if UNITY_EDITOR
-            
+
             else if (Application.isEditor)
             {
                 bool isPrefabInstance = PrefabStageUtility.GetCurrentPrefabStage() != null;
@@ -123,7 +123,7 @@ namespace Gameplay.Util
                     transform.parent = cachedController.theWorld.objectTransform;
                 }
             }
- #endif
         }
+#endif
     }
 }
