@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Gameplay.Logic
 {
+    [SelectionBase]
     public class TriggerPlayerSwapArea : MonoBehaviour
     {
         private void OnTriggerEnter2D(Collider2D col)

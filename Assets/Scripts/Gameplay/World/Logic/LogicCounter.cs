@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 namespace Gameplay.Logic
 {
+    [SelectionBase]
     public class LogicCounter : MonoBehaviour, ILinked
     {
         public int minCount = 0;
@@ -44,6 +45,7 @@ namespace Gameplay.Logic
         
         protected void DrawWireGizmo(List<ValueConnection> connections)
         {
+            Gizmos.color = Color.magenta;
             foreach (ValueConnection connection in connections)
             {
                 if (connection != null && connection.target != null)
@@ -62,6 +64,7 @@ namespace Gameplay.Logic
 
         protected void DrawWireGizmo(List<LogicConnection> connections)
         {
+            Gizmos.color = Color.magenta;
             foreach (LogicConnection connection in connections)
             {
                 if (connection != null && connection.target != null)

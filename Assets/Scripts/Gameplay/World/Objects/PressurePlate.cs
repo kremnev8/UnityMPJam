@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Gameplay.World
 {
+    [SelectionBase]
     public class PressurePlate : Interactible
     {
         public List<Collider2D> inside = new List<Collider2D>();

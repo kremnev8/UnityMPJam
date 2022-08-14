@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Gameplay.World
 {
+    [SelectionBase]
     public class Lock : Interactible
     {
         public string itemId;

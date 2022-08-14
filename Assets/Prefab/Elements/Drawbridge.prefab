@@ -215,6 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {x: 2, y: 2}
   offset: {x: 1, y: 1}
+  tileUnder: {fileID: 11400000, guid: 461e7788a5963294e8d442a9c7a7b7c2, type: 2}
 --- !u!114 &5991992222998425234
 MonoBehaviour:
   m_ObjectHideFlags: 0

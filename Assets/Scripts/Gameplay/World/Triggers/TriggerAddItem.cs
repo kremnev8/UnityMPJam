@@ -16,7 +16,8 @@ namespace Gameplay.Logic
         TRIGGER,
         ACTIVATE
     }
-
+    
+    [SelectionBase]
     public class TriggerAddItem : NetworkBehaviour, ILinked, IInteractable
     {
         public bool checkFacing => false;

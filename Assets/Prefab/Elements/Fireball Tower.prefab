@@ -65,7 +65,8 @@ MonoBehaviour:
   leftDisabled: {fileID: 972247753, guid: abc4532a44b3d7e44a0612b959825960, type: 3}
   fireball: 1
   fireDirection: 2
-  fireRate: 2
+  fireDelay: 2
+  initialOffset: 0
   fireMode: 0
   initialState: 0
 --- !u!114 &8050675150621191507
@@ -82,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {x: 2, y: 2}
   offset: {x: 1, y: 1}
+  tileUnder: {fileID: 11400000, guid: 867f1063e3260a142801192fe01560b1, type: 2}
 --- !u!114 &1138714066744526177
 MonoBehaviour:
   m_ObjectHideFlags: 0

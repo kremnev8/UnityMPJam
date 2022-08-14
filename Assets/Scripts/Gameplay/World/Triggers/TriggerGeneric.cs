@@ -8,6 +8,7 @@ using UnityEngine.Events;
 
 namespace Gameplay.Logic
 {
+    [SelectionBase]
     public class TriggerGeneric : NetworkBehaviour, ILinked
     {
         public List<LogicConnection> onEnter;
@@ -26,6 +27,7 @@ namespace Gameplay.Logic
 
         protected void DrawWireGizmo(List<LogicConnection> connections)
         {
+            Gizmos.color = Color.magenta;
             foreach (LogicConnection connection in connections)
             {
                 Gizmos.DrawLine(transform.position, connection.target.transform.position);

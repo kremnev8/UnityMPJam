@@ -50,10 +50,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forward: {x: 0, y: -1}
-  pastTargetPlayer: 0
-  futureTargetPlayer: 1
+  targetPlayer: 0
   startPosition: {fileID: 8919662113474580507}
-  rubbleRenderer: {fileID: 8919662114462901480}
 --- !u!114 &4014591784401004205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,6 +66,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {x: 2, y: 2}
   offset: {x: 1, y: 1}
+  tileUnder: {fileID: 11400000, guid: 867f1063e3260a142801192fe01560b1, type: 2}
 --- !u!114 &4014591784401004203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,11 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 415cbd4bc0024ad69aadf93ae383cb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeline: 0
-  pastState: 1
-  futureState: 1
   m_uniqueId: 
-  underParadox: 0
 --- !u!1 &6773690364129311104
 GameObject:
   m_ObjectHideFlags: 0

@@ -72,6 +72,11 @@ namespace Util
             return new Vector3(vector.x,vector.y, 0);
         }
         
+        public static Vector3Int ToVector3Int(this Vector2Int vector)
+        {
+            return new Vector3Int(Mathf.RoundToInt(vector.x),Mathf.RoundToInt(vector.y),0);
+        }
+        
         public static Vector2Int ToVector2Int(this Vector3 vector)
         {
             return new Vector2Int(Mathf.RoundToInt(vector.x),Mathf.RoundToInt(vector.y));

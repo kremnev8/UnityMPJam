@@ -67,6 +67,11 @@ PrefabInstance:
       propertyPath: sceneId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1593202355466616518, guid: 4473bdc8c2376864a9ec173c55a25e9d,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 341c92140436c554c8efeef5556cb8cf
+      objectReference: {fileID: 0}
     - target: {fileID: 1593202355466616519, guid: 4473bdc8c2376864a9ec173c55a25e9d,
         type: 3}
       propertyPath: spawnInTheWorld
@@ -75,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 1593202355466616539, guid: 4473bdc8c2376864a9ec173c55a25e9d,
         type: 3}
       propertyPath: m_Name
-      value: Ice Cube (World)
+      value: Ice Cube (World) Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4473bdc8c2376864a9ec173c55a25e9d, type: 3}
@@ -99,3 +104,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {x: 2, y: 2}
   offset: {x: 1, y: 1}
+  tileUnder: {fileID: 11400000, guid: 1924942f0c841494e9da8dbec95288d3, type: 2}

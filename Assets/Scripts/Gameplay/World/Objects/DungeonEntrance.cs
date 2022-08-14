@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 
 namespace Gameplay.World
 {
+    [SelectionBase]
     [RequireComponent(typeof(WorldElement))]
     public class DungeonEntrance : MonoBehaviour, IInteractable, ILinked
     {

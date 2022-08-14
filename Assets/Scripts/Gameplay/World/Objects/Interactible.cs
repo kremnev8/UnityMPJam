@@ -26,6 +26,7 @@ namespace Gameplay.World
         public bool invert;
     }
     
+    [SelectionBase]
     [RequireComponent(typeof(WorldElement))]
     public class Interactible : NetworkBehaviour, IInteractable, ILinked
     {
@@ -64,6 +65,7 @@ namespace Gameplay.World
 
         protected void DrawWireGizmo(List<ValueConnection> connections)
         {
+            Gizmos.color = Color.magenta;
             foreach (ValueConnection connection in connections)
             {
                 if (connection != null && connection.target != null)
@@ -71,7 +73,7 @@ namespace Gameplay.World
             }
         }
         
-        protected void Invoke(List<ValueConnection> objects, bool value)
+        public void Invoke(List<ValueConnection> objects, bool value)
         {
             foreach (ValueConnection item in objects)
             {
@@ -79,6 +81,7 @@ namespace Gameplay.World
                 element.SendLogicState(item.target.UniqueId, setValue);
             }
         }
+        
 
         [ClientRpc]
         public virtual void RpcSetState(bool newState)

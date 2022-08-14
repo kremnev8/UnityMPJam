@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Gameplay.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Util;
 
@@ -19,7 +20,8 @@ namespace TileMaps
         public TileSet tileSet;
         public Dictionary<TileMapType, Tilemap> tilemaps;
 
-        public Tilemap master;
+        [FormerlySerializedAs("master")] 
+        public Tilemap primaryTilemap;
         public bool liveUpdate;
 
         public Transform shadows;
@@ -81,10 +83,10 @@ namespace TileMaps
                 }
             }
 
-            if (master != null)
+            if (primaryTilemap != null)
             {
                 tileDict.Clear();
-                int count = master.GetTilesRangeCount(master.cellBounds.min, master.cellBounds.max);
+                int count = primaryTilemap.GetTilesRangeCount(primaryTilemap.cellBounds.min, primaryTilemap.cellBounds.max);
 
                 if (positions.Length <= count)
                 {
@@ -93,7 +95,7 @@ namespace TileMaps
                     tileDict.EnsureCapacity(count);
                 }
 
-                count = master.GetTilesRangeNonAlloc(master.cellBounds.min, master.cellBounds.max, positions, tiles);
+                count = primaryTilemap.GetTilesRangeNonAlloc(primaryTilemap.cellBounds.min, primaryTilemap.cellBounds.max, positions, tiles);
 
                 for (int i = 0; i < count; i++)
                 {
@@ -153,7 +155,7 @@ namespace TileMaps
 
             tileDict.Clear();
 
-            int count = master.GetTilesRangeCount(master.cellBounds.min, master.cellBounds.max);
+            int count = primaryTilemap.GetTilesRangeCount(primaryTilemap.cellBounds.min, primaryTilemap.cellBounds.max);
 
             if (positions.Length <= count)
             {
@@ -162,7 +164,7 @@ namespace TileMaps
                 tileDict.EnsureCapacity(count);
             }
 
-            count = master.GetTilesRangeNonAlloc(master.cellBounds.min, master.cellBounds.max, positions, tiles);
+            count = primaryTilemap.GetTilesRangeNonAlloc(primaryTilemap.cellBounds.min, primaryTilemap.cellBounds.max, positions, tiles);
 
             for (int i = 0; i < count; i++)
             {
@@ -302,7 +304,7 @@ namespace TileMaps
         
         public void OnTileMapChanged(Tilemap tilemap, Tilemap.SyncTile[] syncTiles)
         {
-            if (tilemap == master)
+            if (tilemap == primaryTilemap)
             {
                 foreach (Tilemap.SyncTile syncTile in syncTiles)
                 {

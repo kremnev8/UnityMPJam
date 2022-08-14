@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Gameplay.World
 {
+    [SelectionBase]
     [RequireComponent(typeof(WorldElement))]
     public class Door : NetworkBehaviour, ILinked
     {

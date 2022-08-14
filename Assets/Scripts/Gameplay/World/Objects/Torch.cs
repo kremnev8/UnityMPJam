@@ -5,6 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace Gameplay.World
 {
+    [SelectionBase]
     public class Torch : Interactible
     {
         public DeferredAnimatorEnabler[] fireRenderers;

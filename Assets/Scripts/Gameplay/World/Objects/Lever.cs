@@ -5,6 +5,7 @@ using Util;
 
 namespace Gameplay.World
 {
+    [SelectionBase]
     public class Lever : Interactible
     {
         public RandomAudioSource audioSource;

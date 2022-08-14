@@ -16,6 +16,7 @@ namespace Gameplay.World
         CONTINOUS
     }
 
+    [SelectionBase]
     public class FireballTurret : NetworkBehaviour, ILinked
     {
         public SpriteRenderer topRenderer;

@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 namespace Gameplay.Logic
 {
+    [SelectionBase]
     public class LogicDelay : MonoBehaviour, ILinked
     {
         public List<LogicConnection> timeEnded;
@@ -40,6 +41,7 @@ namespace Gameplay.Logic
 
         protected void DrawWireGizmo(List<LogicConnection> connections)
         {
+            Gizmos.color = Color.magenta;
             foreach (LogicConnection connection in connections)
             {
                 if (connection != null && connection.target != null)
