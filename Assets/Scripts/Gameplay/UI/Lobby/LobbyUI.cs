@@ -46,6 +46,7 @@ namespace Gameplay.UI.Lobby
 
         public bool canCreateLobby = true;
         public bool needToRefresh = false;
+        public bool refreshInputField = false;
 
         public float timeSinceFind = 0;
 
@@ -185,9 +186,15 @@ namespace Gameplay.UI.Lobby
         }
 
 
+        public void OnEnterUserName(string text)
+        {
+            model.saveGame.current.username = text;
+            model.saveGame.Save();
+        }
+
         public string GetPlayerName()
         {
-            return userNameInputField.text;
+            return model.saveGame.current.username;
         }
         
         public void RefreshData()
@@ -216,6 +223,12 @@ namespace Gameplay.UI.Lobby
 
             refreshButton.interactable = timeSinceFind < 0.1f;
             createbutton.interactable = lobbyNameField.text.Length > 0 && canCreateLobby;
+
+            if (!refreshInputField)
+            {
+                userNameInputField.SetTextWithoutNotify(model.saveGame.current.username);
+                refreshInputField = true;
+            }
 
             if (foundLobbies.Count > 0 && needToRefresh)
             {

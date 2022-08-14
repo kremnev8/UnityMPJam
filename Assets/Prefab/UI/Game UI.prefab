@@ -56,9 +56,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.24629629
-    width: 0.38333336
-    height: 0.38427982
+    y: 0.28611112
+    width: 0.30364585
+    height: 0.3043956
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -3626,7 +3626,19 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5077788292236816514}
+        m_TargetAssemblyTypeName: Gameplay.UI.Lobby.LobbyUI, Assembly-CSharp
+        m_MethodName: OnEnterUserName
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
@@ -7545,6 +7557,7 @@ MonoBehaviour:
   startGameButton: {fileID: 5077788291852727006}
   canCreateLobby: 1
   needToRefresh: 0
+  refreshInputField: 0
   timeSinceFind: 0
 --- !u!1 &5077788292360528191
 GameObject:

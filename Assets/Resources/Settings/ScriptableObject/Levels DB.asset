@@ -69,14 +69,6 @@ MonoBehaviour:
     scene: Assets/Scenes/Dashnghost/Level1.unity
     defaultItems:
     - cubespell
-  - levelName: Test
-    scene: Assets/Scenes/TestArea.unity
-    defaultItems: []
-  - levelName: Iron cube 2
-    scene: Assets/Scenes/IronCube2.unity
-    defaultItems:
-    - cubespell
-    - fireballspell
   baseScenes:
   - Assets/Scenes/Lobby.unity
   - Assets/Scenes/LocalLobby.unity

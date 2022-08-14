@@ -20,7 +20,8 @@ namespace Gameplay.Conrollers
         }
 
         public int version;
-
+        public string username;
+        
         public bool fullscreen;
         
         public float volume = -20;
@@ -40,11 +41,19 @@ namespace Gameplay.Conrollers
     /// </summary>
     public class SaveGameController : SaveDataBaseController<GameSaveData>
     {
-        public override int Version => 1;
+        public override int Version => 2;
         public override string Filename => "SaveData";
 
         public override void OnVersionChanged(int oldVersion)
         {
+            if (oldVersion == 1)
+            {
+                current.currentLevel = 0;
+                current.lastReachedLevel = 0;
+                current.globalInventory = new List<string>();
+                current.icePlayerInventory = new List<string>();
+                current.firePlayerInventory = new List<string>();
+            }
             current.version = Version;
         }
 

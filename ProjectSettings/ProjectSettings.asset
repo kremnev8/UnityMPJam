@@ -139,6 +139,7 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 11400000, guid: 88f2e4e1a7eb53a41a991aa8d44eb734, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -276,7 +277,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: e581118f7c3b1ed47838b30e6749b891, type: 3}
+      m_Icon: {fileID: 2800000, guid: a9ae7234baa3d5b4d949ea10b23c51fd, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
