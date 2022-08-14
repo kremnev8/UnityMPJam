@@ -117,7 +117,7 @@ namespace Gameplay.Conrollers
             set => m_role = value;
         }
 
-        public int Mass => 50;
+        public int Mass => 25;
 
         #region Init
 

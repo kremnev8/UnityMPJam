@@ -21,11 +21,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Level1.unity
     guid: 6bc9c707fc6790948bc468d81ea55ad1
   - enabled: 1
+    path: Assets/Scenes/Fireballs introduction.unity
+    guid: 386c29eb7b2f18540ac919537ce0637a
+  - enabled: 1
     path: Assets/Scenes/Level2.unity
     guid: cb336f1c60a8c694f9829370301a74cc
   - enabled: 1
     path: Assets/Scenes/Level3.unity
     guid: d1323d6a547073c4498b64cef59a672b
+  - enabled: 1
+    path: Assets/Scenes/CubeRecall.unity
+    guid: 4afabd2699dcf2c4ca7ecf690c9065fc
   - enabled: 1
     path: Assets/Scenes/Level4.unity
     guid: c9ae76788a1760b47b7dc2f19ac3e4f0
@@ -33,20 +39,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Level5.unity
     guid: 53b832f94fcf73c41947ee2bbe17ea50
   - enabled: 1
-    path: Assets/Scenes/Level6.unity
-    guid: 62ad318165dd91b468b71437be8d30df
-  - enabled: 1
-    path: Assets/Scenes/Level7.unity
-    guid: 9daef92f3f539b04bada1270cc06b799
-  - enabled: 1
     path: Assets/Scenes/IronCube2.unity
     guid: 2bc6599c29594c14eae7ef51759243d8
+  - enabled: 1
+    path: Assets/Scenes/Level6.unity
+    guid: 62ad318165dd91b468b71437be8d30df
   - enabled: 1
     path: Assets/Scenes/MagnetPositive.unity
     guid: 043d43c5d438ef344863d01dcb716a41
   - enabled: 1
-    path: Assets/Scenes/CubeRecall.unity
-    guid: 4afabd2699dcf2c4ca7ecf690c9065fc
+    path: Assets/Scenes/Level7.unity
+    guid: 9daef92f3f539b04bada1270cc06b799
   - enabled: 1
     path: Assets/Scenes/Dashnghost/Level1.unity
     guid: 087425567e8af5242b8b25a7f531e665

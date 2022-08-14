@@ -13,61 +13,61 @@ MonoBehaviour:
   m_Name: Levels DB
   m_EditorClassIdentifier: 
   items:
-  - levelName: Test
-    levelId: test
-    scene: Assets/Scenes/TestArea.unity
-    defaultItems: []
   - levelName: Intro
-    levelId: intro
     scene: Assets/Scenes/Intro.unity
     defaultItems: []
-  - levelName: Lever Testing
-    levelId: level1
+  - levelName: Button and Lever Testing
     scene: Assets/Scenes/Level1.unity
     defaultItems: []
-  - levelName: Button and cube testing
-    levelId: level2
+  - levelName: Fire Show
+    scene: Assets/Scenes/Fireballs introduction.unity
+    defaultItems: []
+  - levelName: Not fireproof
     scene: Assets/Scenes/Level2.unity
     defaultItems: []
   - levelName: The pool
-    levelId: level3
     scene: Assets/Scenes/Level3.unity
     defaultItems: []
   - levelName: Cube Recall
-    levelId: cuberecall
     scene: Assets/Scenes/CubeRecall.unity
     defaultItems:
     - cubespell
   - levelName: Walk in the pool
-    levelId: walkinpool
     scene: Assets/Scenes/Level4.unity
     defaultItems:
     - cubespell
   - levelName: Fire trouble
-    levelId: firetrouble
     scene: Assets/Scenes/Level5.unity
     defaultItems:
     - cubespell
-  - levelName: Iron Friend
-    levelId: iron friend
-    scene: Assets/Scenes/Level6.unity
-    defaultItems:
-    - cubespell
-    - fireballspell
   - levelName: Iron cube 2
-    levelId: ironcube2
     scene: Assets/Scenes/IronCube2.unity
     defaultItems:
     - cubespell
     - fireballspell
-  - levelName: Corrosion
-    levelId: corrosion
+  - levelName: Iron Friend
+    scene: Assets/Scenes/Level6.unity
+    defaultItems:
+    - cubespell
+    - fireballspell
+  - levelName: Repulsion
+    scene: Assets/Scenes/MagnetPositive.unity
+    defaultItems:
+    - cubespell
+    - fireballspell
+  - levelName: Positive attraction
     scene: Assets/Scenes/Level7.unity
     defaultItems:
     - cubespell
     - fireballspell
   - levelName: Maze
-    levelId: buttonmaze
     scene: Assets/Scenes/Dashnghost/Level1.unity
     defaultItems:
     - cubespell
+  - levelName: Test
+    scene: Assets/Scenes/TestArea.unity
+    defaultItems: []
+  baseScenes:
+  - Assets/Scenes/Lobby.unity
+  - Assets/Scenes/LocalLobby.unity
+  - Assets/Scenes/LocalEpicLobby.unity
