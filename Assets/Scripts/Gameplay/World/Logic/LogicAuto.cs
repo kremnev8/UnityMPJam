@@ -5,14 +5,22 @@ using Gameplay.World;
 using Gameplay.World.Spacetime;
 using UnityEngine;
 using UnityEngine.Events;
+using Util;
 
 namespace Gameplay.Logic
 {
     [SelectionBase]
-    public class LogicAuto : MonoBehaviour, ILinked
+    public class LogicAuto : MonoBehaviour, ILinked, ILogicConnectable
     {
         public List<LogicConnection> connections;
 
+        
+        public List<LogicConnection> Connections
+        {
+            get => connections;
+            set => connections = value;
+        }
+        
         private void Invoke(List<LogicConnection> objects)
         {
             foreach (LogicConnection item in objects)
@@ -23,18 +31,9 @@ namespace Gameplay.Logic
         
         protected void OnDrawGizmosSelected()
         {
-            DrawWireGizmo(connections);
+            this.DrawWireGizmo(connections);
         }
 
-        protected void DrawWireGizmo(List<LogicConnection> connections)
-        {
-            Gizmos.color = Color.magenta;
-            foreach (LogicConnection connection in connections)
-            {
-                if (connection != null && connection.target != null)
-                    Gizmos.DrawLine(transform.position, connection.target.transform.position);
-            }
-        }
         
         private void Awake()
         {

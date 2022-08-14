@@ -3,11 +3,12 @@ using Gameplay.World;
 using Gameplay.World.Spacetime;
 using UnityEngine;
 using UnityEngine.Events;
+using Util;
 
 namespace Gameplay.Logic
 {
     [SelectionBase]
-    public class LogicDelay : MonoBehaviour, ILinked
+    public class LogicDelay : MonoBehaviour, ILinked, IValueConnectable
     {
         public List<LogicConnection> timeEnded;
         public List<ValueConnection> timeEndedValue;
@@ -16,6 +17,12 @@ namespace Gameplay.Logic
         public bool triggerOnAny;
         
         private bool lastValue;
+        
+        public List<ValueConnection> Connections
+        {
+            get => timeEndedValue;
+            set => timeEndedValue = value;
+        }
 
         private void Invoke(List<LogicConnection> objects)
         {
@@ -36,18 +43,10 @@ namespace Gameplay.Logic
         
         protected void OnDrawGizmosSelected()
         {
-            DrawWireGizmo(timeEnded);
+            this.DrawWireGizmo(timeEnded);
+            this.DrawWireGizmo(timeEndedValue);
         }
-
-        protected void DrawWireGizmo(List<LogicConnection> connections)
-        {
-            Gizmos.color = Color.magenta;
-            foreach (LogicConnection connection in connections)
-            {
-                if (connection != null && connection.target != null)
-                    Gizmos.DrawLine(transform.position, connection.target.transform.position);
-            }
-        }
+        
 
         public void Trigger()
         {

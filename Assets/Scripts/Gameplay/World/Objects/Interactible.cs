@@ -9,6 +9,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using Util;
 
 namespace Gameplay.World
 {
@@ -17,6 +18,11 @@ namespace Gameplay.World
     {
         public WorldElement target;
         public bool value;
+
+        public LogicConnection(WorldElement target)
+        {
+            this.target = target;
+        }
     }
 
     [Serializable]
@@ -24,11 +30,26 @@ namespace Gameplay.World
     {
         public WorldElement target;
         public bool invert;
+
+        public ValueConnection(WorldElement target)
+        {
+            this.target = target;
+        }
+    }
+
+    public interface IValueConnectable
+    {
+        public List<ValueConnection> Connections { get; set; }
+    }
+    
+    public interface ILogicConnectable
+    {
+        public List<LogicConnection> Connections { get; set; }
     }
     
     [SelectionBase]
     [RequireComponent(typeof(WorldElement))]
-    public class Interactible : NetworkBehaviour, IInteractable, ILinked
+    public class Interactible : NetworkBehaviour, IInteractable, ILinked, IValueConnectable
     {
         public Vector2Int forward;
         public bool checkFacing => true;
@@ -47,12 +68,18 @@ namespace Gameplay.World
         
         
         public List<ValueConnection> newConnections;
-        
+
+        public List<ValueConnection> Connections
+        {
+            get => newConnections;
+            set => newConnections = value;
+        }
+
 
         [HideInInspector]
         [SerializeField] 
         private WorldElement m_timeObject;
-        
+
         protected virtual void Start()
         {
             SetState(initialState);
@@ -60,18 +87,9 @@ namespace Gameplay.World
 
         protected void OnDrawGizmosSelected()
         {
-            DrawWireGizmo(newConnections);
+            this.DrawWireGizmo(newConnections);
         }
 
-        protected void DrawWireGizmo(List<ValueConnection> connections)
-        {
-            Gizmos.color = Color.magenta;
-            foreach (ValueConnection connection in connections)
-            {
-                if (connection != null && connection.target != null)
-                    Gizmos.DrawLine(transform.position, connection.target.transform.position);
-            }
-        }
         
         public void Invoke(List<ValueConnection> objects, bool value)
         {

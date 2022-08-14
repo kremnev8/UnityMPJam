@@ -5,11 +5,12 @@ using Gameplay.World.Spacetime;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
+using Util;
 
 namespace Gameplay.Logic
 {
     [SelectionBase]
-    public class TriggerGeneric : NetworkBehaviour, ILinked
+    public class TriggerGeneric : NetworkBehaviour, ILinked,ILogicConnectable
     {
         public List<LogicConnection> onEnter;
         public List<LogicConnection> onExit;
@@ -19,20 +20,18 @@ namespace Gameplay.Logic
         public bool onlyOnce = false;
         private bool wasTriggered;
         
-        protected void OnDrawGizmosSelected()
+        public List<LogicConnection> Connections
         {
-            DrawWireGizmo(onEnter);
-            DrawWireGizmo(onExit);
+            get => onEnter;
+            set => onEnter = value;
         }
 
-        protected void DrawWireGizmo(List<LogicConnection> connections)
+        protected void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.magenta;
-            foreach (LogicConnection connection in connections)
-            {
-                Gizmos.DrawLine(transform.position, connection.target.transform.position);
-            }
+            this.DrawWireGizmo(onEnter);
+            this.DrawWireGizmo(onExit);
         }
+
 
         private void Invoke(List<LogicConnection> objects)
         {

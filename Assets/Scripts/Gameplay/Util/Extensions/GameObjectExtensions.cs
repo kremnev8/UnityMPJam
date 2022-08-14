@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Gameplay.World;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -64,6 +65,26 @@ namespace Util
 #else
                 Object.Destroy(child);
 #endif
+            }
+        }
+        
+        public static void DrawWireGizmo(this MonoBehaviour mono, List<ValueConnection> connections)
+        {
+            Gizmos.color = Color.magenta;
+            foreach (ValueConnection connection in connections)
+            {
+                if (connection != null && connection.target != null)
+                    Gizmos.DrawLine(mono.transform.position, connection.target.transform.position);
+            }
+        }
+
+        public static void DrawWireGizmo(this MonoBehaviour mono, List<LogicConnection> connections)
+        {
+            Gizmos.color = Color.magenta;
+            foreach (LogicConnection connection in connections)
+            {
+                if (connection != null && connection.target != null)
+                    Gizmos.DrawLine(mono.transform.position, connection.target.transform.position);
             }
         }
     }

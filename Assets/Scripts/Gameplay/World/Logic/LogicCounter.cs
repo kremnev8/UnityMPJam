@@ -4,11 +4,12 @@ using Gameplay.World;
 using Gameplay.World.Spacetime;
 using UnityEngine;
 using UnityEngine.Events;
+using Util;
 
 namespace Gameplay.Logic
 {
     [SelectionBase]
-    public class LogicCounter : MonoBehaviour, ILinked
+    public class LogicCounter : MonoBehaviour, ILinked, IValueConnectable
     {
         public int minCount = 0;
         public int maxCount = 2;
@@ -25,6 +26,11 @@ namespace Gameplay.Logic
 
         public List<ValueConnection> greaterThanThreshold;
 
+        public List<ValueConnection> Connections
+        {
+            get => greaterThanThreshold;
+            set => greaterThanThreshold = value;
+        }
 
         private void Invoke(List<LogicConnection> objects)
         {
@@ -36,22 +42,13 @@ namespace Gameplay.Logic
         
         protected void OnDrawGizmosSelected()
         {
-            DrawWireGizmo(hitMax);
-            DrawWireGizmo(hitMin);
-            DrawWireGizmo(changedFromMax);
-            DrawWireGizmo(changedFromMin);
-            DrawWireGizmo(greaterThanThreshold);
+            this.DrawWireGizmo(hitMax);
+            this.DrawWireGizmo(hitMin);
+            this.DrawWireGizmo(changedFromMax);
+            this.DrawWireGizmo(changedFromMin);
+            this.DrawWireGizmo(greaterThanThreshold);
         }
         
-        protected void DrawWireGizmo(List<ValueConnection> connections)
-        {
-            Gizmos.color = Color.magenta;
-            foreach (ValueConnection connection in connections)
-            {
-                if (connection != null && connection.target != null)
-                    Gizmos.DrawLine(transform.position, connection.target.transform.position);
-            }
-        }
         
         protected void Invoke(List<ValueConnection> objects, bool value)
         {
@@ -59,16 +56,6 @@ namespace Gameplay.Logic
             {
                 bool setValue = item.invert ? !value : value;
                 element.SendLogicState(item.target.UniqueId, setValue);
-            }
-        }
-
-        protected void DrawWireGizmo(List<LogicConnection> connections)
-        {
-            Gizmos.color = Color.magenta;
-            foreach (LogicConnection connection in connections)
-            {
-                if (connection != null && connection.target != null)
-                    Gizmos.DrawLine(transform.position, connection.target.transform.position);
             }
         }
         

@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Mirror
 {
@@ -11,6 +12,13 @@ namespace Mirror
     {
         bool syncsAnything;
         SyncObjectCollectionsDrawer syncObjectCollectionsDrawer;
+
+        public static Action<Object> onSceneGUI;
+
+        private void OnSceneGUI()
+        {
+            onSceneGUI?.Invoke(target);
+        }
 
         // does this type sync anything? otherwise we don't need to show syncInterval
         bool SyncsAnything(Type scriptClass)
