@@ -8,6 +8,7 @@ using Gameplay.Core;
 using Mirror;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Util;
@@ -44,6 +45,8 @@ namespace Gameplay.UI.Lobby
 
         public Button startGameButton;
 
+        private InputAction cancel;
+
         public bool canCreateLobby = true;
         public bool needToRefresh = false;
         public bool refreshInputField = false;
@@ -56,6 +59,13 @@ namespace Gameplay.UI.Lobby
 
             model = Simulation.GetModel<GameModel>();
             networkManager = model.networkManager;
+            cancel = model.input.actions["cancel"];
+            cancel.performed += OnCancel;
+        }
+
+        private void OnDestroy()
+        {
+            cancel.performed -= OnCancel;
         }
 
 
@@ -149,6 +159,11 @@ namespace Gameplay.UI.Lobby
                 timeSinceFind = 2;
             }
         }
+        
+        private void OnCancel(InputAction.CallbackContext obj)
+        {
+            Exit();
+        }
 
         public void OpenMainMenu()
         {
@@ -171,6 +186,7 @@ namespace Gameplay.UI.Lobby
             buttons.SetActive(true);
             createLobbyUI.SetActive(false);
             joinLobbyUI.SetActive(false);
+            waitUI.SetActive(false);
             
             LeaveLobby();
             canCreateLobby = true;

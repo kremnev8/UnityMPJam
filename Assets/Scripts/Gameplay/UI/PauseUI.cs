@@ -1,6 +1,8 @@
 ﻿using System;
+using Gameplay.Conrollers;
 using Gameplay.Controllers;
 using Gameplay.Core;
+using Mirror;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -43,6 +45,12 @@ namespace Gameplay.UI
         {
             pauseOpen = value;
             pauseUIObject.SetActive(value);
+            NetworkIdentity identity = NetworkClient.localPlayer;
+            if (identity != null)
+            {
+                PlayerController player = identity.GetComponent<PlayerController>();
+                player.controlEnabled = !value;
+            }
         }
 
         public void OnResume()

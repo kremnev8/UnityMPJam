@@ -56,10 +56,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.22291668
+    x: 0.21666668
     y: 0
-    width: 0.28078818
-    height: 0.28148147
+    width: 0.25492612
+    height: 0.25555554
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -363,6 +363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {x: 2, y: 2}
   offset: {x: 1, y: 1}
+  tileUnder: {fileID: 0}
 --- !u!1 &131058155723282445
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,6 +507,7 @@ MonoBehaviour:
   slotPrefab: {fileID: 5252308894342429142, guid: 0f707d46b11f88f44b46015dd192409b,
     type: 3}
   canScroll: 0
+  showScrollSlot: 0
   slots: []
 --- !u!114 &9197068645978488642
 MonoBehaviour:
@@ -543,7 +545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4077763656028137395
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3054,6 +3056,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a522f7505236baf4485b84cce273bda9, type: 3}
+--- !u!1 &4541731423319773583 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6583442289891033007, guid: a522f7505236baf4485b84cce273bda9,
+    type: 3}
+  m_PrefabInstance: {fileID: 7231212321795304992}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1437691270380988910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4541731423319773583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cefcd10e16094869947814a40490e671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7495394105589260203 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 891308592399724939, guid: a522f7505236baf4485b84cce273bda9,

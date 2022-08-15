@@ -67,6 +67,7 @@ namespace Gameplay.Conrollers
         public float ghostTimeLeft;
         public bool allowSwap;
 
+        private PlayerInput input;
         private InputAction movement;
         private InputAction firstAbility;
         private InputAction secondAbility;
@@ -124,10 +125,11 @@ namespace Gameplay.Conrollers
         public void Start()
         {
             model = Simulation.GetModel<GameModel>();
-            movement = model.input.actions["move"];
-            firstAbility = model.input.actions["first"];
-            mousePosition = model.input.actions["mouse"];
-            controllerRight = model.input.actions["controllerDir"];
+            input = model.input;
+            movement = input.actions["move"];
+            firstAbility = input.actions["first"];
+            mousePosition = input.actions["mouse"];
+            controllerRight = input.actions["controllerDir"];
 
             body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
@@ -870,9 +872,7 @@ namespace Gameplay.Conrollers
         {
             if (mousePosition == null) return Vector3.down;
 
-            Vector3 mouse = mousePosition.ReadValue<Vector2>();
-
-            if (mouse.Equals(Vector3.zero))
+            if (input.currentControlScheme.Equals("Controller"))
             {
                 Vector2 direction = controllerRight.ReadValue<Vector2>();
                 if (direction.Equals(Vector2.zero))
@@ -882,6 +882,8 @@ namespace Gameplay.Conrollers
 
                 return direction.normalized.AxisRound();
             }
+            
+            Vector3 mouse = mousePosition.ReadValue<Vector2>();
 
             mouse.z = 10;
             Vector3 worldMousePos = camera.ScreenToWorldPoint(mouse);

@@ -12,7 +12,7 @@ namespace Gameplay.UI
     {
         public GameObject mainBox;
         public GameObject levelSelectBox;
-        public TMP_Text levelName;
+        public ArrowScroll scroll;
 
         private GameModel model;
         private GameNetworkManager networkManager;
@@ -46,7 +46,7 @@ namespace Gameplay.UI
             try
             {
                 LevelData level = levels.GetLevel(networkManager.currentLevel);
-                levelName.text = level.levelName;
+                scroll.SetText(level.levelName);
             }
             catch (InvalidOperationException) { }
         }

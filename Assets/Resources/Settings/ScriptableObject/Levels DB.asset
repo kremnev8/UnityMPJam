@@ -69,6 +69,9 @@ MonoBehaviour:
     scene: Assets/Scenes/Dashnghost/Level1.unity
     defaultItems:
     - cubespell
+  - levelName: End
+    scene: Assets/Scenes/EndLevel.unity
+    defaultItems: []
   baseScenes:
   - Assets/Scenes/Lobby.unity
   - Assets/Scenes/LocalLobby.unity
