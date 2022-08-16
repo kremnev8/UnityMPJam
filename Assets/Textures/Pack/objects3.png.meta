@@ -124,7 +124,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -145,7 +145,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -153,6 +153,69 @@ TextureImporter:
       bones: []
       spriteID: 2333e5264be6ab94385fb0fa7a4cf877
       internalID: 424046150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: objects3_2
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 76
+        width: 28
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45022e7e805fffb409e24f3359252993
+      internalID: -1308772023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: objects3_4
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 64
+        width: 36
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d007dab3e943f69459e9a501b2c7e8ce
+      internalID: -1205559571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: objects3_3
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 76
+        width: 28
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7938fefe6514e8444aa5d14c830bd54b
+      internalID: 1931607150
       vertices: []
       indices: 
       edges: []
@@ -169,6 +232,10 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       objects3_1: 424046150
+      objects3_3: 1931607150
+      objects3_5: 1543905070
+      objects3_2: -1308772023
+      objects3_4: -1205559571
       objects3_0: -1355429297
   spritePackingTag: 
   pSDRemoveMatte: 0

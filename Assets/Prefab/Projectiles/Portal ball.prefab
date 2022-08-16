@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3539697828345830676}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.77, y: 5.65, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -54,9 +54,12 @@ MonoBehaviour:
   m_prefabId: portalball_prefab
   destroyTime: 0.1
   pendingDestroy: 0
+  spawnInTheWorld: 0
   trailSystem: {fileID: 645723169485991504}
   renderer: {fileID: 6248113712552688033}
   animator: {fileID: 0}
+  audioSource: {fileID: 0}
+  deathSource: {fileID: 0}
   projectileID: 3
   shouldRotate: 1
 --- !u!114 &3539697828345830665

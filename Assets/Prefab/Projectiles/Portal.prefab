@@ -112,7 +112,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844685588833815413}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 1, z: 0}
+  m_LocalPosition: {x: 1, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -137,6 +137,7 @@ MonoBehaviour:
   m_prefabId: player_portal
   destroyTime: 0.5
   pendingDestroy: 0
+  spawnInTheWorld: 0
   renderer: {fileID: 1844685587253735638}
   iceAnim:
     frames:
@@ -183,6 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {x: 2, y: 2}
   offset: {x: 1, y: 1}
+  tileUnder: {fileID: 0}
 --- !u!61 &1844685588833815403
 BoxCollider2D:
   m_ObjectHideFlags: 0
