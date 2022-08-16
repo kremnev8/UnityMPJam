@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Gameplay.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -193,20 +194,59 @@ namespace TileMaps
             return null;
         }
 
-        private TileSideType DetermineSideType(TileSideType type, bool hasTop, bool hasBottom)
+        private TileSideType DetermineSideType(TileSideType type, TileBase brush, TileBase top, TileBase bottom)
         {
-            if (type == TileSideType.TOP && hasBottom) return TileSideType.ALL;
-            if (type == TileSideType.BOTTOM && hasTop) return TileSideType.ALL;
-            if (type == TileSideType.TOP_LOOK_UP && hasTop) return TileSideType.ALL;
-            if (type == TileSideType.BOTTOM_LOOK_DOWN && hasBottom) return TileSideType.ALL;
+            bool hasTop = CheckTileEqual(top, brush);
+            bool hasBottom = CheckTileEqual(bottom, brush);
+            bool topIsFloor = tileSet.floorBrushes.Contains(top);
+            bool bottomIsFloor = tileSet.floorBrushes.Contains(bottom);
 
-            if (type == TileSideType.TOP_IF_NOT_THIS && !hasTop) return TileSideType.TOP;
-            if (type == TileSideType.TOP_IF_NOT_THIS) return TileSideType.NONE;
-            
-            if (type == TileSideType.BOTTOM_IF_NOT_THIS && !hasBottom) return TileSideType.BOTTOM;
-            if (type == TileSideType.BOTTOM_IF_NOT_THIS) return TileSideType.NONE;
+            switch (type)
+            {
+                case TileSideType.TOP_ONLY:
+                    return TileSideType.TOP;
+                case TileSideType.BOTTOM_ONLY:
+                    return TileSideType.BOTTOM;
 
-            return type;
+                case TileSideType.TOP when hasBottom:
+                case TileSideType.BOTTOM when hasTop:
+                case TileSideType.TOP_OR_ALL_IF_THIS when hasTop:
+                case TileSideType.BOTTOM_OR_ALL_IF_THIS when hasBottom:
+                    return TileSideType.ALL;
+                
+                case TileSideType.TOP_IF_NOT_THIS when !hasTop:
+                    return TileSideType.TOP;
+                case TileSideType.TOP_IF_NOT_THIS:
+                    return TileSideType.NONE;
+                
+                case TileSideType.BOTTOM_IF_NOT_THIS when !hasBottom:
+                    return TileSideType.BOTTOM;
+                case TileSideType.BOTTOM_IF_NOT_THIS:
+                    return TileSideType.NONE;
+                
+                case TileSideType.TOP_IF_FLOOR when topIsFloor:
+                    return TileSideType.TOP;
+                case TileSideType.TOP_IF_FLOOR:
+                    return TileSideType.NONE;
+                
+                case TileSideType.BOTTOM_IF_FLOOR when bottomIsFloor:
+                    return TileSideType.BOTTOM;
+                case TileSideType.BOTTOM_IF_FLOOR:
+                    return TileSideType.NONE;
+                
+                case TileSideType.TOP_IF_NOT_FLOOR when topIsFloor:
+                    return TileSideType.NONE;
+                case TileSideType.TOP_IF_NOT_FLOOR:
+                    return TileSideType.TOP;
+                
+                case TileSideType.BOTTOM_IF_NOT_FLOOR when bottomIsFloor:
+                    return TileSideType.NONE;
+                case TileSideType.BOTTOM_IF_NOT_FLOOR:
+                    return TileSideType.BOTTOM;
+                
+                default:
+                    return type;
+            }
         }
 
         public bool CheckTileEqual(TileBase a, TileBase b)
@@ -224,7 +264,7 @@ namespace TileMaps
 
         private void CheckShadowAt(Vector3Int pos, TileBase brush)
         {
-            if (tileSet.wallBrush == brush)
+            if (tileSet.wallBrushes.Contains(brush))
             {
                 TileBase top = GetTileAt(pos + Vector3Int.up);
                 TileBase left = GetTileAt(pos + Vector3Int.left);
@@ -266,9 +306,7 @@ namespace TileMaps
                         try
                         {
                             Tilemap tileMap = tilemaps[target];
-                            TileSideType sideType = DetermineSideType(mapping.sideType, 
-                                CheckTileEqual(top, brush), 
-                                CheckTileEqual(bottom, brush));
+                            TileSideType sideType = DetermineSideType(mapping.sideType, brush, top, bottom);
                             PaintMultiply(pos, tileMap, mapping.tile, sideType);
                         }
                         catch (Exception e)
@@ -382,8 +420,8 @@ namespace TileMaps
             {
                 for (int j = 0; j < 2; j++)
                 {
-                    if (sideType is TileSideType.TOP or TileSideType.TOP_LOOK_UP && j == 0) continue;
-                    if (sideType is TileSideType.BOTTOM or TileSideType.BOTTOM_LOOK_DOWN && j != 0) continue;
+                    if (sideType is TileSideType.TOP or TileSideType.TOP_OR_ALL_IF_THIS && j == 0) continue;
+                    if (sideType is TileSideType.BOTTOM or TileSideType.BOTTOM_OR_ALL_IF_THIS && j != 0) continue;
 
                     Vector3Int mulPos = pos + new Vector3Int(i, j);
                     tilemap.SetTile(mulPos, tile);

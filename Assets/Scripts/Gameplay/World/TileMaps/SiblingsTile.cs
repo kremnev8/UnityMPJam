@@ -11,11 +11,16 @@ namespace TileMaps
         public class Neighbor : RuleTile.TilingRuleOutput.Neighbor {
             public const int Sibing = 3;
         }
-        public override bool RuleMatch(int neighbor, TileBase tile) {
-            switch (neighbor) {
-                case Neighbor.Sibing: return sibings.Contains(tile);
+        public override bool RuleMatch(int neighbor, TileBase other) {
+            if (other is RuleOverrideTile ot)
+                other = ot.m_InstanceTile;
+
+            switch (neighbor)
+            {
+                case TilingRuleOutput.Neighbor.This: return other == this || sibings.Contains(other);
+                case TilingRuleOutput.Neighbor.NotThis: return other != this && !sibings.Contains(other);
             }
-            return base.RuleMatch(neighbor, tile);
+            return true;
         }
     }
 }

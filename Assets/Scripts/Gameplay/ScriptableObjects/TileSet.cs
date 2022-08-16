@@ -12,10 +12,16 @@ namespace Gameplay.ScriptableObjects
         ALL,
         TOP,
         BOTTOM,
-        TOP_LOOK_UP,
-        BOTTOM_LOOK_DOWN,
+        TOP_OR_ALL_IF_THIS,
+        BOTTOM_OR_ALL_IF_THIS,
         TOP_IF_NOT_THIS,
         BOTTOM_IF_NOT_THIS,
+        TOP_IF_FLOOR,
+        BOTTOM_IF_FLOOR,
+        TOP_ONLY,
+        BOTTOM_ONLY,
+        TOP_IF_NOT_FLOOR,
+        BOTTOM_IF_NOT_FLOOR,
         NONE
     }
 
@@ -48,8 +54,9 @@ namespace Gameplay.ScriptableObjects
         public List<TileGroup> tileGroups;
         public List<TilePair> siblings;
 
-        public TileBase wallBrush;
-
+        public TileBase[] wallBrushes;
+        public TileBase[] floorBrushes;
+        
         public TileGroup GetGroup(TileBase tileBase)
         {
             return tileGroups.First(group => group.brushTile == tileBase);
