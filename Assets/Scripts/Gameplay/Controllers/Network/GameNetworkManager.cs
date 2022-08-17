@@ -57,7 +57,7 @@ namespace Gameplay.Controllers
             int lastLevel = model.saveGame.current.lastReachedLevel;
             if (Application.isEditor)
             {
-                lastLevel = model.levels.Count();
+                lastLevel = model.levels.Count() - 1;
             }
 
             if (currentLevel > lastLevel)

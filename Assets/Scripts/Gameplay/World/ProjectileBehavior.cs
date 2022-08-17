@@ -165,8 +165,11 @@ namespace Gameplay.World
         }
 
         [ClientRpc]
-        public void RpcStuck()
+        public void RpcStuck(Vector2Int stuckPosition)
         {
+            World world = model.levelElement.GetWorld();
+            transform.position = world.GetWorldSpacePos(stuckPosition);
+            this.position = stuckPosition;
             velocity = 0;
             EnterState(ProjectileState.STUCK);
             if (audioSource != null)
@@ -244,7 +247,7 @@ namespace Gameplay.World
                 {
                     OnHit();
                     EnterState(ProjectileState.STUCK);
-                    RpcStuck();
+                    RpcStuck(position);
                     return;
                 }
 
@@ -287,7 +290,7 @@ namespace Gameplay.World
                 {
                     OnHit();
                     EnterState(ProjectileState.STUCK);
-                    RpcStuck();
+                    RpcStuck(position);
                 }
             }
         }

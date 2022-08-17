@@ -43,7 +43,6 @@ namespace Gameplay.Util
             else
             {
                 bool isPs = input.devices.Any(device => device.description.manufacturer.ToLower().Contains("sony"));
-                Debug.Log($"IsPS: {isPs}");
                 spriteRenderer.sprite = isPs ? psSprite : xboxSprite;
             }
         }

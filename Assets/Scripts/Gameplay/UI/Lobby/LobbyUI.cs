@@ -65,7 +65,8 @@ namespace Gameplay.UI.Lobby
 
         private void OnDestroy()
         {
-            cancel.performed -= OnCancel;
+            if (cancel != null)
+                cancel.performed -= OnCancel;
         }
 
 

@@ -178,6 +178,7 @@ namespace Gameplay.Conrollers
 
         public void StartMap()
         {
+            ClearPlayerObjects();
             SpawnPlayer();
 
             List<string> items;
@@ -602,6 +603,15 @@ namespace Gameplay.Conrollers
             else
             {
                 RpcFeedback(feedback, error);
+            }
+        }
+
+        [Server]
+        private void ClearPlayerObjects()
+        {
+            foreach (var pair in playerObjects)
+            {
+                pair.Value.Clear();
             }
         }
 

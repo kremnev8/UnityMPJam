@@ -95,13 +95,13 @@ namespace Gameplay.World
         {
             destroyTimer = 0;
             pendingDestroy = false;
-            if (!prefabId.Equals(""))
+            if (prefabId.Equals("") || spawnInTheWorld)
             {
-                PrefabPoolController.Return(gameObject);
+                Destroy(gameObject);
             }
             else
             {
-                Destroy(gameObject);
+                PrefabPoolController.Return(gameObject);
             }
         }
         
