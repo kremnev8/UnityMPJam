@@ -50,4 +50,6 @@ MonoBehaviour:
     m_Neighbors: 
     m_NeighborPositions: []
     m_RuleTransform: 0
+  sibings:
+  - {fileID: 11400000, guid: 2fa8c046d0ddec84ab8bea300d5bc057, type: 2}
   offset: {x: 0, y: -1, z: 0}

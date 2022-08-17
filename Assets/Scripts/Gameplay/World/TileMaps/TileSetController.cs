@@ -200,6 +200,9 @@ namespace TileMaps
             bool hasBottom = CheckTileEqual(bottom, brush);
             bool topIsFloor = tileSet.floorBrushes.Contains(top);
             bool bottomIsFloor = tileSet.floorBrushes.Contains(bottom);
+            bool topIsWater = tileSet.waterBrushes.Contains(top);
+            bool bottomIsWater = tileSet.waterBrushes.Contains(bottom);
+            
 
             switch (type)
             {
@@ -244,6 +247,16 @@ namespace TileMaps
                 case TileSideType.BOTTOM_IF_NOT_FLOOR:
                     return TileSideType.BOTTOM;
                 
+                case TileSideType.TOP_IF_NOT_WATER when topIsWater:
+                    return TileSideType.NONE;
+                case TileSideType.TOP_IF_NOT_WATER:
+                    return TileSideType.TOP;
+                
+                case TileSideType.BOTTOM_IF_NOT_WATER when bottomIsWater:
+                    return TileSideType.NONE;
+                case TileSideType.BOTTOM_IF_NOT_WATER:
+                    return TileSideType.BOTTOM;
+                
                 default:
                     return type;
             }
@@ -270,12 +283,12 @@ namespace TileMaps
                 TileBase left = GetTileAt(pos + Vector3Int.left);
                 pos *= 2;
 
-                if (top != brush)
+                if (!tileSet.wallBrushes.Contains(top))
                 {
                     AddWallShadow(pos, topShadowPrefab);
                 }
 
-                if (left != brush)
+                if (!tileSet.wallBrushes.Contains(left))
                 {
                     AddWallShadow(pos, leftShadowPrefab);
                 }

@@ -62,29 +62,29 @@ namespace Gameplay.UI
 
         private void OnRight(InputAction.CallbackContext obj)
         {
-            OnRight();
+            if (currentSelectionState == SelectionState.Selected)
+            {
+                OnRight();
+            }
         }
 
         private void OnLeft(InputAction.CallbackContext obj)
         {
-            OnLeft();
+            if (currentSelectionState == SelectionState.Selected)
+            {
+                OnLeft();
+            }
         }
 
 
         public void OnLeft()
         {
-            if (currentSelectionState == SelectionState.Selected)
-            {
-                left?.Invoke();
-            }
+            left?.Invoke();
         }
 
         public void OnRight()
         {
-            if (currentSelectionState == SelectionState.Selected)
-            {
-                right?.Invoke();
-            }
+            right?.Invoke();
         }
 
         public void SetText(string text)

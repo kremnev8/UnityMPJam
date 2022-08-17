@@ -14,7 +14,7 @@ namespace Gameplay.World
         public InventoryUI globalInventoryUI;
         public List<string> defaultItems;
 
-        public static bool added;
+        public static bool added = true;
 
 
         public void Start()

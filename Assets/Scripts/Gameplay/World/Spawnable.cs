@@ -64,8 +64,8 @@ namespace Gameplay.World
 
         public virtual void Spawn(PlayerController player, Vector2Int position, Direction direction)
         {
-            pendingDestroy = false;
             destroyTimer = 0;
+            pendingDestroy = false;
             model = Simulation.GetModel<GameModel>();
             World world = model.levelElement.GetWorld();
             transform.position = world.GetWorldSpacePos(position);
@@ -77,8 +77,8 @@ namespace Gameplay.World
         [ClientRpc]
         public virtual void RpcSpawn(Vector2Int position, Direction direction)
         {
-            pendingDestroy = false;
             destroyTimer = 0;
+            pendingDestroy = false;
             model = Simulation.GetModel<GameModel>();
             World world = model.levelElement.GetWorld();
             transform.position = world.GetWorldSpacePos(position);
@@ -90,6 +90,20 @@ namespace Gameplay.World
             destroyTimer = destroyTime;
             pendingDestroy = true;
         }
+
+        protected virtual void Destory_Internal()
+        {
+            destroyTimer = 0;
+            pendingDestroy = false;
+            if (!prefabId.Equals(""))
+            {
+                PrefabPoolController.Return(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
         
         protected virtual void FixedUpdate()
         {
@@ -98,17 +112,10 @@ namespace Gameplay.World
             if (destroyTimer > 0)
             {
                 destroyTimer -= Time.fixedDeltaTime;
-            }
-
-            if (destroyTimer <= 0)
-            {
-                if (!prefabId.Equals(""))
+                
+                if (destroyTimer <= 0)
                 {
-                    PrefabPoolController.Return(gameObject);
-                }
-                else
-                {
-                    Destroy(gameObject);
+                    Destory_Internal();
                 }
             }
         }

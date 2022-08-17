@@ -294,18 +294,33 @@ namespace Gameplay.World
 
         public override void Destroy()
         {
-            if (!pendingDestroy)
+            if (!pendingDestroy && gameObject.activeSelf)
             {
                 base.Destroy();
+                if (owner != null)
+                {
+                    owner.RemoveObject(projectileID, gameObject);
+                }
                 RpcDieAnimation();
             }
+        }
+
+        protected override void Destory_Internal()
+        {
+            if (animator != null)
+                animator.ResetTrigger(die);
+            
+            base.Destory_Internal();
         }
 
         [ClientRpc]
         private void RpcDieAnimation()
         {
+
             if (animator != null)
+            {
                 animator.SetTrigger(die);
+            }
             
             if (audioSource != null)
                 audioSource.Stop();
@@ -334,10 +349,6 @@ namespace Gameplay.World
             else if (projectile.destroySelfOnHit)
             {
                 Destroy();
-                if (owner != null)
-                {
-                    owner.RemoveObject(projectileID, gameObject);
-                }
             }
             else
             {

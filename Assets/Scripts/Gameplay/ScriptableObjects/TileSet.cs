@@ -22,6 +22,8 @@ namespace Gameplay.ScriptableObjects
         BOTTOM_ONLY,
         TOP_IF_NOT_FLOOR,
         BOTTOM_IF_NOT_FLOOR,
+        TOP_IF_NOT_WATER,
+        BOTTOM_IF_NOT_WATER,
         NONE
     }
 
@@ -56,6 +58,7 @@ namespace Gameplay.ScriptableObjects
 
         public TileBase[] wallBrushes;
         public TileBase[] floorBrushes;
+        public TileBase[] waterBrushes;
         
         public TileGroup GetGroup(TileBase tileBase)
         {

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace TileMaps
@@ -6,8 +7,22 @@ namespace TileMaps
     [CreateAssetMenu(fileName = "New Big Grid Rule Tile", menuName = "2D/Tiles/Big Grid Rule Tile", order = 0)]
     public class BigGridRuleTile : RuleTile
     {
+        public List<TileBase> sibings = new List<TileBase>();
         public Vector3Int offset;
 
+        public override bool RuleMatch(int neighbor, TileBase other) {
+            if (other is RuleOverrideTile ot)
+                other = ot.m_InstanceTile;
+
+            switch (neighbor)
+            {
+                case TilingRuleOutput.Neighbor.This: return other == this || sibings.Contains(other);
+                case TilingRuleOutput.Neighbor.NotThis: return other != this && !sibings.Contains(other);
+            }
+            return true;
+        }
+        
+        
         /// <summary>
         /// Retrieves any tile rendering data from the scripted tile.
         /// </summary>

@@ -19,15 +19,15 @@ MonoBehaviour:
     - tile: {fileID: 11400000, guid: 405e3e5ba60176a4d9259ed07116674f, type: 2}
       targets: 0a000000
       sideType: 0
-    - tile: {fileID: 11400000, guid: cd528cdfc0b2c6d468ce21833c3fdf0b, type: 2}
+    - tile: {fileID: 11400000, guid: 2fa8c046d0ddec84ab8bea300d5bc057, type: 2}
       targets: 0b000000
       sideType: 0
     - tile: {fileID: 11400000, guid: 90a8b5085c5a72c46a17adc0f714eff8, type: 2}
       targets: 0c000000
       sideType: 0
-    - tile: {fileID: 11400000, guid: 9940c814db7611f4fbb9990aedc78c42, type: 2}
+    - tile: {fileID: 11400000, guid: b263c9260a904264c83d88e06392f23f, type: 2}
       targets: 02000000
-      sideType: 9
+      sideType: 13
   - brushTile: {fileID: 11400000, guid: 514124bcd9a9ad346b035a2b0d353f96, type: 2}
     tileMappings:
     - tile: {fileID: 11400000, guid: f5bc5f7e039752e47b1a01a50a798842, type: 2}
@@ -58,37 +58,37 @@ MonoBehaviour:
     - tile: {fileID: 11400000, guid: 1b731ab7dce24834c80869d1a3fc21d1, type: 2}
       targets: 0b000000
       sideType: 0
-    - tile: {fileID: 11400000, guid: 9940c814db7611f4fbb9990aedc78c42, type: 2}
+    - tile: {fileID: 11400000, guid: b263c9260a904264c83d88e06392f23f, type: 2}
       targets: 02000000
-      sideType: 9
+      sideType: 13
   - brushTile: {fileID: 11400000, guid: 867f1063e3260a142801192fe01560b1, type: 2}
     tileMappings:
+    - tile: {fileID: 11400000, guid: b263c9260a904264c83d88e06392f23f, type: 2}
+      targets: 02000000
+      sideType: 9
     - tile: {fileID: 11400000, guid: 83a9f3aa06f196f40b93d960bfb639bd, type: 2}
       targets: 14000000
       sideType: 0
     - tile: {fileID: 11400000, guid: 3a699631c53abb54ea362760d14fdd6a, type: 2}
       targets: 16000000
       sideType: 1
-    - tile: {fileID: 11400000, guid: cd528cdfc0b2c6d468ce21833c3fdf0b, type: 2}
+    - tile: {fileID: 11400000, guid: 2fa8c046d0ddec84ab8bea300d5bc057, type: 2}
       targets: 0b000000
       sideType: 0
-    - tile: {fileID: 11400000, guid: 9940c814db7611f4fbb9990aedc78c42, type: 2}
-      targets: 02000000
-      sideType: 9
     - tile: {fileID: 11400000, guid: 405e3e5ba60176a4d9259ed07116674f, type: 2}
       targets: 0a000000
       sideType: 1
   - brushTile: {fileID: 11400000, guid: 32c2301a6e144ab4f9730303d82b4894, type: 2}
     tileMappings:
+    - tile: {fileID: 11400000, guid: b263c9260a904264c83d88e06392f23f, type: 2}
+      targets: 02000000
+      sideType: 11
     - tile: {fileID: 11400000, guid: 9dfdd2e638f0dbf498c9f0a292831424, type: 2}
       targets: 14000000
       sideType: 0
     - tile: {fileID: 11400000, guid: 3a699631c53abb54ea362760d14fdd6a, type: 2}
       targets: 16000000
       sideType: 1
-    - tile: {fileID: 11400000, guid: 9940c814db7611f4fbb9990aedc78c42, type: 2}
-      targets: 02000000
-      sideType: 11
     - tile: {fileID: 11400000, guid: 159492ecc4c9e044d8d4d6498250c712, type: 2}
       targets: 02000000
       sideType: 7
@@ -105,3 +105,6 @@ MonoBehaviour:
   floorBrushes:
   - {fileID: 11400000, guid: 1924942f0c841494e9da8dbec95288d3, type: 2}
   - {fileID: 11400000, guid: 8d8f63cd15b15c647853e293a7b44963, type: 2}
+  waterBrushes:
+  - {fileID: 11400000, guid: 514124bcd9a9ad346b035a2b0d353f96, type: 2}
+  - {fileID: 11400000, guid: 461e7788a5963294e8d442a9c7a7b7c2, type: 2}

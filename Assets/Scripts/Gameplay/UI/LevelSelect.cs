@@ -27,10 +27,7 @@ namespace Gameplay.UI
 
         public void StartFromCheckpoint(bool value)
         {
-            if (value)
-            {
-                networkManager.SetToCheckpoint();
-            }
+            networkManager.SetToCheckpoint(value);
             levelSelectBox.SetActive(!value);
             UpdateLevelName();
         }

@@ -48,7 +48,7 @@ namespace Gameplay.Controllers
                 canStartGame = true;
             }
 
-            SetToCheckpoint();
+            SetToCheckpoint(true);
         }
 
         public void SelectNextLevel()
@@ -79,10 +79,11 @@ namespace Gameplay.Controllers
             fromCheckpoint = false;
         }
 
-        public void SetToCheckpoint()
+        public void SetToCheckpoint(bool value)
         {
-            currentLevel = model.saveGame.current.currentLevel;
-            fromCheckpoint = true;
+            if (value)
+                currentLevel = model.saveGame.current.currentLevel;
+            fromCheckpoint = value;
         }
 
         public bool HasPartner()
